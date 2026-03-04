@@ -1,0 +1,30 @@
+% Définition de l'environnement colorboxenv
+\NewEnviron{encadre1}{%
+  \begin{center}
+  \begin{tikzpicture}
+    \def\r{10pt} % rayon d'arrondi
+
+    % Texte
+    \node[
+      inner sep=10pt,
+      text width=\textwidth,
+      anchor=north west
+    ] (box) {\robotoCondensed \BODY};
+
+    % Fond + bordure\input{modules/encadre/encadre1}
+    \begin{pgfonlayer}{background}
+      \path[
+        fill=background1,
+      ]
+        (box.south west) --
+        ($(box.south east)+(-\r,0)$)
+          arc[start angle=270,end angle=360,radius=\r] --
+        (box.north east) --
+        ($(box.north west)+(\r,0)$)
+          arc[start angle=90,end angle=180,radius=\r] --
+        cycle;
+    \end{pgfonlayer}
+
+  \end{tikzpicture}
+  \end{center}
+}

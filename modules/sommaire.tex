@@ -1,0 +1,203 @@
+\addto\captionsfrench{\renewcommand{\contentsname}  {Sommaire} % ToC will show "Index" instead of "Content"
+}
+
+\usepackage[normalem]{ulem}        % \uline = soulignement continu multi-lignes
+\renewcommand{\ULthickness}{0.8pt} % épaisseur du soulignement
+% (facultatif) couleur du trait différente du texte :
+\newcommand{\ulinecolor}[2]{%
+  \begingroup
+  \markoverwith{\textcolor{background2}{\rule[-0.35ex]{2pt}{\ULthickness}}}\ULon
+  #2%
+  \endgroup
+}
+
+
+% Box TOC: cadre fractionnable avec décor
+\newtcolorbox{tocbox}[1][]{%
+  enhanced, breakable, sharp corners,
+  colback=white, frame hidden, boxrule=0pt,
+  left=10pt, right=40pt, top=0pt, bottom=8pt,
+  before skip=1em, after skip=2em,
+    % --- cas 1 page (non fractionnée) ---
+  overlay unbroken={
+    \pgfmathsetlengthmacro{\dy}{0.35pt}
+    \pgfmathsetlengthmacro{\LW}{5pt}
+    % contour 
+\draw[
+  line width=0.8pt,
+  primarycolor,
+  rounded corners=4pt % ← ajuste la valeur
+]
+  ([xshift=15pt]frame.south west) --
+  (frame.south west) --
+  (frame.north west) --
+  ([xshift=15pt]frame.north west);
+  },
+  % --- trait du haut : 1er segment seulement ---
+  overlay first={
+    \pgfmathsetlengthmacro{\dy}{0.35pt}   % petit décalage vertical
+\draw[line width=0.6pt, primarycolor]
+  (frame.north west) --
+  (frame.north east) --
+  (frame.south east) --
+  (frame.south west);
+    \draw[white, line width=5pt, line cap=butt, line join=miter]
+      ($(interior.north west)+(15pt,-\dy)$)
+        -- ($(interior.north east)+(-15pt,-\dy)$);
+    \draw[white, line width=8pt, line cap=butt, line join=miter]
+      ($(interior.south west)+(15pt,\dy)$)
+        -- ($(interior.south east)+(-15pt,\dy)$);
+  },
+  % -- trait du milieu
+    overlay middle={
+    \pgfmathsetlengthmacro{\dy}{0.35pt}
+    \pgfmathsetlengthmacro{\LW}{5pt}
+    % haut
+\draw[
+  line width=0.8pt,
+  primarycolor,
+  rounded corners=4pt % ← ajuste la valeur
+]
+  ([xshift=15pt]frame.south west) --
+  (frame.south west) --
+  (frame.north west) --
+  ([xshift=15pt]frame.north west);
+  },
+  % --- trait du bas : dernier segment seulement ---
+  overlay last={
+    \pgfmathsetlengthmacro{\dy}{0.35pt}
+\draw[
+  line width=0.8pt,
+  primarycolor,
+  rounded corners=4pt % ← ajuste la valeur
+]
+  ([xshift=15pt]frame.south west) --
+  (frame.south west) --
+  (frame.north west) --
+  ([xshift=15pt]frame.north west);
+  },
+  #1
+}
+
+\makeatletter
+
+\newlength{\TOCavail}
+\newlength{\TOCnat}
+\newlength{\TOCunder}
+
+\renewcommand{\l@part}[2]{%
+  \vspace{-5pt}\noindent
+  % --- dimensions ---
+  \pgfmathsetlengthmacro{\OvalW}{16pt}
+  \pgfmathsetlengthmacro{\OvalH}{24pt}
+  \pgfmathsetlengthmacro{\OvalGap}{10pt} % espace entre numéro et ovale
+  \pgfmathsetlengthmacro{\TopDrop}{-15pt}
+  \pgfmathsetlengthmacro{\ExtraX}{13pt}
+  \pgfmathsetlengthmacro{\PnumW}{3em}    % largeur réservée au numéro de page
+
+  % largeur dispo pour le titre (on réserve : num page + gap + ovale)
+  \setlength{\TOCavail}{\dimexpr\linewidth-\PnumW-\OvalGap-\OvalW\relax}
+
+  \begin{tikzpicture}[baseline=(title.base)]
+    % --- Titre ---
+    \node[
+      inner sep=0pt,
+      anchor=west,
+      text=black,
+      font=\robotoCondensed,
+      text width=\TOCavail
+    ] (title) {\fontsize{16}{15}\selectfont\bfseries\MakeUppercase{#1}};
+
+    % --- Trait : va jusqu'au bord droit (sous le numéro) ---
+    \draw[line width=2pt, background2]
+      ($(title.base west)+(0,-2pt)$) -- ++(\linewidth,0);
+
+    % --- Numéro de page (par-dessus le trait) ---
+    \node[
+      inner sep=0pt,
+      anchor=east,
+      fill=white, % masque le trait sous le texte (optionnel)
+      fill opacity=1,
+      text opacity=1
+    ] (pnum) at (\linewidth,0)
+      {{\robotoCondensed \fontsize{12}{15}\selectfont #2}};
+
+    % --- Ovale après le numéro ---
+    \path[
+      fill=primarycolor,
+      rounded corners=0.5em
+    ]
+      ($ (pnum.east) + (\OvalGap+\ExtraX, -\TopDrop) $)
+      rectangle
+      ($ (pnum.east) + (\OvalGap+\ExtraX+\OvalW, -\TopDrop-\OvalH) $);
+  \end{tikzpicture}%
+  \par
+}
+\def\@dotsep{2}
+
+\renewcommand{\l@section}[2]{%
+  \ifnum \c@tocdepth >\z@
+    \addpenalty{\@secpenalty}%
+    \vskip 0.5em \@plus\p@
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode
+      \renewcommand{\numberline}[1]{}%
+      {\DinOTCondBold \fontsize{15}{18}\selectfont #1}%
+      \hfill
+      \nobreak\hb@xt@2em{\hfil {\robotoCondensed \fontsize{12}{15}~#2}}\par
+    \endgroup
+  \fi}
+
+\renewcommand{\l@subsection}[2]{%
+  \ifnum \c@tocdepth >\z@
+    \addpenalty{\@secpenalty}%
+    \vskip 0.5em \@plus\p@
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode
+      \hskip 1em
+      \renewcommand{\numberline}[1]{\makebox[2em][l]{\textcolor{primarycolor}{{\robotoCondensed \fontsize{12}{15}\selectfont##1}}}\hspace{0.1em}}%
+      {\robotoCondensed \fontsize{12}{15}\selectfont #1}%
+      \hfill
+      \nobreak\hb@xt@2em{\hfil{\robotoCondensed \fontsize{12}{15} ~#2}}\par
+    \endgroup
+  \fi}
+
+\renewcommand{\l@subsubsection}[2]{%
+  \ifnum \c@tocdepth >\z@
+    \addpenalty{\@secpenalty}%
+    \vskip 0.5em \@plus\p@
+    \begingroup
+      \parindent \z@ \rightskip \@pnumwidth
+      \parfillskip -\@pnumwidth
+      \leavevmode
+      \hskip 3em
+      \renewcommand{\numberline}[1]{\makebox[2em][l]{\textcolor{primarycolor}{{\DinOTCondMedium \fontsize{12}{15}\selectfont##1}}}\hspace{0.1em}}%
+      {\DinOTCondMedium \fontsize{12}{15}\selectfont #1}%
+      \hfill
+      \nobreak\hb@xt@2em{\hfil{\robotoCondensed \fontsize{12}{15} ~#2}}\par
+    \endgroup
+  \fi}
+% -----------------------------------------------
+
+% ---- Nouvelle \tableofcontents fractionnable ----
+\renewcommand{\tableofcontents}{%
+  \begin{tikzpicture}
+    \node[
+      anchor=west,
+      align=left,
+      text height=1em,
+      text depth=0.25em
+    ] at (0.5,0.5)
+      {\robotoCondensed \bfseries \fontsize{28}{32}\selectfont
+       \color{secondarycolor}\contentsname};
+  \end{tikzpicture}
+  \par\vspace{2em}
+  \begin{tocbox}
+    \@starttoc{toc}%
+  \end{tocbox}%
+}
+\makeatother

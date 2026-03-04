@@ -1,0 +1,200 @@
+% Page de garde
+\newgeometry{top=1cm, bottom=1cm, left=2cm, right=1cm}
+
+\begin{titlepage}
+\includegraphics[scale=0.4]{img/CNED-Banniere.png}
+
+\ifthenelse{\boolean{renvoiCorrection}}{%
+\vspace{-3cm}
+  \begin{center}
+    \begin{tikzpicture}
+      \node[
+        rectangle,
+        fill=none,
+        rounded corners=6pt,
+        text=black,
+        inner xsep=250pt,
+        inner ysep=7pt,
+      ] {\includepicto{Pictos/Warning.svg} \fontsize{10}{12}\selectfont{Ce devoir est à envoyer à la correction.}};
+    \end{tikzpicture}
+  \end{center}
+  \vspace{1cm}
+}{}
+
+\vspace{1.5cm}
+
+%% Première boite
+\hspace{2cm}
+\begin{center}
+
+\begin{tikzpicture}
+    % Boîte avec texte
+    \node[
+      inner sep=1em,
+      text width=0.68\textwidth,
+      align=left,
+      minimum width=8cm,
+      minimum height=6cm
+    ] (box) at (0,0) {%
+      {\fontsize{18}{22}\selectfont \textbf{\textcolor{primarycolor}{\getepreuve}}}
+
+      \vspace{3em}
+
+      {\textcolor{secondarycolor}{\fontsize{14}{18}\selectfont \textbf{\getsubepreuve}}}\\
+      {\robotoCondensed \fontsize{30}{30}\selectfont \bfseries{\gettitle}}
+    };
+
+    % Récupérer les coordonnées de la boite et création de points intermédiaires.
+    %%% Cordonnées de la boite
+    \coordinate (NW) at ([shift={(-\pgflinewidth,-\pgflinewidth+25)}]box.north west);
+    \coordinate (NE) at ([shift={(\pgflinewidth,-\pgflinewidth+25)}]box.north east);
+    \coordinate (SW) at ([shift={(-\pgflinewidth,\pgflinewidth+15)}]box.south west);
+    \coordinate (SE) at ([shift={(\pgflinewidth,\pgflinewidth+15)}]box.south east);
+    %%% Points intermédiaires
+    \coordinate (N_black) at ($ (NW)!0.55!(NE) $);
+    \coordinate (N_color) at ($ (N_black)!0.5!(NE) $);
+
+    % ========= L NOIR en POLYGONE (épaisseur 25pt) =========
+    \pgfmathsetlengthmacro{\W}{25pt}   % épaisseur du L noir
+    \pgfmathsetlengthmacro{\R}{0.5*\W} % demi-épaisseur (= rayon d’arrondi)
+
+    % Contour du L (sens horaire) : points de base
+    \coordinate (A) at ($(N_black)+(-\R,\R)$); % haut-gauche (extérieur)
+    \coordinate (B) at ($(NE)+(\R,\R)$);       % haut-droit (extérieur)
+    \coordinate (C) at ($(SE)+(\R,-\R)$);      % bas-droit (extérieur)
+    \coordinate (D) at ($(SE)+(-\R,-\R)$);     % bas-gauche jambage (intérieur)
+    \coordinate (E) at ($(NE)+(-\R,-\R)$);     % sous le coude (intérieur)
+    \coordinate (F) at ($(N_black)+(-\R,-\R)$);% bas-gauche barre (extérieur)
+
+    % L noir avec arrondis UNIQUEMENT en A (haut-gauche) et C (bas-droit)
+    \path[fill=black]
+      % --- A arrondi : de (F) vers (B) en passant par A ---
+      ($(A)+(0,-\R)$)
+        arc[start angle=180, end angle=90, radius=\R]
+      -- (B)
+      % descente sur le bord droit jusqu’à \R au-dessus de C
+      -- ($(C)+(0,\R)$)
+      % --- C arrondi ---
+        arc[start angle=0, end angle=-90, radius=\R]
+      -- (D) -- (E) -- (F) -- cycle;
+
+    % ========= ORANGE : RECTANGLES (épaisseur 15pt) =========
+    \pgfmathsetlengthmacro{\Wo}{15pt}
+    \pgfmathsetlengthmacro{\Ro}{0.5*\Wo}
+
+    % Rectangle orange vertical (mêmes offsets que tes \draw d'origine)
+    \path[fill=background1]
+      ($(NE)+(-17.5pt-\Ro,-12.5pt)$) --
+      ($(SE)+(-17.5pt-\Ro,-\R)$) --
+      ($(SE)+(-17.5pt+\Ro,-\R)$) --
+      ($(NE)+(-17.5pt+\Ro,-12.5pt)$) --
+      cycle;
+
+    % Rectangle orange horizontal (mêmes offsets que tes \draw d'origine)
+    \path[fill=background1]
+      ($(N_color)+(-17.5pt,-20pt-\Ro)$) --
+      ($(NE)+(-17.5pt,-20pt-\Ro)$) --
+      ($(NE)+(-17.5pt,-20pt+\Ro)$) --
+      ($(N_color)+(-17.5pt,-20pt+\Ro)$) --
+      cycle;
+
+\end{tikzpicture}
+\end{center}
+
+
+
+\vspace{1em}
+
+%% Deuxième boite page de garde
+\hspace{2.5cm}
+\begin{tikzpicture}
+    % Node texte
+    \node[
+        rectangle,
+        fill=none,
+        text=white,
+        inner xsep=5pt,
+        inner ysep=5pt,
+    ] (main) {\fontsize{15}{18}\bfseries\selectfont\getsubtitle};
+
+    % Cadre avec UN seul coin arrondi
+\begin{pgfonlayer}{background}
+  \def\padx{5pt}
+  \def\pady{5pt}
+  \def\r{8pt} % rayon
+
+  % Coins du rectangle extérieur (autour du node)
+  \coordinate (SW) at ([xshift=-\padx,yshift=-\pady]main.south west);
+  \coordinate (SE) at ([xshift= \padx,yshift=-\pady]main.south east);
+  \coordinate (NE) at ([xshift= \padx,yshift= \pady]main.north east);
+  \coordinate (NW) at ([xshift=-\padx,yshift= \pady]main.north west);
+
+  \path[fill=primarycolor]
+    (SW) --
+    % bas : jusqu'à r avant SE
+    ([xshift=-\r]SE)
+      arc (270:360:\r) % arrondi Bas-Droit, finit sur le bord droit à +r
+    --
+    % droite : jusqu'à NE
+    (NE) --
+    % haut : jusqu'à r après NW
+    ([xshift=\r]NW)
+      arc (90:180:\r)  % arrondi Haut-Gauche, finit sur le bord gauche à -r
+    --
+    % gauche : retour à SW
+    (SW) -- cycle;
+\end{pgfonlayer}
+\end{tikzpicture}
+
+\vfill
+
+%% Deuxième boite page de garde
+\hspace{2.5cm}
+
+\begin{tikzpicture}
+  \node[inner sep=1em, text width=\textwidth, align=left] (box) at (0,0) {%
+    \hspace{20pt}\footnotesize
+    \begin{minipage}{10cm}
+    \end{minipage}
+    \vspace{20em}\mbox{}
+  };
+
+  % Coordonnées bord boite
+  \coordinate (NW) at ([shift={(-\pgflinewidth,-\pgflinewidth)}]box.north west);
+  \coordinate (SW) at ([shift={(-\pgflinewidth,\pgflinewidth)}]box.south west);
+  \coordinate (SE) at ([shift={(\pgflinewidth,\pgflinewidth)}]box.south east);
+
+  % Point intermédiaire
+  \coordinate (N_mid) at ($ (SW)!0.3!(SE) $);
+
+  % ========= L (background2) =========
+  \pgfmathsetlengthmacro{\W}{20pt}
+  \pgfmathsetlengthmacro{\R}{0.5*\W}
+
+  \path[fill=background2]
+    % --- coin NW arrondi ---
+    ($(NW)+(-\R,0)$)
+      arc[start angle=180,end angle=90,radius=\R]
+    -- ($(NW)+(\R,\R)$)
+
+    % descente jambage
+    -- ($(SW)+(\R,\R)$)
+
+    % barre horizontale
+    -- ($(N_mid)+(\R,\R)$)
+
+    % --- coin bas-droit de la barre arrondi ---
+    -- ($(N_mid)+(\R,0)$)
+      arc[start angle=0,end angle=-90,radius=\R]
+
+    % retour vers la gauche
+    -- ($(SW)+(-\R,-\R)$)
+
+    -- cycle;
+
+\end{tikzpicture}
+
+
+\end{titlepage}
+
+\restoregeometry

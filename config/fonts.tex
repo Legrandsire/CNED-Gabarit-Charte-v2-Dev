@@ -1,0 +1,85 @@
+%\setmainfont{DINOT}[
+%    Path=./fonts/,
+%    Extension = .otf,
+%    UprightFont=*-Regular,
+%    BoldFont=*-Bold,
+%    ItalicFont=*-Italic,
+%    BoldItalicFont=*-BoldItalic
+%    ]
+
+\setmainfont{Roboto}[
+   Path=./fonts/,
+   Extension = .ttf,
+  UprightFont = *-Regular,
+  BoldFont = *-Bold,
+  ItalicFont = *-Italic,
+  BoldItalicFont = *-BoldItalic
+]
+
+% Roboto Condensed (famille secondaire)
+\newfontfamily\robotoCondensed{Roboto-Condensed}[
+   Path=./fonts/,
+   Extension = .ttf,
+  UprightFont = *Regular,
+  BoldFont = *Bold,
+  ItalicFont = *Italic,
+  BoldItalicFont = *BoldItalic
+]
+    
+\newfontfamily\DINOTCondBlack[
+  Path = ./fonts/,
+  Extension = .otf
+]{DINOT-CondBlack}
+
+\newfontfamily\DinOTCondBold[
+  Path = ./fonts/,
+  Extension = .ttf,
+]{FontFont - DIN OT Cond Bold}
+
+\newfontfamily\DinOTCondMedium[
+  Path = ./fonts/,
+  Extension = .ttf
+]{FontFont - DIN OT Cond Medium}
+
+\newfontfamily\DinOTCond[
+  Path = ./fonts/,
+  Extension = .ttf
+]{FontFont - DIN OT Cond}
+
+\newfontfamily\DINOTItalic[
+  Path = ./fonts/,
+  Extension = .otf
+]{DINOT-Italic}
+\newfontfamily\DINOTCondItalic[
+  Path = ./fonts/,
+  Extension = .ttf
+]{DINOT-CondLightItalic-iF66432ef8a02f8}
+
+\newfontfamily\DINOTCond[
+  Path = ./fonts/,
+  Extension = .otf
+]{DINOT-Cond}
+
+
+
+
+
+\usepackage{fontspec,titlesec,soul}
+% --- 1) Italique spécial titres : robuste + compatible soul ---
+\DeclareRobustCommand{\TitleTextIt}[1]{%
+  {\addfontfeatures{FakeSlant=0.2}#1}%  % incline la fonte courante (même Cond Bold)
+}
+% Autoriser ces macros dans \ul{...}
+\soulregister\TitleTextIt{1}
+\soulregister\textit{1}
+\soulregister\emph{1}
+\soulregister\textbf{1}
+\soulregister\textcolor{2}
+
+% --- 2) Hooks pour (re)mapper \textit dans les titres ---
+\newcommand{\TitleTextBegin}{%
+  \begingroup
+  \let\textit\TitleTextIt
+  \let\emph\TitleTextIt
+}
+\newcommand{\TitleTextEnd}{\endgroup}

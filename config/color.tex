@@ -1,0 +1,55 @@
+%% COULEUR
+\usepackage{xcolor}
+
+% 1. Choix de la matière
+% maths, agregmusique, concoursBanqueFrance
+\newcommand{\doctype}{DGFIP} % changer ici selon besoin
+
+% 2. Définir une macro qui charge les couleurs selon la valeur de \doctype
+\makeatletter
+\newcommand{\loadcharte}{%
+  \@ifundefined{doctype@colors@\doctype}{%
+    % si type inconnu, couleur par défaut
+    \definecolor{primarycolor}{HTML}{DA291C} %% Rouge
+    \definecolor{secondarycolor}{HTML}{005EB8} %% Bleu
+    \definecolor{background1}{HTML}{ffeeee} %% Rose
+    \definecolor{background2}{HTML}{eaecee} %% Gris
+  }{%
+    % sinon appel à la macro spécifique
+    \csname doctype@colors@\doctype\endcsname
+  }%
+}
+
+% 3. Définir les macros pour chaque charte graphique
+
+\newcommand{\doctype@colors@maths}{%
+    \definecolor{primarycolor}{HTML}{C63C15}
+    \definecolor{secondarycolor}{HTML}{005EB8}
+    \definecolor{background1}{HTML}{FCECE7}
+    \definecolor{background2}{HTML}{E8F1FA}
+}
+
+\newcommand{\doctype@colors@agregmusique}{%
+    \definecolor{primarycolor}{HTML}{005EB8}
+    \definecolor{secondarycolor}{HTML}{9754B8}
+    \definecolor{background1}{HTML}{E8F1FA}
+    \definecolor{background2}{HTML}{FAF3FD}
+}
+
+\newcommand{\doctype@colors@concoursBanqueFrance}{%
+    \definecolor{primarycolor}{HTML}{AE2573}
+    \definecolor{secondarycolor}{HTML}{005F61}
+    \definecolor{background1}{HTML}{F7E7FA}
+    \definecolor{background2}{HTML}{E5EFEF}
+}
+
+\newcommand{\doctype@colors@DGFIP}{%
+    \definecolor{primarycolor}{HTML}{007681}
+    \definecolor{secondarycolor}{HTML}{AE2573}
+    \definecolor{background1}{HTML}{E5F1F2}
+    \definecolor{background2}{HTML}{F7E8F1}
+}
+
+\loadcharte
+
+\makeatother

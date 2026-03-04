@@ -1,0 +1,76 @@
+\newcommand{\triplebarprimary}{
+    \tikz[x=1em,y=0.4em,line width=2pt,primarycolor]{   \draw (0,0) -- (0.8,0);    
+    \draw (0.1,0.8) -- (0.9,0.8); 
+    \draw (0,1.6) -- (0.8,1.6); }%
+}
+
+\newcommand{\triplebarsecondary}{
+    \tikz[x=1em,y=0.4em,line width=2pt,secondarycolor]{   \draw (0,0) -- (0.8,0);    
+    \draw (0.1,0.8) -- (0.9,0.8); 
+    \draw (0,1.6) -- (0.8,1.6); }%
+}
+
+\newcommand{\chevronlogosecondary}{
+    \tikz[x=1em,y=1em,line width=2pt,secondarycolor]{   \draw[line width=0.12em] (0.00,0.00) -- (0.28,0.28) -- (0.00,0.56);
+    \draw[line width=0.12em] (0.36,0.00) -- (0.64,0.28) -- (0.36,0.56);
+    }
+}
+\newcommand{\chevronlogoprimary}{
+    \tikz[x=1em,y=1em,line width=2pt,primarycolor]{   \draw[line width=0.12em] (0.00,0.00) -- (0.28,0.28) -- (0.00,0.56);
+    \draw[line width=0.12em] (0.36,0.00) -- (0.64,0.28) -- (0.36,0.56);
+    }
+}
+
+
+
+\newcommand{\tripleprimary}[1]{% 
+\raisebox{-0.2ex}{\triplebarprimary} \hspace{0.5em} #1% 
+}
+\newcommand{\triplesecondary}[1]{% 
+\raisebox{-0.2ex}{\triplebarsecondary} \hspace{0.5em} #1% 
+}
+\newcommand{\chevronsecondary}[1]{% 
+\raisebox{-0.2ex}{\chevronlogosecondary} \hspace{0.5em} #1% 
+}
+\newcommand{\chevronprimary}[1]{% 
+\raisebox{-0.2ex}{\chevronlogoprimary} \hspace{0.5em} #1% 
+}
+
+% Soulignement épais en primarycolor
+\NewDocumentCommand{\highlightulineprimary}{O{primarycolor} O{2pt} O{0.5ex} m}{%
+  \tikz[baseline=(X.base)]{
+    \node[inner sep=0pt, outer sep=0pt, anchor=base] (X) {#4};
+    % ligne à distance fixe de la baseline, indépendante des descendantes
+    \draw[#1, line width=#2]
+      ([yshift=-#3]X.base west) -- ([yshift=-#3]X.base east);
+  }%
+}
+
+
+% \highlightulinesecondary[<couleur>][<épaisseur>][<décalage>]{<texte>}
+% Défauts : couleur=secondarycolor, épaisseur=2pt, décalage=0.5ex
+\NewDocumentCommand{\highlightulinesecondary}{O{secondarycolor} O{2pt} O{0.5ex} m}{%
+  \tikz[baseline=(X.base)]{
+    \node[inner sep=0pt, outer sep=0pt, anchor=base] (X) {#4};
+    % ligne à distance fixe de la baseline, indépendante des descendantes
+    \draw[#1, line width=#2]
+      ([yshift=-#3]X.base west) -- ([yshift=-#3]X.base east);
+  }%
+}
+
+
+\newmdenv[
+  topline=false, bottomline=false, rightline=false,
+  linecolor=background1, linewidth=6pt,       % barre verticale à gauche
+  innerleftmargin=10pt, innerrightmargin=10pt, % espace intérieur
+  skipabove=\topsep, skipbelow=\topsep,        % espaces verticaux comme quote
+  leftmargin=3em, rightmargin=3em              % MARGES dans le document
+]{highlightquoteprimary}
+
+\newmdenv[
+  topline=false, bottomline=false, rightline=false,
+  linecolor=background2, linewidth=6pt,       % barre verticale à gauche
+  innerleftmargin=10pt, innerrightmargin=10pt, % espace intérieur
+  skipabove=\topsep, skipbelow=\topsep,        % espaces verticaux comme quote
+  leftmargin=3em, rightmargin=3em              % MARGES dans le document
+]{highlightquotesecondary}

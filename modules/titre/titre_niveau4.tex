@@ -1,0 +1,15 @@
+%%% MACRO SUBTITLE
+
+
+%% Macro pour l'accessibilité
+\newcommand{\HfourStart}{\tagstructbegin{tag=H4}\tagmcbegin{tag=Span}}
+\newcommand{\HfourEnd}{\tagmcend\tagstructend}
+
+
+\titleformat{\subsubsection}
+  {\robotoCondensed\bfseries\fontsize{18}{21}\selectfont}      % style du texte
+  {\fixednum{\thesubsubsection}}         % numéro (normal)
+  {0.7em}                    % espace numéro - titre
+  {\HfourStart\phantomsection \HfourEnd}        % ici on applique la macro au texte seul
+  []
+\renewcommand{\thesubsubsection}{\arabic{subsubsection}.}

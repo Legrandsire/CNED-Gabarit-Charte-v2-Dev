@@ -1,0 +1,133 @@
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{fontspec}
+\usepackage{iftex}
+\usepackage{titlesec}
+\usepackage{geometry}
+\usepackage{lmodern}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titling}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{tikzmark}
+\usepackage{colortbl}
+\usepackage[table]{xcolor}
+\usepackage{makecell} % <— important
+
+\usepackage{ifthen}
+\newboolean{renvoiCorrection}
+
+
+
+
+\makeatletter
+\newdimen\Cline@savewidth
+\newcommand{\Clinecol}[3]{% #1 = i-j, #2 = thickness (ex: 2pt), #3 = color (ex: white)
+  % sauver réglages actuels
+  \noalign{%
+    \global\Cline@savewidth=\arrayrulewidth
+    % sauver la couleur actuelle des traits (macro interne colortbl)
+    \xdef\Cline@saved@arc{\CT@arc}%
+    \global\arrayrulewidth=#2\relax
+    \arrayrulecolor{#3}%
+  }%
+  % tracer la ligne partielle
+  \cline{#1}%
+  % restaurer réglages
+  \noalign{%
+    \expandafter\arrayrulecolor\expandafter{\Cline@saved@arc}%
+    \global\arrayrulewidth=\Cline@savewidth
+  }%
+}
+\makeatother
+
+\usepackage{svg}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{calc}
+\usepackage{setspace}
+\usepackage{lastpage}
+\usepackage{environ}
+
+% Permet un ragged-right propre avec césures autorisées
+\usepackage{ragged2e}
+\AtBeginDocument{\RaggedRight}
+\usepackage[none]{hyphenat}   % aucune césure
+\usepackage{xurl}             % URLs jamais débordantes
+\setlength{\emergencystretch}{3em} % sécurité anti-overfull
+
+\usepackage[most]{tcolorbox} % enhanced + breakable
+
+\usepackage{enumitem}
+\usepackage{changepage} %% Change la geometrie de la page localement
+\usepackage{mdframed}
+\usepackage{xparse}
+
+\usetikzlibrary{calc}
+\usepackage{environ}
+
+\renewcommand{\UrlFont}{\DINOTCond}
+
+
+\newcommand{\includepicto}[1]{\raisebox{-1.5ex}{\includesvg[width=0.8cm]{#1}} }
+
+
+\usepackage{colortbl}  % Nécessaire pour colorer les traits
+
+\usepackage{needspace}
+\usepackage{etoolbox}
+\preto{\subsection}{\Needspace{5\baselineskip}} % Garanti que si subsection est trp bas (pas assez de place libre) on saut de page
+\preto{\section}{\Needspace{5\baselineskip}} 
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\fancyhf{} % On vide en-têtes et pieds
+
+
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+
+\geometry{a4paper, margin=2cm}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setstretch{1.1}
+
+% Entête et pied de page
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt} % supprime la ligne dans le header
+
+\makeatletter
+\newcommand{\getauthor}{\@author}
+\makeatother
+
+% --- Faire apparaître les \subsection* et \subsubsection* dans le sommaire ---
+\makeatletter
+\let\oldsubsection\subsection
+\renewcommand{\subsection}{%
+  \@ifstar{\subsection@star}{\oldsubsection}% version étoilée / non étoilée
+}
+\newcommand{\subsection@star}[1]{%
+  \oldsubsection*{#1}% garde exactement ta mise en forme visuelle
+  \phantomsection
+  \addcontentsline{toc}{subsection}{\protect\numberline{}#1}% entrée ToC sans numéro
+}
+\makeatother
+
+\makeatletter
+% --- Redéfinition subsubsection ---
+\let\oldsubsubsection\subsubsection
+\renewcommand{\subsubsection}{%
+  \@ifstar{\subsubsection@star}{\oldsubsubsection}%
+}
+\newcommand{\subsubsection@star}[1]{%
+  \oldsubsubsection*{#1}% garde le style visuel
+  \phantomsection
+  \addcontentsline{toc}{subsubsection}{\protect\numberline{}#1}%
+}
+\makeatother
+
+% S'assurer que la profondeur de sommaire est suffisante
+\setcounter{tocdepth}{3}

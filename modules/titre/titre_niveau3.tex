@@ -1,0 +1,16 @@
+\usepackage{soul}          % gère les soulignements multi-lignes
+\setul{2pt}{0.25ex}        % épaisseur et décalage
+\setulcolor{background2}   % couleur du trait
+
+\newcommand{\underlinetitle}[1]{\ul{#1}}
+\newcommand{\fixednum}[1]{\makebox[0.5em][l]{#1}}
+
+%% Macro pour l'accessibilité
+\newcommand{\HthreeStart}{\tagstructbegin{tag=H3}\tagmcbegin{tag=Span}}
+\newcommand{\HthreeEnd}{\tagmcend\tagstructend}
+
+\titleformat{\subsection}[block]
+  {\robotoCondensed\bfseries\fontsize{21}{24}\selectfont\RaggedRight}
+  {\fixednum{\thesubsection}}
+  {1.5em}
+  {\HthreeStart\bfseries\color{primarycolor}}[\HthreeEnd]

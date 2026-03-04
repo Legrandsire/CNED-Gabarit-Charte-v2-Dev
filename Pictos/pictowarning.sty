@@ -1,0 +1,24 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{customwarning}[2026/03/04 Mon package pour l'icone attention]
+
+% Chargement des packages nécessaires (on utilise \RequirePackage dans un .sty)
+\RequirePackage{tikz}
+\RequirePackage{graphicx} % Nécessaire pour utiliser \scalebox
+
+% Création de la commande \warnicon
+% Le [1][1] signifie qu'il y a un argument optionnel dont la valeur par défaut est 1 (taille 100%)
+\newcommand{\warnicon}[1][1]{
+    \scalebox{#1}{
+        \begin{tikzpicture}
+            % Tracé du triangle
+            \draw[line width=5pt, primarycolor, rounded corners=12pt, line cap=round, line join=round]
+                (0.6, -1.2) -- (-2.078, -1.2) -- (0, 2.4) -- (2.078, -1.2) -- (1.6, -1.2);
+            % Point d'exclamation : barre supérieure
+            \fill[black] (-0.18, 1.1) arc (180:0:0.18) -- (0.08, -0.1) arc (0:-180:0.08) -- cycle;
+            % Point d'exclamation : point inférieur
+            \fill[black] (0, -0.55) circle (0.14);
+            % Point rouge dans l'ouverture
+            \fill[secondarycolor] (1.1, -1.2) circle (0.16);
+        \end{tikzpicture}
+    }
+}
