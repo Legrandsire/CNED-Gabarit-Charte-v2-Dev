@@ -1,29 +1,33 @@
 %%% PART — version avec retour à la ligne du titre
 % --- soul : réglages & robustesse dans les signets PDF
 \usepackage{soul}
-\setul{2pt}{0.25ex}
-\setulcolor{background2}
+
+%%%
 
 % Neutraliser \ul dans les signets hyperref
 \pdfstringdefDisableCommands{%
   \def\ul#1{#1}%
 }
 
+
 % Robuste pour titres/ToC
 
 % Soulignement sous tout le bloc (multi-lignes ok)
-\newcommand{\underlinetitlePart}[2][\linewidth]{%
-  \tikz[baseline=(text.south)]{
-    \node[
-      inner sep=0pt, text=black,
-      text width=#1, align=left
-    ] (text) {#2};
-  }%
-}
+
+\newcommand{\underlinetitle}[1]{\ul{#1}}
+
+%\newcommand{\underlinetitlePart}[2][\linewidth]{%
+%  \tikz[baseline=(text.south)]{
+%    \node[
+%      inner sep=0pt, text=black,
+%      text width=#1, align=left
+%    ] (text) {#2};
+%  }%
+%}
 \newlength{\PartAvail}
 
 \newcommand{\taggedparttitle}[1]{%
-  % H1 pour la structure (à adapter si tu veux part=H1, section=H2, etc.)
+  % H1 pour la structure 
   \tagstructbegin{tag=H1}%
   \tagmcbegin{tag=Span}%
   #1%
@@ -31,7 +35,10 @@
   \tagstructend
 }
 
+
 \newcommand{\parttitlewithbox}[1]{%
+  \setul{0.25ex}{1pt}
+  \setulcolor{background2}
   \begingroup
   \phantom{\taggedparttitle{#1}}%
   % -- dimensions
@@ -45,7 +52,7 @@
   \begin{tikzpicture}[baseline=(t.base)]
     % --- texte : \ul gère le soulignement multi-lignes ---
     \node[anchor=west, inner sep=0pt, text width=\PartAvail, align=left] (t)
-      {\color{black}\MakeUppercase{\underlinetitle{#1}}};
+      {\color{black}{\ul{#1}}};
     % --- pavé à droite : même hauteur que le texte ---
 \path[
   fill=primarycolor,
@@ -79,10 +86,10 @@
 }
 
 \titleformat{\part}[block]
-  {\robotoCondensed\bfseries\fontsize{26}{30}\selectfont}
+  {\bfseries\fontsize{23}{26}\selectfont}
   {}{0pt}{%
-    % Plus de \clearpage ici, c'est géré par le \preto ci-dessus
+    \vspace*{-2cm}% <- ajuste ici
     \PlaceAnchor
     \parttitlewithbox
   }
-\titlespacing*{\part}{1cm}{0cm}{0cm}
+\titlespacing*{\part}{0.2cm}{0cm}{0cm}

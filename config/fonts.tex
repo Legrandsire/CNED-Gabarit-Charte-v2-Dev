@@ -1,3 +1,4 @@
+
 %\setmainfont{DINOT}[
 %    Path=./fonts/,
 %    Extension = .otf,
@@ -25,6 +26,22 @@
   ItalicFont = *Italic,
   BoldItalicFont = *BoldItalic
 ]
+
+\newfontfamily\robotoMedium{Roboto-Medium}[
+   Path=./fonts/,
+   Extension = .ttf,
+  UprightFont = *,
+  BoldFont = *,
+  ItalicFont = *Italic,
+  BoldItalicFont = *Italic
+]
+
+
+
+\newfontfamily\robotolite[
+  Path = ./fonts/,
+  Extension = .ttf
+]{Roboto-Light}
     
 \newfontfamily\DINOTCondBlack[
   Path = ./fonts/,
@@ -65,6 +82,9 @@
 
 
 \usepackage{fontspec,titlesec,soul}
+
+\renewcommand{\ULthickness}{10pt}
+
 % --- 1) Italique spécial titres : robuste + compatible soul ---
 \DeclareRobustCommand{\TitleTextIt}[1]{%
   {\addfontfeatures{FakeSlant=0.2}#1}%  % incline la fonte courante (même Cond Bold)

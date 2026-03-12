@@ -1,0 +1,22 @@
+\fancyfoot[L]{%
+  \begin{minipage}{\textwidth}
+    % Définition de la commande locale pour les "/" de la partie gauche (taille 10)
+    \def\myslash{ {\Roboto\fontsize{10}{12}\selectfont /} }%
+    
+    {\color{secondarycolor}\rule{\textwidth}{0.2pt}}\\[-0.5ex]
+    
+    % Application de Roboto Medium en taille 8 pour tout le texte de gauche
+    {\robotoMedium\fontsize{8}{10}\selectfont 
+      Cned\myslash 
+      {\color{secondarycolor}\typeDocumentFooter}\myslash 
+      \titrefooter\myslash 
+      {\color{primarycolor}\intituleFormationfooter}%
+    }%
+    \hfill%
+    % Page active : Roboto (normal) en taille 10
+    {\roboto\fontsize{10}{12}\selectfont \thepage}%
+    \hspace{0.2em}% Léger espacement visuel
+    % Slash et nombre total de pages : Roboto Medium en taille 6
+    {\robotoMedium\fontsize{6}{8}\selectfont / \pageref{LastPage}}%
+  \end{minipage}
+}

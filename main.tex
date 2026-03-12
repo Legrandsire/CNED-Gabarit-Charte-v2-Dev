@@ -3,126 +3,15 @@
   lang=fr-FR
 }
 
-\documentclass[11pt, math]{article}
+\documentclass[10pt, math]{article}
 
 \usepackage{tagpdf}
 \tagpdfsetup{activate-all} % active le tagging
 
-
-
-\input{structure/preambule}
-
-\input{config/info}
-\makeatletter
-\newcommand{\PlaceAnchor}{%
-  \par\noindent\leavevmode % assure le mode horizontal
-  \phantomsection
-}
-\makeatother
-
-
-
-
-\definecolor{linkblue}{HTML}{0645AD} % bleu lien
-\usepackage{xurl}                    % \url avec meilleures coupures (remplace url)
-\usepackage[normalem]{ulem}          % \uline = soulignement continu multi-lignes
-%\usepackage{cned-encadre}
-\renewcommand{\ULthickness}{0.8pt}   % épaisseur du soulignement
-
-%\usepackage{customwarning}
-
-
-% Re-wrapper \url seulement (pas de hyperref)
-\makeatletter
-\let\UrlPlain\url
-\renewcommand{\url}[1]{%
-  \textcolor{linkblue}{\uline{\UrlPlain{#1}}}%
-}
-\makeatother
-
-\input{config/color}
-\input{config/fonts}
-
-\input{modules/pied_de_page}
-
-\input{modules/titre/titre_niveau1}
-\input{modules/titre/titre_niveau2}
-\input{modules/titre/titre_niveau3}
-\input{modules/titre/titre_niveau4}
-\input{modules/titre/titre_niveau5}
-\input{modules/titre/paragraph}
-
-
-\input{modules/encadre/encadre1}
-\input{modules/encadre/encadre2}
-\input{modules/encadre/encadre3}
-\input{modules/encadre/encadre4}
-\input{modules/encadre/encadre5}
-
-\input{modules/ul/ul}
-\input{modules/ol/ol}
-
-\input{modules/footnote}
-
-\input{modules/highlight}
-
-\input{modules/citation}
-
-\input{modules/tableau/tableau1}
-
-\input{modules/sommaire}
-
+\usepackage{structure/preambule}
 
 \begin{document}
 
     \input{document}
-
-\part{Crédits}
-
-\vspace{1em}
-\Large{\textbf{Auteur(s):} \\}
-\makeatletter
-{\robotoCondensed \small{\@author}}
-\makeatother
-
-
-\noindent\textcolor{secondarycolor}{\rule{\linewidth}{1pt}}
-\begin{tikzpicture}
-    \node[inner sep=0em, text width=\textwidth, align=left] (box) at (0,0) {
-        \begin{minipage}[c]{15cm}
-        \begin{spacing}{0.5}
-        {\fontsize{7}{9}\selectfont Les cours du Cned sont strictement réservés à l’usage privé de leurs destinataires et ne sont pas destinés à une utilisation collective. 
-Les personnes qui s’en serviraient pour d’autres usages, qui en feraient une reproduction intégrale ou partielle, une traduction sans
-le consentement du Cned, s’exposeraient à des poursuites judiciaires et aux sanctions pénales prévues par le Code de la propriété
-intellectuelle. Les reproductions par reprographie de livres et de périodiques protégés contenues dans cet ouvrage sont effectuées
-par le Cned avec l’autorisation du Centre français d’exploitation du droit de copie (20, rue des Grands-Augustins, 75006 Paris)}
-\end{spacing}
-\end{minipage}
-\begin{minipage}[c]{0.8cm}
-            \includegraphics[width=1cm]{img/photocopillage.png} % Remplace par ton fichier
-\end{minipage}
-        \begin{minipage}[c]{15cm}
-        \begin{spacing}{0.5}
-        {\fontsize{7}{9}\selectfont \textbf{Cned, BP 60200, 86980 Futuroscope Chasseneuil Cedex, France}
-        \\
-        
-        \textit{Le Cned remercie les personnes qui ont contribué à la réalisation de ce document. Qu’elles trouvent ici l’expression de toute sa reconnaissance}\\
-
-        \vspace{1em}
-        
-        © Cned 2025
-        \hfill
-        \codeArticle\\
-        \vspace{1em}
-
-        \includesvg{Pictos/Accessibilite.svg}
-        \noindent\textit{Ce document peut présenter des défauts d'accessibilité.}
-        }
-\end{spacing}
-\end{minipage}
-    };
-\end{tikzpicture}
-
-\vspace{-1.8em}
-\noindent\textcolor{secondarycolor}{\rule{\linewidth}{1pt}}
+    \input{credits}
 \end{document}

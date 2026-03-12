@@ -1,4 +1,5 @@
-\NewEnviron{encadre4}{%
+% Définition de l'environnement colorboxenv
+\NewEnviron{encadre1}{%
   \begin{center}
   \begin{tikzpicture}
     \def\r{10pt} % rayon d'arrondi
@@ -8,13 +9,12 @@
       inner sep=10pt,
       text width=\textwidth,
       anchor=north west
-    ] (box) {\robotoCondensed \BODY};
+    ] (box) {\fontsize{10.5}{13}\selectfont\BODY};
 
-    % Fond + bordure
+    % Fond + bordure\input{modules/encadre/encadre1}
     \begin{pgfonlayer}{background}
       \path[
-        draw=secondarycolor,
-        line width=0.8pt
+        fill=background1,
       ]
         (box.south west) --
         ($(box.south east)+(-\r,0)$)

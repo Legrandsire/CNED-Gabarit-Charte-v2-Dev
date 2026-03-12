@@ -1,0 +1,51 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{Pictos/pictobook}[2026/03/05 Picto Book Icon]
+
+\RequirePackage{tikz}
+\RequirePackage{graphicx} % Nécessaire pour \scalebox
+
+% Définition de la commande \pictobook 
+% Accepte un argument optionnel pour gérer l'échelle (1 par défaut)
+\newcommand{\pictobook}[1][1]{%
+    \scalebox{#1}{%
+        \begin{tikzpicture}[line cap=round, line join=round]
+            
+            % --- Définition des styles de lignes ---
+            % On utilise les couleurs primarycolor et secondarycolor de ton projet
+            \tikzset{
+                blackline/.style={black, line width=5pt},
+                blueline/.style={primarycolor, line width=8pt}
+            }
+
+            % --- 1. Dos du livre (Ligne bleue principale) ---
+            % Départ en bas à gauche, monte en diagonale, puis s'arrondit vers la droite en haut
+            \draw[blueline] (-3, -1) -- (-5, 4) to[out=80, in=170] (-3.5, 5.5);
+
+            % --- 2. Contour extérieur noir du livre ---
+            % Part de la fin de la courbe bleue et fait le tour de la couverture
+            \draw[blackline] 
+                (-3.5, 5.5) -- (3, 3)          % Bord supérieur
+                -- (5, -1.5)                   % Bord droit
+                -- (4, -1.2)                   % Encoche intérieure (le "V" de la page repliée)
+                -- (4.5, -2.5)                 % Pointe inférieure droite
+                -- (-3, -1);                   % Bord inférieur, retour exact à la base du dos bleu
+
+            % --- 3. Ligne intérieure noire (Courbe des pages au centre) ---
+            % Part directement du dos bleu, forme le volume des pages, puis rejoint l'encoche
+            \draw[blackline] 
+                (-3.5, 0.25) to[out=60, in=170] (-1, 1) % Courbe de la page de gauche
+                -- (4, -1.2);                           % Ligne droite vers l'encoche à droite
+
+            % --- 4. Détails internes (Lignes) ---
+            % Ligne bleue parallèle au dos, sur la page de gauche
+            \draw[blueline] (-2.5, 5.1) -- (-1.5, 2.6);
+            
+            % Ligne noire courte et parallèle aux bords, sur la page de droite
+            \draw[blackline] (1.5, -0.5) -- (3.5, -1.2);
+
+            % --- 5. Point violet sur la page de gauche ---
+            \fill[secondarycolor] (-1.8, 2.2) circle (0.2);
+
+        \end{tikzpicture}%
+    }%
+}

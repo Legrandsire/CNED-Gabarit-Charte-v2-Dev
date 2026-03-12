@@ -1,0 +1,43 @@
+%=======================================================================
+% Fichier : Pictos/pictocheck.sty
+% Description : Module générant un pictogramme "Check" stylisé
+%=======================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{Pictos/pictocheck}[2026/03/05 Picto Checkmark]
+
+% Requis pour le dessin vectoriel
+\RequirePackage{tikz}
+
+%=======================================================================
+% Commande : \pictocheck[<échelle>]
+% Utilisation : \pictocheck (taille par défaut) ou \pictocheck[0.5] (réduit de moitié)
+%=======================================================================
+\newcommand{\pictocheck}[1][1]{%
+    % On utilise x et y avec l'échelle pour adapter la grille, 
+    % et on multiplie les épaisseurs de traits par #1 pour que tout reste proportionnel.
+    \begin{tikzpicture}[x=#1cm, y=#1cm]
+        
+        % 1. Ligne bleue en forme de "L"
+        % Utilisation de 'primarycolor'. line cap et join 'round' pour adoucir les angles.
+        \draw[primarycolor, line width=#1*4pt, line cap=round, line join=round] 
+            (0, 5.5) -- (0, 0) -- (5.2, 0);
+            
+        % 2. Point violet
+        % Utilisation de 'secondarycolor'. Il est placé légèrement à droite du "L".
+        \fill[secondarycolor] (6.0, 0) circle (#1*0.25cm);
+        
+        % 3. Les traits de rayonnement (étincelles)
+        % Boucle dessinant 5 traits noirs rayonnant depuis un point central (3.0, 2.0)
+        \foreach \angle in {40, 65, 90, 115, 140} {
+            \draw[black, line width=#1*3pt, line cap=round] 
+                (3.0, 2.0) ++(\angle:1.8) -- ++(\angle:0.9);
+        }
+        
+        % 4. La coche (checkmark) centrale
+        % Dessinée avec un fond blanc pour masquer d'éventuels éléments en dessous, 
+        % et un contour noir épais. Les angles sont légèrement arrondis.
+        \filldraw[fill=white, draw=black, line width=#1*3pt, rounded corners=#1*2pt, line join=round] 
+            (1.0, 1.6) -- (1.4, 2.0) -- (2.0, 1.4) -- (4.2, 3.6) -- (4.6, 3.2) -- (2.0, 0.6) -- cycle;
+            
+    \end{tikzpicture}%
+}

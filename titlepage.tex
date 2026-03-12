@@ -37,12 +37,22 @@
       minimum height=6cm
     ] (box) at (0,0) {%
       {\fontsize{18}{22}\selectfont \textbf{\textcolor{primarycolor}{\getepreuve}}}
+      
+      \vspace{0.5em}
+      
+      {\robotoCondensed\fontsize{14}{16}\selectfont {\sousTitreFormation}}
 
       \vspace{3em}
 
-      {\textcolor{secondarycolor}{\fontsize{14}{18}\selectfont \textbf{\getsubepreuve}}}\\
-      {\robotoCondensed \fontsize{30}{30}\selectfont \bfseries{\gettitle}}
+      {\robotoMedium\textcolor{secondarycolor}{\bfseries\fontsize{15}{18}\selectfont\getsubepreuve}}\\
+      {\fontsize{26}{28}\selectfont \bfseries{\gettitle}}\
+
+      \vspace{1em}
+            
+      {\robotoCondensed\fontsize{16}{19}\selectfont \sousTitre}
     };
+
+
 
     % Récupérer les coordonnées de la boite et création de points intermédiaires.
     %%% Cordonnées de la boite
@@ -113,9 +123,9 @@
         rectangle,
         fill=none,
         text=white,
-        inner xsep=5pt,
-        inner ysep=5pt,
-    ] (main) {\fontsize{15}{18}\bfseries\selectfont\getsubtitle};
+        inner xsep=3pt,
+        inner ysep=3pt,
+    ] (main) {\bfseries\fontsize{12}{15}\selectfont\getsubtitle};
 
     % Cadre avec UN seul coin arrondi
 \begin{pgfonlayer}{background}

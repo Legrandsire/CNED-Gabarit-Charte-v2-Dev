@@ -92,7 +92,9 @@
 \geometry{a4paper, margin=2cm}
 \pagestyle{empty}
 \setlength{\parindent}{0pt}
-\setstretch{1.1}
+\setstretch{1.2}
+
+
 
 % Entête et pied de page
 \pagestyle{fancy}
@@ -131,3 +133,79 @@
 
 % S'assurer que la profondeur de sommaire est suffisante
 \setcounter{tocdepth}{3}
+
+
+\input{config/info}
+\makeatletter
+\newcommand{\PlaceAnchor}{%
+  \par\noindent\leavevmode % assure le mode horizontal
+  \phantomsection
+}
+\makeatother
+
+
+
+
+\definecolor{linkblue}{HTML}{0645AD} % bleu lien
+\usepackage{xurl}                    % \url avec meilleures coupures (remplace url)
+\usepackage[normalem]{ulem}          % \uline = soulignement continu multi-lignes
+%\usepackage{cned-encadre}
+\renewcommand{\ULthickness}{0.8pt}   % épaisseur du soulignement
+
+
+
+% Re-wrapper \url seulement (pas de hyperref)
+\makeatletter
+\let\UrlPlain\url
+\renewcommand{\url}[1]{%
+  \textcolor{linkblue}{\uline{\UrlPlain{#1}}}%
+}
+\makeatother
+
+\input{config/color}
+\input{config/fonts}
+
+\usepackage{modules/pied_de_page}
+
+\usepackage{modules/titre/titre_niveau1}
+\usepackage{modules/titre/titre_niveau2}
+\usepackage{modules/titre/titre_niveau3}
+\usepackage{modules/titre/titre_niveau4}
+\usepackage{modules/titre/titre_niveau5}
+
+\usepackage{modules/paragraph}
+
+
+\usepackage{modules/encadre/encadre1}
+\usepackage{modules/encadre/encadre2}
+\usepackage{modules/encadre/encadre3}
+\usepackage{modules/encadre/encadre4}
+\usepackage{modules/encadre/encadre5}
+
+\usepackage{modules/ul/ul}
+\usepackage{modules/ol/ol}
+
+\usepackage{modules/footnote}
+
+\usepackage{modules/highlight}
+
+\usepackage{modules/citation}
+
+\usepackage{modules/tableau/tableau1}
+
+\usepackage{modules/sommaire}
+
+% Chargement des feuilles de styles de pictos
+\usepackage{Pictos/pictobook}
+\usepackage{Pictos/pictocheck}
+\usepackage{Pictos/pictochrono}
+\usepackage{Pictos/pictogoal}
+\usepackage{Pictos/pictolink}
+\usepackage{Pictos/pictomedia}
+\usepackage{Pictos/pictomemo}
+\usepackage{Pictos/pictonote}
+\usepackage{Pictos/pictoquestion}
+\usepackage{Pictos/pictorec}
+\usepackage{Pictos/pictotime}
+\usepackage{Pictos/pictowarning}
+\usepackage{Pictos/pictozoom}

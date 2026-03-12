@@ -1,0 +1,52 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{Pictos/pictozoom}[2026/03/05 Module pour le pictogramme zoom]
+
+% --- Extensions requises ---
+\RequirePackage{tikz}
+\RequirePackage{graphicx} % Nécessaire pour le redimensionnement (\scalebox)
+\RequirePackage{xcolor}
+
+% --- Commande principale ---
+% La commande \pictozoom accepte un argument optionnel pour changer la taille.
+% Par exemple : \pictozoom[0.5] pour le réduire de moitié.
+\newcommand{\pictozoom}[1][1]{%
+    \scalebox{#1}{%
+        \begin{tikzpicture}
+            
+            % Définition de l'épaisseur globale des traits pour garder la cohérence
+            \def\linewidth{0.18cm}
+            
+            % ==========================================
+            % 1. LE MANCHE (Bleu) ET LE POINT (Violet)
+            % ==========================================
+            % On tourne le repère local de 45 degrés. Ainsi, l'axe X négatif
+            % pointera vers le bas-gauche (225 degrés), ce qui est l'axe du manche.
+            \begin{scope}[rotate=45]
+                
+                % Manche principal (Ligne bleue en U)
+                % line cap=round et line join=round permettent d'avoir les bouts arrondis
+                \draw[primarycolor, line width=\linewidth, line cap=round, line join=round] 
+                    (-1.3, 0.4)      % Point de départ : près de la loupe, côté extérieur
+                    -- (-3.2, 0.4)   % Ligne droite qui descend vers l'extrémité
+                    arc (90:270:0.4) % Arc de cercle pour former la boucle (le bout du manche)
+                    -- (-2.2, -0.4); % Ligne droite remontante (plus courte)
+                    
+                % Point d'ornement (Violet)
+                % Placé dans la continuité de la petite ligne du manche
+                \fill[secondarycolor] (-1.4, -0.4) circle (0.16cm);
+                
+            \end{scope}
+            
+            % ==========================================
+            % 2. LA LOUPE ET LE SIGNE PLUS (Noir)
+            % ==========================================
+            % Cercle extérieur de la loupe
+            \draw[black, line width=\linewidth] (0,0) circle (1.2);
+            
+            % Signe '+' au centre
+            \draw[black, line width=\linewidth, line cap=round] (-0.5,0) -- (0.5,0); % Barre horizontale
+            \draw[black, line width=\linewidth, line cap=round] (0,-0.5) -- (0,0.5); % Barre verticale
+            
+        \end{tikzpicture}%
+    }%
+}

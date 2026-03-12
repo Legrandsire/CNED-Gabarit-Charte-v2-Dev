@@ -1,4 +1,4 @@
-\NewEnviron{encadre2}{%
+\NewEnviron{encadre4}{%
   \begin{center}
   \begin{tikzpicture}
     \def\r{10pt} % rayon d'arrondi
@@ -8,12 +8,13 @@
       inner sep=10pt,
       text width=\textwidth,
       anchor=north west
-    ] (box) {\robotoCondensed \BODY};
+    ] (box) {\BODY};
 
     % Fond + bordure
     \begin{pgfonlayer}{background}
       \path[
-        fill=background2,
+        draw=secondarycolor,
+        line width=0.8pt
       ]
         (box.south west) --
         ($(box.south east)+(-\r,0)$)

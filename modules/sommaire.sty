@@ -85,10 +85,11 @@
 \newlength{\TOCnat}
 \newlength{\TOCunder}
 
+\renewcommand{\thepart}{}
 \renewcommand{\l@part}[2]{%
   \vspace{-5pt}\noindent
   % --- dimensions ---
-  \pgfmathsetlengthmacro{\OvalW}{16pt}
+  \pgfmathsetlengthmacro{\OvalW}{12pt}
   \pgfmathsetlengthmacro{\OvalH}{24pt}
   \pgfmathsetlengthmacro{\OvalGap}{10pt} % espace entre numéro et ovale
   \pgfmathsetlengthmacro{\TopDrop}{-15pt}
@@ -99,18 +100,26 @@
   \setlength{\TOCavail}{\dimexpr\linewidth-\PnumW-\OvalGap-\OvalW\relax}
 
   \begin{tikzpicture}[baseline=(title.base)]
-    % --- Titre ---
-    \node[
-      inner sep=0pt,
-      anchor=west,
-      text=black,
-      font=\robotoCondensed,
-      text width=\TOCavail
-    ] (title) {\fontsize{16}{15}\selectfont\bfseries\MakeUppercase{#1}};
+  % coordonnées du titre, sans encore l'afficher
+  \node[
+    inner sep=0pt,
+    outer sep=0pt,
+    anchor=west,
+    text width=\TOCavail
+  ] (titlebox) {\phantom{\fontsize{16}{18}\selectfont\bfseries #1}};
 
-    % --- Trait : va jusqu'au bord droit (sous le numéro) ---
-    \draw[line width=2pt, background2]
-      ($(title.base west)+(0,-2pt)$) -- ++(\linewidth,0);
+  % trait derrière
+  \draw[line width=2pt, background2]
+    ($(titlebox.base west)+(0,-2pt)$) -- ++(\linewidth,0);
+
+  % titre affiché par-dessus
+  \node[
+    inner sep=-20pt,
+    outer sep=0pt,
+    anchor=west,
+    text=black,
+    text width=\TOCavail
+  ] (title) {\fontsize{16}{18}\selectfont\bfseries #1};
 
     % --- Numéro de page (par-dessus le trait) ---
     \node[
@@ -120,7 +129,7 @@
       fill opacity=1,
       text opacity=1
     ] (pnum) at (\linewidth,0)
-      {{\robotoCondensed \fontsize{12}{15}\selectfont #2}};
+      {{\robotoCondensed \fontsize{11}{13}\selectfont #2}};
 
     % --- Ovale après le numéro ---
     \path[
@@ -143,10 +152,10 @@
       \parindent \z@ \rightskip \@pnumwidth
       \parfillskip -\@pnumwidth
       \leavevmode
-      \renewcommand{\numberline}[1]{}%
-      {\DinOTCondBold \fontsize{15}{18}\selectfont #1}%
+      \renewcommand{\numberline}[1]{\makebox[1em][l]{\textcolor{secondarycolor}{{\robotoCondensed\mdseries \fontsize{10,5}{12}\selectfont##1}}}\hspace{0.1em}}%
+      {\bfseries\fontsize{13}{16}\selectfont #1}%
       \hfill
-      \nobreak\hb@xt@2em{\hfil {\robotoCondensed \fontsize{12}{15}~#2}}\par
+      \nobreak\hb@xt@2em{\hfil {\robotoCondensed\fontsize{11}{13}\selectfont #2}}\par
     \endgroup
   \fi}
 
@@ -158,11 +167,11 @@
       \parindent \z@ \rightskip \@pnumwidth
       \parfillskip -\@pnumwidth
       \leavevmode
-      \hskip 1em
-      \renewcommand{\numberline}[1]{\makebox[2em][l]{\textcolor{primarycolor}{{\robotoCondensed \fontsize{12}{15}\selectfont##1}}}\hspace{0.1em}}%
-      {\robotoCondensed \fontsize{12}{15}\selectfont #1}%
+      \hskip 1.4em
+      \renewcommand{\numberline}[1]{\makebox[2em][l]{\textcolor{primarycolor}{{\robotoCondensed \fontsize{10}{12}\selectfont##1}}}\hspace{0.1em}}%
+      {\robotoMedium \fontsize{12}{15}\selectfont #1}%
       \hfill
-      \nobreak\hb@xt@2em{\hfil{\robotoCondensed \fontsize{12}{15} ~#2}}\par
+      \nobreak\hb@xt@2em{\hfil{\robotoCondensed\fontsize{11}{13}\selectfont ~#2}}\par
     \endgroup
   \fi}
 
@@ -174,11 +183,11 @@
       \parindent \z@ \rightskip \@pnumwidth
       \parfillskip -\@pnumwidth
       \leavevmode
-      \hskip 3em
-      \renewcommand{\numberline}[1]{\makebox[2em][l]{\textcolor{primarycolor}{{\DinOTCondMedium \fontsize{12}{15}\selectfont##1}}}\hspace{0.1em}}%
-      {\DinOTCondMedium \fontsize{12}{15}\selectfont #1}%
+      \hskip 3.6em
+      \renewcommand{\numberline}[1]{\makebox[1em][l]{\textcolor{black}{{\robotoCondensed \fontsize{8,5}{11}\selectfont##1}}}\hspace{0.1em}}%
+      {\Roboto \fontsize{11}{13}\selectfont #1}%
       \hfill
-      \nobreak\hb@xt@2em{\hfil{\robotoCondensed \fontsize{12}{15} ~#2}}\par
+      \nobreak\hb@xt@2em{\hfil{\robotoCondensed\fontsize{11}{13}\selectfont ~#2}}\par
     \endgroup
   \fi}
 % -----------------------------------------------
@@ -192,7 +201,7 @@
       text height=1em,
       text depth=0.25em
     ] at (0.5,0.5)
-      {\robotoCondensed \bfseries \fontsize{28}{32}\selectfont
+      {\bfseries \fontsize{23}{25}\selectfont
        \color{secondarycolor}\contentsname};
   \end{tikzpicture}
   \par\vspace{2em}

@@ -21,8 +21,6 @@
     }
 }
 
-
-
 \newcommand{\tripleprimary}[1]{% 
 \raisebox{-0.2ex}{\triplebarprimary} \hspace{0.5em} #1% 
 }
@@ -46,7 +44,6 @@
   }%
 }
 
-
 % \highlightulinesecondary[<couleur>][<épaisseur>][<décalage>]{<texte>}
 % Défauts : couleur=secondarycolor, épaisseur=2pt, décalage=0.5ex
 \NewDocumentCommand{\highlightulinesecondary}{O{secondarycolor} O{2pt} O{0.5ex} m}{%
@@ -58,10 +55,9 @@
   }%
 }
 
-
 \newmdenv[
   topline=false, bottomline=false, rightline=false,
-  linecolor=background1, linewidth=6pt,       % barre verticale à gauche
+  linecolor=background1, linewidth=6pt,        % barre verticale à gauche
   innerleftmargin=10pt, innerrightmargin=10pt, % espace intérieur
   skipabove=\topsep, skipbelow=\topsep,        % espaces verticaux comme quote
   leftmargin=3em, rightmargin=3em              % MARGES dans le document
