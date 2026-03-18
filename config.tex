@@ -7,13 +7,13 @@
 % Options possibles : \arabic (1, 2...), \Roman (I, II...), \roman (i, ii...), \Alph (A, B...), \alph (a, b...)
 \renewcommand{\thepart}{\Alph{section}}
 \renewcommand{\thesection}{\arabic{section}.}
-\renewcommand{\thesubsection}{\arabic{subsection}\Alph{section}.}
-\renewcommand{\thesubsubsection}{\alph{subsubsection})}
+\renewcommand{\thesubsection}{\arabic{section}\Alph{subsection}.}
+\renewcommand{\thesubsubsection}{\arabic{subsubsection}.}
 
 % --- 2. PRÉFIXES PERSONNALISÉS ---
 % Mots qui précèdent les numéros (laissez les accolades vides {} pour ne rien mettre)
 \newcommand{\prefixPart}{Partie }      % Donne "Partie I"
-\newcommand{\prefixSection}{}    % Donne "Étape 1"
+\newcommand{\prefixSection}{Section~}    % Donne "Étape 1"
 \newcommand{\prefixSubsection}{}       % Pas de préfixe
 \newcommand{\prefixSubsubsection}{}    % Pas de préfixe
 

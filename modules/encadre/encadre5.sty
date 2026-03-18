@@ -1,92 +1,3 @@
-% Définition de l'environnement colorboxenv
-\NewEnviron{encadre51}[1][]{%
-%% Deuxième boite page de garde
-\begin{tikzpicture}
-    % Node texte (pas de fond ici)
-    \node[
-        rectangle,
-        fill=none,          % <— pas de fond, on va le dessiner derrière
-        text=white,
-        rounded corners=0pt,
-        inner xsep=5pt,
-        inner ysep=5pt,
-    ] (main) {\robotoCondensed\fontsize{10.5}{13}\selectfont#1};
-
-
-\begin{pgfonlayer}{background}
-  \def\padx{0pt}
-  \def\pady{0pt}
-  \def\r{8pt} % rayon
-
-  % Coins du rectangle extérieur (autour du node)
-  \coordinate (SW) at ([xshift=-\padx,yshift=-\pady]main.south west);
-  \coordinate (SE) at ([xshift= \padx,yshift=-\pady]main.south east);
-  \coordinate (NE) at ([xshift= \padx,yshift= \pady]main.north east);
-  \coordinate (NW) at ([xshift=-\padx,yshift= \pady]main.north west);
-
-  \path[fill=primarycolor]
-    (SW) --
-    % bas : jusqu'à r avant SE
-    ([xshift=-\r]SE)
-      arc (270:360:\r) % arrondi Bas-Droit, finit sur le bord droit à +r
-    --
-    % droite : jusqu'à NE
-    (NE) --
-    % haut : jusqu'à r après NW
-    ([xshift=\r]NW)
-      arc (90:180:\r)  % arrondi Haut-Gauche, finit sur le bord gauche à -r
-    --
-    % gauche : retour à SW
-    (SW) -- cycle;
-\end{pgfonlayer}
-\end{tikzpicture}\\
-{\itshape\BODY}
-}
-
-\NewEnviron{encadre52}[1][]{%%% Deuxième boite page de garde
-\begin{tikzpicture}
-    % Node texte (pas de fond ici)
-    \node[
-        rectangle,
-        fill=none,          % <— pas de fond, on va le dessiner derrière
-        text=white,
-        rounded corners=0pt,
-        inner xsep=0pt,
-        inner ysep=0pt,
-    ] (main) {\robotoCondensed\fontsize{10.5}{13}\selectfont#1};
-
-    % Fond avec coins "troués" (dessiné DERRIÈRE le texte)
-    % Cadre avec UN seul coin arrondi
-\begin{pgfonlayer}{background}
-  \def\padx{5pt}
-  \def\pady{5pt}
-  \def\r{8pt} % rayon
-
-  % Coins du rectangle extérieur (autour du node)
-  \coordinate (SW) at ([xshift=-\padx,yshift=-\pady]main.south west);
-  \coordinate (SE) at ([xshift= \padx,yshift=-\pady]main.south east);
-  \coordinate (NE) at ([xshift= \padx,yshift= \pady]main.north east);
-  \coordinate (NW) at ([xshift=-\padx,yshift= \pady]main.north west);
-
-  \path[fill=secondarycolor]
-    (SW) --
-    % bas : jusqu'à r avant SE
-    ([xshift=-\r]SE)
-      arc (270:360:\r) % arrondi Bas-Droit, finit sur le bord droit à +r
-    --
-    % droite : jusqu'à NE
-    (NE) --
-    % haut : jusqu'à r après NW
-    ([xshift=\r]NW)
-      arc (90:180:\r)  % arrondi Haut-Gauche, finit sur le bord gauche à -r
-    --
-    % gauche : retour à SW
-    (SW) -- cycle;
-\end{pgfonlayer}
-\end{tikzpicture}\\
-{\itshape\BODY}
-}
-
 \NewEnviron{encadre5}{%
   \begin{center}
   \begin{tikzpicture}
@@ -151,11 +62,11 @@
     % --- ÉTIQUETTE ---
     \node[
       anchor=north west,
-      inner xsep=6pt,
-      inner ysep=3pt,
+      inner xsep=10pt,
+      inner ysep=6pt,
       text=white
     ] (label) at (box.north west)
-      {\robotoCondensed\fontsize{10.5}{13}\selectfont#1};
+      {\robotoCondensed\bfseries\fontsize{11}{13}\selectfont#1};
 
     % --- FOND ÉTIQUETTE ---
     \begin{pgfonlayer}{background}
@@ -207,11 +118,11 @@
     % --- ÉTIQUETTE ---
     \node[
       anchor=north west,
-      inner xsep=6pt,
-      inner ysep=3pt,
+      inner xsep=10pt,
+      inner ysep=6pt,
       text=white
     ] (label) at (box.north west)
-      {\robotoCondensed\fontsize{10.5}{13}\selectfont#1};
+      {\robotoCondensed\bfseries\fontsize{11}{13}\selectfont#1};
 
     % --- FOND ÉTIQUETTE ---
     \begin{pgfonlayer}{background}

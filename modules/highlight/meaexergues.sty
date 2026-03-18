@@ -1,0 +1,35 @@
+\newcommand{\triplebarprimary}{
+    \tikz[x=1em,y=0.4em,line width=2pt,primarycolor]{   \draw (0,0) -- (0.8,0);    
+    \draw (0.1,0.8) -- (0.9,0.8); 
+    \draw (0,1.6) -- (0.8,1.6); }%
+}
+
+\newcommand{\triplebarsecondary}{
+    \tikz[x=1em,y=0.4em,line width=2pt,secondarycolor]{   \draw (0,0) -- (0.8,0);    
+    \draw (0.1,0.8) -- (0.9,0.8); 
+    \draw (0,1.6) -- (0.8,1.6); }%
+}
+
+\newcommand{\chevronlogosecondary}{
+    \tikz[x=1em,y=1em,line width=2pt,secondarycolor]{   \draw[line width=0.12em] (0.00,0.00) -- (0.28,0.28) -- (0.00,0.56);
+    \draw[line width=0.12em] (0.36,0.00) -- (0.64,0.28) -- (0.36,0.56);
+    }
+}
+\newcommand{\chevronlogoprimary}{
+    \tikz[x=1em,y=1em,line width=2pt,primarycolor]{   \draw[line width=0.12em] (0.00,0.00) -- (0.28,0.28) -- (0.00,0.56);
+    \draw[line width=0.12em] (0.36,0.00) -- (0.64,0.28) -- (0.36,0.56);
+    }
+}
+
+\newcommand{\tripleprimary}[1]{% 
+\raisebox{-0.2ex}{\triplebarprimary} \hspace{0.5em} #1% 
+}
+\newcommand{\triplesecondary}[1]{% 
+\raisebox{-0.2ex}{\triplebarsecondary} \hspace{0.5em} #1% 
+}
+\newcommand{\chevronsecondary}[1]{% 
+\raisebox{-0.2ex}{\chevronlogosecondary} \hspace{0.5em} #1% 
+}
+\newcommand{\chevronprimary}[1]{% 
+\raisebox{-0.2ex}{\chevronlogoprimary} \hspace{0.5em} #1% 
+}

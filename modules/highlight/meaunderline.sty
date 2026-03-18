@@ -1,0 +1,20 @@
+% Soulignement épais en primarycolor
+\NewDocumentCommand{\highlightulineprimary}{O{primarycolor} O{1pt} O{0.5ex} m}{%
+  \tikz[baseline=(X.base)]{
+    \node[inner sep=0pt, outer sep=0pt, anchor=base] (X) {#4};
+    % ligne à distance fixe de la baseline, indépendante des descendantes
+    \draw[#1, line width=#2]
+      ([yshift=-#3]X.base west) -- ([yshift=-#3]X.base east);
+  }%
+}
+
+% \highlightulinesecondary[<couleur>][<épaisseur>][<décalage>]{<texte>}
+% Défauts : couleur=secondarycolor, épaisseur=2pt, décalage=0.5ex
+\NewDocumentCommand{\highlightulinesecondary}{O{secondarycolor} O{1pt} O{0.5ex} m}{%
+  \tikz[baseline=(X.base)]{
+    \node[inner sep=0pt, outer sep=0pt, anchor=base] (X) {#4};
+    % ligne à distance fixe de la baseline, indépendante des descendantes
+    \draw[#1, line width=#2]
+      ([yshift=-#3]X.base west) -- ([yshift=-#3]X.base east);
+  }%
+}
