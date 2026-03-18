@@ -68,7 +68,6 @@
 \usetikzlibrary{calc}
 \usepackage{environ}
 
-\renewcommand{\UrlFont}{\DINOTCond}
 
 
 \newcommand{\includepicto}[1]{\raisebox{-1.5ex}{\includesvg[width=0.8cm]{#1}} }
@@ -152,18 +151,18 @@
 %\usepackage{cned-encadre}
 \renewcommand{\ULthickness}{0.8pt}   % épaisseur du soulignement
 
+\input{config}
+\input{config/color}
+\input{config/fonts}
 
 
-% Re-wrapper \url seulement (pas de hyperref)
 \makeatletter
 \let\UrlPlain\url
 \renewcommand{\url}[1]{%
-  \textcolor{linkblue}{\uline{\UrlPlain{#1}}}%
+  \textcolor{colorURL}{\uline{\UrlPlain{#1}}}%
+  \def\UrlBreaks{\do\/\do-\do_\do.\do?\do&\do=\do:}
 }
 \makeatother
-
-\input{config/color}
-\input{config/fonts}
 
 \usepackage{modules/pied_de_page}
 
@@ -182,8 +181,8 @@
 \usepackage{modules/encadre/encadre4}
 \usepackage{modules/encadre/encadre5}
 
-\usepackage{modules/ul/ul}
-\usepackage{modules/ol/ol}
+\usepackage{modules/listes/ul}
+\usepackage{modules/listes/ol}
 
 \usepackage{modules/footnote}
 

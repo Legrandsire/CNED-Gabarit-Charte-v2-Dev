@@ -1,0 +1,28 @@
+% =====================================================================
+% CONFIGURATION DE LA NUMÉROTATION DES TITRES
+% =====================================================================
+
+
+% --- 1. STYLE DES COMPTEURS ---
+% Options possibles : \arabic (1, 2...), \Roman (I, II...), \roman (i, ii...), \Alph (A, B...), \alph (a, b...)
+\renewcommand{\thepart}{\Alph{section}}
+\renewcommand{\thesection}{\arabic{section}.}
+\renewcommand{\thesubsection}{\arabic{subsection}\Alph{section}.}
+\renewcommand{\thesubsubsection}{\alph{subsubsection})}
+
+% --- 2. PRÉFIXES PERSONNALISÉS ---
+% Mots qui précèdent les numéros (laissez les accolades vides {} pour ne rien mettre)
+\newcommand{\prefixPart}{Partie }      % Donne "Partie I"
+\newcommand{\prefixSection}{}    % Donne "Étape 1"
+\newcommand{\prefixSubsection}{}       % Pas de préfixe
+\newcommand{\prefixSubsubsection}{}    % Pas de préfixe
+
+% --- 3. SÉPARATEURS ---
+% Espace ou ponctuation entre la numérotation et le nom du titre
+\newcommand{\sepPart}{~--~}            % Donne "Partie I -- Mon Titre"
+\newcommand{\sepSection}{~~}        % Donne "Étape 1    Mon Titre"
+\newcommand{\sepSubsection}{\enspace}
+\newcommand{\sepSubsubsection}{~}
+
+
+

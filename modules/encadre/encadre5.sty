@@ -10,7 +10,7 @@
         rounded corners=0pt,
         inner xsep=5pt,
         inner ysep=5pt,
-    ] (main) {\fontsize{10.5}{13}\selectfont#1};
+    ] (main) {\robotoCondensed\fontsize{10.5}{13}\selectfont#1};
 
 
 \begin{pgfonlayer}{background}
@@ -53,7 +53,7 @@
         rounded corners=0pt,
         inner xsep=0pt,
         inner ysep=0pt,
-    ] (main) {\fontsize{10.5}{13}\selectfont#1};
+    ] (main) {\robotoCondensed\fontsize{10.5}{13}\selectfont#1};
 
     % Fond avec coins "troués" (dessiné DERRIÈRE le texte)
     % Cadre avec UN seul coin arrondi
@@ -85,4 +85,146 @@
 \end{pgfonlayer}
 \end{tikzpicture}\\
 {\itshape\BODY}
+}
+
+\NewEnviron{encadre5}{%
+  \begin{center}
+  \begin{tikzpicture}
+    \def\r{10pt} % rayon d'arrondi
+
+    % Texte
+    \node[
+      inner sep=10pt,
+      text width=\textwidth,
+      anchor=north west
+    ] (box) {\robotoCondensed\fontsize{10.5}{13}\selectfont\BODY};
+
+    % Fond + bordure
+    \begin{pgfonlayer}{background}
+      \path[
+        fill=background2,
+      ]
+        (box.south west) --
+        ($(box.south east)+(-\r,0)$)
+          arc[start angle=270,end angle=360,radius=\r] --
+        (box.north east) --
+        ($(box.north west)+(\r,0)$)
+          arc[start angle=90,end angle=180,radius=\r] --
+        cycle;
+    \end{pgfonlayer}
+
+  \end{tikzpicture}
+  \end{center}
+}
+
+\NewEnviron{encadre53}[1][]{%
+\begin{center}
+  \begin{tikzpicture}
+    \def\r{10pt}
+    \def\rlabel{6pt}
+    \def\labelheight{18pt} % hauteur réservée sous l’étiquette
+
+    % --- BOÎTE TEXTE ---
+    \node[
+      inner sep=10pt,
+      text width=\textwidth,
+      anchor=north west
+    ] (box) {%
+      \begin{minipage}{\textwidth}
+        \vspace*{\labelheight}
+        \robotoCondensed\fontsize{10.5}{13}\selectfont\BODY
+      \end{minipage}
+    };
+
+    % --- FOND BOÎTE ---
+    \begin{pgfonlayer}{background}
+      \path[fill=background2]
+        (box.south west) --
+        ($(box.south east)+(-\r,0)$)
+          arc[start angle=270,end angle=360,radius=\r] --
+        (box.north east) --
+        ($(box.north west)+(\r,0)$)
+          arc[start angle=90,end angle=180,radius=\r] --
+        cycle;
+    \end{pgfonlayer}
+
+    % --- ÉTIQUETTE ---
+    \node[
+      anchor=north west,
+      inner xsep=6pt,
+      inner ysep=3pt,
+      text=white
+    ] (label) at (box.north west)
+      {\robotoCondensed\fontsize{10.5}{13}\selectfont#1};
+
+    % --- FOND ÉTIQUETTE ---
+    \begin{pgfonlayer}{background}
+      \path[fill=secondarycolor]
+        (label.south west) --
+        ($(label.south east)+(-\rlabel,0)$)
+          arc[start angle=270,end angle=360,radius=\rlabel] --
+        (label.north east) --
+        ($(label.north west)+(\rlabel,0)$)
+          arc[start angle=90,end angle=180,radius=\rlabel] --
+        cycle;
+    \end{pgfonlayer}
+
+  \end{tikzpicture}
+  \end{center}
+}
+
+\NewEnviron{encadre54}[1][]{%
+\begin{center}
+  \begin{tikzpicture}
+    \def\r{10pt}
+    \def\rlabel{6pt}
+    \def\labelheight{18pt} % hauteur réservée sous l’étiquette
+
+    % --- BOÎTE TEXTE ---
+    \node[
+      inner sep=10pt,
+      text width=\textwidth,
+      anchor=north west
+    ] (box) {%
+      \begin{minipage}{\textwidth}
+        \vspace*{\labelheight}
+        \robotoCondensed\fontsize{10.5}{13}\selectfont\BODY
+      \end{minipage}
+    };
+
+    % --- FOND BOÎTE ---
+    \begin{pgfonlayer}{background}
+      \path[fill=background1]
+        (box.south west) --
+        ($(box.south east)+(-\r,0)$)
+          arc[start angle=270,end angle=360,radius=\r] --
+        (box.north east) --
+        ($(box.north west)+(\r,0)$)
+          arc[start angle=90,end angle=180,radius=\r] --
+        cycle;
+    \end{pgfonlayer}
+
+    % --- ÉTIQUETTE ---
+    \node[
+      anchor=north west,
+      inner xsep=6pt,
+      inner ysep=3pt,
+      text=white
+    ] (label) at (box.north west)
+      {\robotoCondensed\fontsize{10.5}{13}\selectfont#1};
+
+    % --- FOND ÉTIQUETTE ---
+    \begin{pgfonlayer}{background}
+      \path[fill=primarycolor]
+        (label.south west) --
+        ($(label.south east)+(-\rlabel,0)$)
+          arc[start angle=270,end angle=360,radius=\rlabel] --
+        (label.north east) --
+        ($(label.north west)+(\rlabel,0)$)
+          arc[start angle=90,end angle=180,radius=\rlabel] --
+        cycle;
+    \end{pgfonlayer}
+
+  \end{tikzpicture}
+  \end{center}
 }
