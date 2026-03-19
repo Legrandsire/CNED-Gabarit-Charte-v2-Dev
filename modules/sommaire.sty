@@ -85,7 +85,8 @@
 \newlength{\TOCnat}
 \newlength{\TOCunder}
 
-\renewcommand{\thepart}{}
+
+
 \renewcommand{\l@part}[2]{%
   \vspace{-5pt}\noindent
   % --- dimensions ---
@@ -106,7 +107,7 @@
     outer sep=0pt,
     anchor=west,
     text width=\TOCavail
-  ] (titlebox) {\phantom{\fontsize{16}{18}\selectfont\bfseries#1}};
+  ] (titlebox) {\phantom{\fontsize{16}{18}\selectfont\bfseries #1}};
 
   % trait derrière
   \draw[line width=2pt, background2]
@@ -114,7 +115,7 @@
 
   % titre affiché par-dessus
   \node[
-    inner sep=-20pt,
+    inner sep=0pt,
     outer sep=0pt,
     anchor=west,
     text=black,
@@ -152,7 +153,7 @@
       \parindent \z@ \rightskip \@pnumwidth
       \parfillskip -\@pnumwidth
       \leavevmode
-      \renewcommand{\numberline}[1]{{\textcolor{secondarycolor}{{\robotoCondensed\mdseries \fontsize{10,5}{12}\selectfont##1}}}\hspace{0.2em}}%
+      \renewcommand{\numberline}[1]{{\textcolor{secondarycolor}{{\robotoCondensed\mdseries \fontsize{10,5}{12}\selectfont ##1}}}\hspace{0.2em}}%
       {\bfseries\fontsize{13}{16}\selectfont #1}%
       \hfill
       \nobreak\hb@xt@2em{\hfil {\robotoCondensed\fontsize{11}{13}\selectfont #2}}\par

@@ -135,6 +135,11 @@
 
 
 \input{config}
+\renewcommand{\thepart}{\prefixPart \theparts \sepPart}
+\renewcommand{\thesection}{\prefixSection \thesections \sepSection}
+\renewcommand{\thesubsection}{\prefixSubsection \thesubsections \sepSubsection}
+\renewcommand{\thesubsubsection}{\prefixSubsubsection \thesubsubsections \sepSubsubsection}
+
 \makeatletter
 \newcommand{\PlaceAnchor}{%
   \par\noindent\leavevmode % assure le mode horizontal
@@ -142,25 +147,14 @@
 }
 \makeatother
 
-
-
-
-\definecolor{linkblue}{HTML}{0645AD} % bleu lien
-\usepackage{xurl}                    % \url avec meilleures coupures (remplace url)
 \usepackage[normalem]{ulem}          % \uline = soulignement continu multi-lignes
 \renewcommand{\ULthickness}{0.8pt}   % épaisseur du soulignement
 
-\input{config/color}
-\input{config/fonts}
+\input{modules/color}
+\input{modules/fonts}
 
 
-\makeatletter
-\let\UrlPlain\url
-\renewcommand{\url}[1]{%
-  \textcolor{colorURL}{\uline{\UrlPlain{#1}}}%
-  \def\UrlBreaks{\do\/\do-\do_\do.\do?\do&\do=\do:}
-}
-\makeatother
+\usepackage{modules/links}
 
 \usepackage{modules/pied_de_page}
 
@@ -169,9 +163,6 @@
 \usepackage{modules/titre/titre_niveau3}
 \usepackage{modules/titre/titre_niveau4}
 \usepackage{modules/titre/titre_niveau5}
-
-\usepackage{modules/paragraph}
-
 
 \usepackage{modules/encadre/encadre1}
 \usepackage{modules/encadre/encadre2}

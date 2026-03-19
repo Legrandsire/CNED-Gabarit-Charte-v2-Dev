@@ -1,0 +1,8 @@
+\definecolor{linkblue}{HTML}{0645AD} % bleu lien
+\usepackage{xurl}                    % \url avec meilleures coupures (remplace url)
+\def\UrlBreaks{\do\/\do-\do\&\do.\do:}
+\makeatletter
+
+\renewcommand{\url}[1]{%
+  \textcolor{colorURL}{\uline{#1}}%
+}

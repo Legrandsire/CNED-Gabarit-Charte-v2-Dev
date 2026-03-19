@@ -1,16 +1,70 @@
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{skins,breakable}
 
-\newmdenv[
-  topline=false, bottomline=false, rightline=false,
-  linecolor=background1, linewidth=6pt,        % barre verticale à gauche
-  innerleftmargin=10pt, innerrightmargin=10pt, % espace intérieur
-  skipabove=\topsep, skipbelow=\topsep,        % espaces verticaux comme quote
-  leftmargin=3em, rightmargin=3em              % MARGES dans le document
-]{highlightquoteprimary}
+\newtcolorbox{highlightquoteprimary}{
+  enhanced,
+  breakable,
+  colback=white,
+  frame hidden,
+  boxrule=0pt,
+  left=14pt,
+  right=10pt,
+  top=6pt,
+  bottom=6pt,
+  before skip=\topsep,
+  after skip=\topsep,
+  overlay unbroken={
+    \draw[background1, line width=6pt, line cap=round]
+      ([xshift=4pt,yshift=-3pt]frame.north west) --
+      ([xshift=4pt]frame.south west);
+  },
+  overlay first={
+    \draw[background1, line width=6pt, line cap=round]
+      ([xshift=4pt,yshift=-3pt]frame.north west) --
+      ([xshift=4pt]frame.south west);
+  },
+  overlay middle={
+    \draw[background1, line width=6pt]
+      ([xshift=4pt]frame.north west) --
+      ([xshift=4pt]frame.south west);
+  },
+  overlay last={
+    \draw[background1, line width=6pt]
+      ([xshift=4pt]frame.north west) --
+      ([xshift=4pt]frame.south west);
+  },
+}
 
-\newmdenv[
-  topline=false, bottomline=false, rightline=false,
-  linecolor=background2, linewidth=6pt,       % barre verticale à gauche
-  innerleftmargin=10pt, innerrightmargin=10pt, % espace intérieur
-  skipabove=\topsep, skipbelow=\topsep,        % espaces verticaux comme quote
-  leftmargin=3em, rightmargin=3em              % MARGES dans le document
-]{highlightquotesecondary}
+\newtcolorbox{highlightquotesecondary}{
+  enhanced,
+  breakable,
+  colback=white,
+  frame hidden,
+  boxrule=0pt,
+  left=14pt,
+  right=10pt,
+  top=6pt,
+  bottom=6pt,
+  before skip=\topsep,
+  after skip=\topsep,
+  overlay unbroken={
+    \draw[background2, line width=6pt, line cap=round]
+      ([xshift=4pt,yshift=-3pt]frame.north west) --
+      ([xshift=4pt]frame.south west);
+  },
+  overlay first={
+    \draw[background2, line width=6pt, line cap=round]
+      ([xshift=4pt,yshift=-3pt]frame.north west) --
+      ([xshift=4pt]frame.south west);
+  },
+  overlay middle={
+    \draw[background2, line width=6pt]
+      ([xshift=4pt]frame.north west) --
+      ([xshift=4pt]frame.south west);
+  },
+  overlay last={
+    \draw[background2, line width=6pt]
+      ([xshift=4pt]frame.north west) --
+      ([xshift=4pt]frame.south west);
+  },
+}
