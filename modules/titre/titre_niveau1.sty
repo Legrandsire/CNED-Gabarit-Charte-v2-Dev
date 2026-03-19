@@ -9,22 +9,10 @@
   \def\ul#1{#1}%
 }
 
-
 % Robuste pour titres/ToC
-
 % Soulignement sous tout le bloc (multi-lignes ok)
 
 \newcommand{\underlinetitle}[1]{\ul{#1}}
-
-%\newcommand{\underlinetitlePart}[2][\linewidth]{%
-%  \tikz[baseline=(text.south)]{
-%    \node[
-%      inner sep=0pt, text=black,
-%      text width=#1, align=left
-%    ] (text) {#2};
-%  }%
-%}
-
 
 \newlength{\PartAvail}
 
@@ -43,29 +31,35 @@
   \setulcolor{background2}
   \begingroup
   \phantom{\taggedparttitle{#1}}%
-  % -- dimensions
+  
+  % -- Mesure de la largeur du numéro de partie (incluant le tiret) --
+  \newlength{\PartNumW}
+  \settowidth{\PartNumW}{{\robotoCondensed \mdseries \fontsize{15}{17} \selectfont \thepart}}
+
+  % -- Dimensions
   \pgfmathsetlengthmacro{\RectW}{0.5em}  % largeur du pavé à droite
   \pgfmathsetlengthmacro{\PadR}{0.6em}   % espace entre texte et pavé
 
-  % largeur dispo pour le texte = \linewidth - (pavé + marge)
-  \setlength{\PartAvail}{\dimexpr\linewidth-\RectW-\PadR\relax}
+  % Largeur dispo pour le texte = \linewidth - pavé - marge - largeur du numéro
+  \setlength{\PartAvail}{\dimexpr\linewidth-\RectW-\PadR-\PartNumW\relax}
   
-
   \begin{tikzpicture}[baseline=(t.base)]
-    % --- texte : \ul gère le soulignement multi-lignes ---
-    \node[anchor=west, inner sep=0pt, text width=\PartAvail, align=left] (t)
-      {
-      {\robotoCondensed \mdseries \fontsize{15}{17} \selectfont \color{primarycolor}\thepart} 
-      {\color{black}\ul{#1}}
-      };
-    % --- pavé à droite : même hauteur que le texte ---
-\path[
-  fill=primarycolor,
-  rounded corners=0.25em % ← ajuste ici
-]
-  ($(t.north east)+(\PadR,0)$)
-    rectangle
-  ($(t.south east)+(\PadR+\RectW,0)$);
+    % --- Numéro de la partie ---
+    \node[anchor=base west, inner sep=0pt] (num) 
+      {{\robotoCondensed \mdseries \fontsize{15}{17} \selectfont \color{primarycolor}\thepart}};
+      
+    % --- Titre de la partie ---
+    \node[anchor=base west, inner sep=0pt, text width=\PartAvail, align=left] (t) at (num.base east)
+      {{\color{black}\ul{#1}}};
+      
+    % --- Pavé à droite ---
+    \path[
+      fill=primarycolor,
+      rounded corners=0.25em
+    ]
+      ($(t.north east)+(\PadR,0)$)
+        rectangle
+      ($(t.south east)+(\PadR+\RectW,0)$);
   \end{tikzpicture}%
   \endgroup
 }
@@ -90,7 +84,7 @@
   \fi
 }
 
-\titleformat{\part}[block]
+\titleformat{\part}[hang]
   {\bfseries\fontsize{23}{26}\selectfont}
   {}{1.5pt}{%
     \vspace*{-2cm}% <- ajuste ici

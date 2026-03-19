@@ -2,6 +2,16 @@
 }
 
 \usepackage[normalem]{ulem}        % \uline = soulignement continu multi-lignes
+
+% --- Hook de formatage pour la numérotation des parties dans la ToC ---
+\newcommand{\partnumberformat}[1]{#1}
+\renewcommand{\thepart}{\protect\partnumberformat{\prefixPart \theparts \sepPart}}
+
+% Empêche le hook de faire planter les signets PDF (hyperref)
+\pdfstringdefDisableCommands{%
+  \def\partnumberformat#1{#1}%
+}
+
 \renewcommand{\ULthickness}{0.8pt} % épaisseur du soulignement
 % (facultatif) couleur du trait différente du texte :
 \newcommand{\ulinecolor}[2]{%
@@ -35,24 +45,24 @@
   },
   % --- trait du haut : 1er segment seulement ---
   overlay first={
-    \pgfmathsetlengthmacro{\dy}{0.35pt}   % petit décalage vertical
-\draw[line width=0.6pt, primarycolor]
+    \pgfmathsetlengthmacro{\dy}{0.35pt}
+    \pgfmathsetlengthmacro{\LW}{5pt}
+    % contour 
+\draw[
+  line width=0.8pt,
+  primarycolor,
+  rounded corners=4pt % ← ajuste la valeur
+]
+  ([xshift=15pt]frame.south west) --
+  (frame.south west) --
   (frame.north west) --
-  (frame.north east) --
-  (frame.south east) --
-  (frame.south west);
-    \draw[white, line width=5pt, line cap=butt, line join=miter]
-      ($(interior.north west)+(15pt,-\dy)$)
-        -- ($(interior.north east)+(-15pt,-\dy)$);
-    \draw[white, line width=8pt, line cap=butt, line join=miter]
-      ($(interior.south west)+(15pt,\dy)$)
-        -- ($(interior.south east)+(-15pt,\dy)$);
+  ([xshift=15pt]frame.north west);
   },
   % -- trait du milieu
     overlay middle={
     \pgfmathsetlengthmacro{\dy}{0.35pt}
     \pgfmathsetlengthmacro{\LW}{5pt}
-    % haut
+    % contour 
 \draw[
   line width=0.8pt,
   primarycolor,
@@ -85,9 +95,14 @@
 \newlength{\TOCnat}
 \newlength{\TOCunder}
 
-
-
 \renewcommand{\l@part}[2]{%
+  \begingroup
+  % --- Activation du style sur le numéro de la partie ---
+  \renewcommand{\partnumberformat}[1]{{\textcolor{primarycolor}{\robotoCondensed\mdseries\fontsize{12.5}{15}\selectfont ##1}}\hspace*{-0.9em}}%
+  
+  % --- Sécurité : on neutralise \numberline au cas où LaTeX l'ajoute ---
+  \renewcommand{\numberline}[1]{##1}%
+
   \vspace{-5pt}\noindent
   % --- dimensions ---
   \pgfmathsetlengthmacro{\OvalW}{12pt}
@@ -110,8 +125,8 @@
   ] (titlebox) {\phantom{\fontsize{16}{18}\selectfont\bfseries #1}};
 
   % trait derrière
-  \draw[line width=2pt, background2]
-    ($(titlebox.base west)+(0,-2pt)$) -- ++(\linewidth,0);
+  \draw[line width=1pt, background2] %épaisseur du trait qui souligne
+    ($(titlebox.base west)+(0,-6pt)$) -- ++(\linewidth,0); %Distance du trait
 
   % titre affiché par-dessus
   \node[
@@ -142,6 +157,7 @@
       ($ (pnum.east) + (\OvalGap+\ExtraX+\OvalW, -\TopDrop-\OvalH) $);
   \end{tikzpicture}%
   \par
+  \endgroup
 }
 \def\@dotsep{2}
 

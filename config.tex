@@ -40,24 +40,24 @@
 
 % --- 1. STYLE DES COMPTEURS ---
 % Options possibles : \arabic (1, 2...), \Roman (I, II...), \roman (i, ii...), \Alph (A, B...), \alph (a, b...)
-\newcommand{\theparts}{\arabic{part}}
-\newcommand{\thesections}{\arabic{section}}
-\newcommand{\thesubsections}{\arabic{section}\Alph{subsection}}
-\newcommand{\thesubsubsections}{\arabic{subsubsection}.}
+\newcommand{\theparts}{\arabic{part}.}
+\newcommand{\thesections}{}
+\newcommand{\thesubsections}{}
+\newcommand{\thesubsubsections}{}
 
 % --- 2. PRÉFIXES PERSONNALISÉS ---
 % Mots qui précèdent les numéros (laissez les accolades vides {} pour ne rien mettre)
-\newcommand{\prefixPart}{PARTIE~}       % Donne "Partie I"
-\newcommand{\prefixSection}{Section~}  % Donne "Étape 1"
+\newcommand{\prefixPart}{Partie~}       % Donne "Partie I"
+\newcommand{\prefixSection}{}  % Donne "Étape 1"
 \newcommand{\prefixSubsection}{}       % Pas de préfixe
 \newcommand{\prefixSubsubsection}{}    % Pas de préfixe
 
 % --- 3. SÉPARATEURS ---
 % Espace ou ponctuation entre la numérotation et le nom du titre
-\newcommand{\sepPart}{~—~}            % Donne "Partie I -- Mon Titre"
-\newcommand{\sepSection}{~—~}        % Donne "Étape 1    Mon Titre"
-\newcommand{\sepSubsection}{\enspace}
-\newcommand{\sepSubsubsection}{~}
+\newcommand{\sepPart}{~}            % Donne "Partie I -- Mon Titre"
+\newcommand{\sepSection}{}        % Donne "Étape 1    Mon Titre"
+\newcommand{\sepSubsection}{}
+\newcommand{\sepSubsubsection}{}
 
 % =====================================================================
 % CONFIGURATION DES AUTOMATISATIONS
