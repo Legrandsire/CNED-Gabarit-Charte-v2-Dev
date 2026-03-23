@@ -1,8 +1,42 @@
 \definecolor{linkblue}{HTML}{0645AD} % bleu lien
-\usepackage{xurl}                    % \url avec meilleures coupures (remplace url)
+\usepackage{xurl}                    % \url avec meilleures coupures
 \def\UrlBreaks{\do\/\do-\do\&\do.\do:}
-\makeatletter
 
-\renewcommand{\url}[1]{%
-  \textcolor{colorURL}{\uline{#1}}%
+% ---> Indique aux URL d'utiliser la police courante du document <---
+\urlstyle{same}
+
+\AtBeginDocument{
+    % 1. On désactive TOUTES les bordures par défaut (le sommaire redevient un texte normal cliquable)
+    \hypersetup{
+        colorlinks=false,
+        pdfborder={0 0 0}
+    }
+    
+    % 2. On sauvegarde les commandes de liens originales
+    \let\originalurl\url
+    \let\originalhref\href
+    
+    % 3. On applique le soulignement et la couleur UNIQUEMENT sur les liens externes (\url)
+    \renewcommand{\url}[1]{%
+        {% On ouvre un groupe local pour ne pas affecter le reste du document
+            \hypersetup{
+                pdfborder={0 0 1},
+                pdfborderstyle={/S/U/W 1.5}, % Épaisseur 1.5pt pour rendre le bleu sombre bien visible
+                urlbordercolor=colorURL
+            }%
+            \textcolor{colorURL}{\originalurl{#1}}% On colore aussi le texte
+        }%
+    }
+    
+    % 4. Même chose pour les liens de type \href{url}{texte} si vous en utilisez
+    \renewcommand{\href}[2]{%
+        {%
+            \hypersetup{
+                pdfborder={0 0 1},
+                pdfborderstyle={/S/U/W 1.5},
+                urlbordercolor=colorURL
+            }%
+            \textcolor{colorURL}{\originalhref{#1}{#2}}%
+        }%
+    }
 }
