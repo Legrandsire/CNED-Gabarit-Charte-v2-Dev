@@ -45,7 +45,11 @@
       \vspace{3em}
 
       {\robotoMedium\textcolor{secondarycolor}{\bfseries\fontsize{15}{18}\selectfont\getsubepreuve}}\\
-      {\fontsize{26}{28}\selectfont \bfseries{\gettitle}}\
+
+%%%%%ICI 
+      \vspace{1em}
+      
+      {\fontsize{26}{28}\selectfont \bfseries{\gettitle}}
 
       \vspace{1em}
             
@@ -56,10 +60,10 @@
 
     % Récupérer les coordonnées de la boite et création de points intermédiaires.
     %%% Cordonnées de la boite
-    \coordinate (NW) at ([shift={(-\pgflinewidth,-\pgflinewidth+25)}]box.north west);
-    \coordinate (NE) at ([shift={(\pgflinewidth,-\pgflinewidth+25)}]box.north east);
-    \coordinate (SW) at ([shift={(-\pgflinewidth,\pgflinewidth+15)}]box.south west);
-    \coordinate (SE) at ([shift={(\pgflinewidth,\pgflinewidth+15)}]box.south east);
+    \coordinate (NW) at ([shift={(-\pgflinewidth+20,-\pgflinewidth+25)}]box.north west);
+    \coordinate (NE) at ([shift={(\pgflinewidth+20,-\pgflinewidth+25)}]box.north east);
+    \coordinate (SW) at ([shift={(-\pgflinewidth+20,\pgflinewidth+15)}]box.south west);
+    \coordinate (SE) at ([shift={(\pgflinewidth+20,\pgflinewidth+15)}]box.south east);
     %%% Points intermédiaires
     \coordinate (N_black) at ($ (NW)!0.55!(NE) $);
     \coordinate (N_color) at ($ (N_black)!0.5!(NE) $);

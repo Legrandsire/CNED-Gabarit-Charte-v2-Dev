@@ -2,36 +2,35 @@
 % CONFIGURATION DES VARIABLES
 % =====================================================================
 
-\newcommand{\intituleFormation}{Actualité décryptée}
-\newcommand{\sousTitreFormation}{Revue en ligne}
+\newcommand{\intituleFormation}{Agrégation externe de mathématiques}
+\newcommand{\sousTitreFormation}{Concours enseignant}
 \newcommand{\intituleMatiere}{}
-\newcommand{\surTitre}{Géopolitique nationale et internationale}
+\newcommand{\surTitre}{\'Epreuve d'admissibilité}
 \newcommand{\titre}{Recâbler le monde}
-\newcommand{\sousTitre}{Chaînes de valeur, défense européenne, crises démocratiques : les nouveaux équilibres du XXI\textsuperscript{e} siècle}
-\author{Stéphanie LEU, Jean-Michel CONSIL, Pierre-Yves BOILLET, Andrew HILL, Pascal DÉSABRES, Nicolas DI MÉO}
-
-\newcommand{\fontionAuteur}{}
-\newcommand{\typeContenu}{Numéro}
+\newcommand{\sousTitre}{Chaînes de valeur, défense européenne, crises démocratiques : les nouveaux équilibres du XXIe siècle}
+\author{Jean-Etienne Rombaldi}
+\newcommand{\fontionAuteur}{Professeur Agrégé}
+\newcommand{\typeContenu}{Proposition de corrigé}
 \newcommand{\typePublication}{Web} 
 \newcommand{\codeArticle}{\codeSite-\codeMatiere-\codeTypeContenu-\codeTypePublication-\numOrdre-\cycle}
 
 %Codification
 \newcommand{\codeSite}{1}
-\newcommand{\codeFormation}{60M}
-\newcommand{\codeMatiere}{0064}
-\newcommand{\codeTypeContenu}{TE}
+\newcommand{\codeFormation}{maths}
+\newcommand{\codeMatiere}{7367}
+\newcommand{\codeTypeContenu}{CT}
 \newcommand{\codeTypePublication}{WB}
-\newcommand{\numOrdre}{08}
+\newcommand{\numOrdre}{01}
 \newcommand{\cycle}{26}
 
 %%% Footer
 \newcommand{\typeDocumentFooter}{\getsubtitle} 
-\newcommand{\titrefooter}{Recâbler le monde}
+\newcommand{\titrefooter}{Composition d'analyse et de probabilités}
 \newcommand{\intituleFormationfooter}{\intituleFormation}
 
 %%% Latex Variable
 \newcommand{\gettitle}{\titre}
-\newcommand{\getsubtitle}{\typeContenu~\cycle-\numOrdre~- Avril 2026}
+\newcommand{\getsubtitle}{\typeContenu~n°\cycle-\numOrdre}
 \newcommand{\getepreuve}{\intituleFormation}
 \newcommand{\getsubepreuve}{\surTitre}
 
@@ -41,21 +40,21 @@
 
 % --- 1. STYLE DES COMPTEURS ---
 % Options possibles : \arabic (1, 2...), \Roman (I, II...), \roman (i, ii...), \Alph (A, B...), \alph (a, b...)
-\newcommand{\theparts}{}
+\newcommand{\theparts}{\arabic{part}.}
 \newcommand{\thesections}{}
 \newcommand{\thesubsections}{}
 \newcommand{\thesubsubsections}{}
 
 % --- 2. PRÉFIXES PERSONNALISÉS ---
 % Mots qui précèdent les numéros (laissez les accolades vides {} pour ne rien mettre)
-\newcommand{\prefixPart}{}       % Donne "Partie I"
+\newcommand{\prefixPart}{Partie~}       % Donne "Partie I"
 \newcommand{\prefixSection}{}  % Donne "Étape 1"
-\newcommand{\prefixSubsection}{}    
-\newcommand{\prefixSubsubsection}{}    
+\newcommand{\prefixSubsection}{}       % Pas de préfixe
+\newcommand{\prefixSubsubsection}{}    % Pas de préfixe
 
 % --- 3. SÉPARATEURS ---
 % Espace ou ponctuation entre la numérotation et le nom du titre
-\newcommand{\sepPart}{}            % Donne "Partie I -- Mon Titre"
+\newcommand{\sepPart}{~}            % Donne "Partie I -- Mon Titre"
 \newcommand{\sepSection}{}        % Donne "Étape 1    Mon Titre"
 \newcommand{\sepSubsection}{}
 \newcommand{\sepSubsubsection}{}
@@ -64,7 +63,7 @@
 % CONFIGURATION DES AUTOMATISATIONS
 % =====================================================================
 
-\setboolean{renvoiCorrection}{false} % true ou false
+\setboolean{renvoiCorrection}{true} % true ou false
 
 % =====================================================================
 % CONFIGURATION DES METADONNEES
