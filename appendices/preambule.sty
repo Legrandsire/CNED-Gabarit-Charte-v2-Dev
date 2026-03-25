@@ -200,3 +200,20 @@
 \usepackage{Pictos/pictotime}
 \usepackage{Pictos/pictowarning}
 \usepackage{Pictos/pictozoom}
+
+% 1. On initialise une macro vide pour stocker la liste des crédits
+\newcommand{\mescredits}{} 
+
+% 2. On crée la commande à utiliser sous chaque image
+\newcommand{\addcredit}[2]{%
+  % #1 : Nom ou description de l'image
+  % #2 : Le crédit / la source
+  \gappto\mescredits{\item \mdseries{#1} : #2}%
+}
+
+\newcommand{\sourceimage}[2]{%
+  % 1. Affichage direct sous l'image
+  {\footnotesize Source : #2}%
+  % 2. Enregistrement automatique dans la page des crédits avec le numéro de page
+  \addcredit{#1 (p. \thepage)}{#2}%
+}
