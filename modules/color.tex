@@ -6,7 +6,7 @@
 
 % 1. Choix de la matière
 % maths, agregmusique, concoursBanqueFrance
-\newcommand{\doctype}{\codeFormation} % changer ici selon besoin
+\newcommand{\doctype}{\binomeCouleur} % changer ici selon besoin
 
 \definecolor{colorURL}{HTML}{262D7D}
 
@@ -16,10 +16,10 @@
 \newcommand{\loadcharte}{%
   \@ifundefined{doctype@colors@\doctype}{%
     % si type inconnu, couleur par défaut
-    \definecolor{primarycolor}{HTML}{005EB8}
-    \definecolor{secondarycolor}{HTML}{9754B8}
-    \definecolor{background1}{HTML}{E8F1FA}
-    \definecolor{background2}{HTML}{FAF3FD}
+    \definecolor{primarycolor}{HTML}{C63C15}
+    \definecolor{secondarycolor}{HTML}{005EB8}
+    \definecolor{background1}{HTML}{FCECE7}
+    \definecolor{background2}{HTML}{E8F1FA}
   }{%
     % sinon appel à la macro spécifique
     \csname doctype@colors@\doctype\endcsname
@@ -35,7 +35,19 @@
     \definecolor{background2}{HTML}{E8F1FA}
 }
 
+\newcommand{\doctype@colors@concoursAdmin}{%
+    \definecolor{primarycolor}{HTML}{007681}
+    \definecolor{secondarycolor}{HTML}{AE2573}
+    \definecolor{background1}{HTML}{E5F1F2}
+    \definecolor{background2}{HTML}{F7E8F1}
+}
 
+\newcommand{\doctype@colors@Agreg}{%
+    \definecolor{primarycolor}{HTML}{005EB8}
+    \definecolor{secondarycolor}{HTML}{9754B8}
+    \definecolor{background1}{HTML}{E8F1FA}
+    \definecolor{background2}{HTML}{FAF3FD}
+}
 
 \loadcharte
 

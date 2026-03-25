@@ -8,9 +8,11 @@
         fill=none,          % <— pas de fond, on va le dessiner derrière
         text=white,
         rounded corners=0pt,
-        inner xsep=5pt,
-        inner ysep=5pt,
+        inner xsep=10pt,
+        inner ysep=6pt,
+        minimum height=23pt
     ] (main) {\normalfont\bfseries\fontsize{10.5}{13}\selectfont#1};
+
 
 
 \begin{pgfonlayer}{background}
@@ -42,8 +44,8 @@
 \end{tikzpicture}\\
 {\itshape\BODY}
 }
-
-\NewEnviron{cartouche2}[1][]{%%% Deuxième boite page de garde
+\NewEnviron{cartouche2}[1][]{%
+%% Deuxième boite page de garde
 \begin{tikzpicture}
     % Node texte (pas de fond ici)
     \node[
@@ -51,15 +53,15 @@
         fill=none,          % <— pas de fond, on va le dessiner derrière
         text=white,
         rounded corners=0pt,
-        inner xsep=0pt,
-        inner ysep=0pt,
+        inner xsep=10pt,
+        inner ysep=6pt,
+        minimum height=23pt
     ] (main) {\normalfont\bfseries\fontsize{10.5}{13}\selectfont#1};
 
-    % Fond avec coins "troués" (dessiné DERRIÈRE le texte)
-    % Cadre avec UN seul coin arrondi
+
 \begin{pgfonlayer}{background}
-  \def\padx{5pt}
-  \def\pady{5pt}
+  \def\padx{0pt}
+  \def\pady{0pt}
   \def\r{8pt} % rayon
 
   % Coins du rectangle extérieur (autour du node)

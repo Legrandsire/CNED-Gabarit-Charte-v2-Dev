@@ -1,0 +1,164 @@
+\setlength{\tabcolsep}{2pt}    %%% Espacement des étiquettes
+\renewcommand{\arraystretch}{1.4} %% Espacement vertical dans les tableaux
+\newcommand{\setSpaceTabLength}{10pt}  %%% Espacement du texte aux colonnes
+
+\usepackage{array}
+
+\newcolumntype{T}[1]{>{\hspace{\setSpaceTabLength}\robotoCondensed\raggedright\arraybackslash}p{#1}<{\hspace{\setSpaceTabLength}}}     %% Espacement horizontal dans les tableaux
+
+\let\oldtabular\tabular
+\let\endoldtabular\endtabular
+\renewenvironment{tabular}{\robotoCondensed\oldtabular}{\endoldtabular}
+
+
+%%%% Cartouches pour les tableaux
+
+\newcommand{\cartoucheun}[1]{%
+\begin{tikzpicture}[baseline=(main.base), xshift=0pt]
+\node[
+    rectangle,
+    text width=\linewidth,
+    fill=none,
+    text=white,
+    inner xsep=2pt,
+    inner ysep=5pt,
+    outer sep=0pt,
+    minimum height=20pt
+] (main) {%
+  \parbox[b]{\linewidth}{\centering\bfseries #1}%
+};
+
+\begin{pgfonlayer}{background}
+  \def\padx{0pt}
+  \def\pady{0pt}
+  \def\r{8pt}
+
+  \coordinate (SW) at ([xshift=-\padx,yshift=-\pady]main.south west);
+  \coordinate (SE) at ([xshift= \padx,yshift=-\pady]main.south east);
+  \coordinate (NE) at ([xshift= \padx,yshift= \pady]main.north east);
+  \coordinate (NW) at ([xshift=-\padx,yshift= \pady]main.north west);
+
+  \path[fill=primarycolor]
+    (SW) --
+    ([xshift=-\r]SE) arc (270:360:\r)
+    --
+    (NE) --
+    ([xshift=\r]NW) arc (90:180:\r)
+    --
+    (SW) -- cycle;
+\end{pgfonlayer}
+\end{tikzpicture}%
+}
+
+
+
+
+\newcommand{\cartouchedeux}[1]{%
+\begin{tikzpicture}[baseline=(main.base), xshift=0pt]
+\node[
+    rectangle,
+    text width=\linewidth,
+    fill=none,
+    text=white,
+    inner xsep=2pt,
+    inner ysep=5pt,
+    outer sep=0pt,
+    minimum height=20pt
+] (main) {%
+  \parbox[b]{\linewidth}{\centering\bfseries #1}%
+};
+
+\begin{pgfonlayer}{background}
+  \def\padx{0pt}
+  \def\pady{0pt}
+  \def\r{8pt}
+
+  \coordinate (SW) at ([xshift=-\padx,yshift=-\pady]main.south west);
+  \coordinate (SE) at ([xshift= \padx,yshift=-\pady]main.south east);
+  \coordinate (NE) at ([xshift= \padx,yshift= \pady]main.north east);
+  \coordinate (NW) at ([xshift=-\padx,yshift= \pady]main.north west);
+
+  \path[fill=secondarycolor]
+    (SW) --
+    ([xshift=-\r]SE) arc (270:360:\r)
+    --
+    (NE) --
+    ([xshift=\r]NW) arc (90:180:\r)
+    --
+    (SW) -- cycle;
+\end{pgfonlayer}
+\end{tikzpicture}%
+}
+
+%%%% Développement d'un module tableau. 
+\usepackage{xparse}
+\usepackage{array}
+\usepackage{environ}
+
+\newcolumntype{C}[1]{>{\robotoCondensed\centering\arraybackslash}p{#1}}
+
+\ExplSyntaxOn
+
+\clist_new:N \l_arky_widths_clist
+\clist_new:N \l_arky_titles_clist
+\tl_new:N    \l_arky_colspec_tl
+
+% construit le préambule du tableau, ex. |C{0.1\linewidth}|C{0.2\linewidth}|C{0.15\linewidth}|
+\cs_new:Nn \arky_build_colspec:n
+{
+  \clist_map_inline:nn {#1} { |C{##1} } |
+}
+
+% construit la ligne des cartouches
+\cs_new_protected:Nn \arky_build_header:nn
+{
+  \clist_set:Nn \l_arky_widths_clist {#1}
+  \clist_set:Nn \l_arky_titles_clist {#2}
+
+  \int_compare:nNnF
+    { \clist_count:N \l_arky_widths_clist }
+    =
+    { \clist_count:N \l_arky_titles_clist }
+    {
+      \msg_error:nnxx { arky } { mismatch }
+        { \clist_count:N \l_arky_widths_clist }
+        { \clist_count:N \l_arky_titles_clist }
+    }
+
+  \int_zero:N \l_tmpa_int
+  \clist_map_inline:Nn \l_arky_titles_clist
+  {
+    \int_incr:N \l_tmpa_int
+    \multicolumn{1}
+      {C{\clist_item:Nn \l_arky_widths_clist {\l_tmpa_int}}}
+      {\cartoucheun{##1}}
+    \int_compare:nNnTF
+      { \l_tmpa_int } < { \clist_count:N \l_arky_titles_clist }
+      { & }
+      { \\ }
+  }
+}
+
+\msg_new:nnn { arky } { mismatch }
+  { Le~nombre~de~largeurs~(#1)~ne~correspond~pas~au~nombre~de~titres~(#2). }
+
+\NewEnviron{monTableau}[2]
+{
+  % #1 = largeurs séparées par des virgules
+  % #2 = titres séparés par des virgules
+
+  \renewcommand{\arraystretch}{1.35}
+  \setlength{\extrarowheight}{2pt}
+  \setlength{\tabcolsep}{0pt}
+
+  % On développe d'abord le préambule dans une tl
+  \tl_set:Ne \l_arky_colspec_tl { \arky_build_colspec:n {#1} }
+
+  % Puis on ouvre réellement le tabular avec le préambule déjà développé
+  \expandafter\begin{tabular}\expandafter{\l_arky_colspec_tl}
+  \arky_build_header:nn {#1} {#2}
+  \BODY
+  \end{tabular}
+}
+
+\ExplSyntaxOff

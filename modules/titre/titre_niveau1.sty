@@ -15,6 +15,7 @@
 \newcommand{\underlinetitle}[1]{\ul{#1}}
 
 \newlength{\PartAvail}
+\newlength{\PartNumW}
 
 \newcommand{\taggedparttitle}[1]{%
   % H1 pour la structure 
@@ -33,7 +34,6 @@
   \phantom{\taggedparttitle{#1}}%
   
   % -- Mesure de la largeur du numéro de partie (incluant le tiret) --
-  \newlength{\PartNumW}
   \settowidth{\PartNumW}{{\robotoCondensed \mdseries \fontsize{15}{17} \selectfont \thepart}}
 
   % -- Dimensions
