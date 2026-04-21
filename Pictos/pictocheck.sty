@@ -1,43 +1,42 @@
-%=======================================================================
-% Fichier : Pictos/pictocheck.sty
-% Description : Module générant un pictogramme "Check" stylisé
-%=======================================================================
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{Pictos/pictocheck}[2026/03/05 Picto Checkmark]
+\colorlet{c9754b8}{secondarycolor}
+\colorlet{c1d1d1b}{black}
+\colorlet{c005eb8}{primarycolor}
 
-% Requis pour le dessin vectoriel
-\RequirePackage{tikz}
 
-%=======================================================================
-% Commande : \pictocheck[<échelle>]
-% Utilisation : \pictocheck (taille par défaut) ou \pictocheck[0.5] (réduit de moitié)
-%=======================================================================
-\newcommand{\pictocheck}[1][1]{%
-    % On utilise x et y avec l'échelle pour adapter la grille, 
-    % et on multiplie les épaisseurs de traits par #1 pour que tout reste proportionnel.
-    \begin{tikzpicture}[x=#1cm, y=#1cm]
-        
-        % 1. Ligne bleue en forme de "L"
-        % Utilisation de 'primarycolor'. line cap et join 'round' pour adoucir les angles.
-        \draw[primarycolor, line width=#1*4pt, line cap=round, line join=round] 
-            (0, 5.5) -- (0, 0) -- (5.2, 0);
-            
-        % 2. Point violet
-        % Utilisation de 'secondarycolor'. Il est placé légèrement à droite du "L".
-        \fill[secondarycolor] (6.0, 0) circle (#1*0.25cm);
-        
-        % 3. Les traits de rayonnement (étincelles)
-        % Boucle dessinant 5 traits noirs rayonnant depuis un point central (3.0, 2.0)
-        \foreach \angle in {40, 65, 90, 115, 140} {
-            \draw[black, line width=#1*3pt, line cap=round] 
-                (3.0, 2.0) ++(\angle:1.8) -- ++(\angle:0.9);
-        }
-        
-        % 4. La coche (checkmark) centrale
-        % Dessinée avec un fond blanc pour masquer d'éventuels éléments en dessous, 
-        % et un contour noir épais. Les angles sont légèrement arrondis.
-        \filldraw[fill=white, draw=black, line width=#1*3pt, rounded corners=#1*2pt, line join=round] 
-            (1.0, 1.6) -- (1.4, 2.0) -- (2.0, 1.4) -- (4.2, 3.6) -- (4.6, 3.2) -- (2.0, 0.6) -- cycle;
-            
-    \end{tikzpicture}%
-}
+
+\newcommand{\pictoCheck}{%
+\raisebox{-1.5ex}{
+\resizebox{8mm}{!}{
+\def \globalscale {10.000000}
+\begin{tikzpicture}[y=1pt, x=1pt, yscale=\globalscale,xscale=\globalscale, every node/.append style={scale=\globalscale}, inner sep=0pt, outer sep=0pt]
+  \path[draw=c1d1d1b,line cap=round,line width=4pt,miter limit=10.0] (4.35,
+   -10.8975).. controls (4.26, -10.8225) and (4.1175, -10.83) .. (4.0425, 
+  -10.92) -- (3.2925, -11.805).. controls (3.21, -11.895) and (3.21, -12.0375) 
+  .. (3.3075, -12.12) -- (5.5575, -14.145).. controls (5.655, -14.2275) and 
+  (5.7975, -14.22) .. (5.88, -14.1225) -- (12.4425, -6.6).. controls (12.525, 
+  -6.51) and (12.51, -6.3675) .. (12.42, -6.285) -- (11.565, -5.5575).. controls
+   (11.4675, -5.475) and (11.325, -5.4825) .. (11.2425, -5.58) -- (5.76, 
+  -11.82).. controls (5.6775, -11.91) and (5.535, -11.925) .. (5.445, -11.8425) 
+  -- (4.3425, -10.8825) -- cycle;
+
+
+
+  \path[draw=c1d1d1b,line cap=round,line width=4pt] (16.725, -2.5125) -- 
+  (14.805, -4.4325)(11.655, -0.3) -- (11.6325, -3.015)(14.61, -0.9375) -- 
+  (13.44, -3.3825)(8.6925, -0.9375) -- (9.8625, -3.3825)(6.525, -2.5125) -- 
+  (8.445, -4.4325);
+
+
+
+  \path[draw=c005eb8,line cap=round,line width=4pt,miter limit=10.0] 
+  (0.2925, -3.015) -- (0.2925, -16.215) -- (13.59, -16.215);;
+
+
+
+  \path[fill=c9754b8] (15.4425, -16.4025).. controls (15.345, -15.975) and 
+  (15.615, -15.5475) .. (16.0425, -15.435).. controls (16.47, -15.3225) and 
+  (16.89, -15.585) .. (16.9875, -16.0125).. controls (17.0775, -16.44) and 
+  (16.8075, -16.8675) .. (16.3875, -16.98).. controls (15.96, -17.085) and 
+  (15.54, -16.83) .. (15.4425, -16.4025);
+\end{tikzpicture}
+}}}

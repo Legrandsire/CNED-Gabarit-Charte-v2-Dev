@@ -1,5 +1,11 @@
+\usepackage{xcolor}
+\usepackage{luacolor}
+\usepackage{lua-ul}
+
 \addto\captionsfrench{\renewcommand{\contentsname}  {Sommaire} % ToC will show "Index" instead of "Content"
 }
+
+
 
 \usepackage[normalem]{ulem}        % \uline = soulignement continu multi-lignes
 
@@ -96,6 +102,8 @@
 \newlength{\TOCunder}
 
 \renewcommand{\l@part}[2]{%
+  \setul{0.25ex}{1pt}
+  \setulcolor{background2}
   \begingroup
   % --- Activation du style sur le numéro de la partie ---
   \renewcommand{\partnumberformat}[1]{{\textcolor{primarycolor}{\robotoCondensed\mdseries\fontsize{12.5}{15}\selectfont ##1}}\hspace*{-0.9em}}%
@@ -115,33 +123,37 @@
   % largeur dispo pour le titre (on réserve : num page + gap + ovale)
   \setlength{\TOCavail}{\dimexpr\linewidth-\PnumW-\OvalGap-\OvalW\relax}
 
-  \begin{tikzpicture}[baseline=(title.base)]
+
+  \begin{tikzpicture}[baseline=(titlebox.base)]
   % coordonnées du titre, sans encore l'afficher
-  \node[
-    inner sep=0pt,
-    outer sep=0pt,
-    anchor=west,
-    text width=\TOCavail
-  ] (titlebox) {\phantom{\fontsize{16}{18}\selectfont\bfseries #1}};
+  %\node[
+  %  inner sep=0pt,
+  %  outer sep=0pt,
+  %  anchor=west,
+  %  text width=\TOCavail
+  %] (titlebox) {\phantom{\fontsize{16}
+  %{18}\selectfont\bfseries  #1}};
 
   % trait derrière
-  \draw[line width=1pt, background2] %épaisseur du trait qui souligne
-    ($(titlebox.base west)+(0,-6pt)$) -- ++(\linewidth,0); %Distance du trait
+  %\draw[line width=1pt, background2] %épaisseur du trait qui souligne
+  %($(titlebox.base west)+(0,-6pt)$) -- ++(\linewidth,0); %Distance du trait
 
   % titre affiché par-dessus
-  \node[
-    inner sep=0pt,
-    outer sep=0pt,
-    anchor=west,
-    text=black,
-    text width=\TOCavail
-  ] (title) {\fontsize{16}{18}\selectfont\bfseries #1};
-
+\node[
+  anchor=base west,
+  inner sep=0pt
+] (titlebox) {%
+  \begin{minipage}[t]{\TOCavail}
+ {\fontsize{16}{18}\selectfont\bfseries
+   \color{black}%
+   \underLine[color=background2]{#1\hfill\mbox{}}}%
+  \end{minipage}%
+};
     % --- Numéro de page (par-dessus le trait) ---
     \node[
       inner sep=0pt,
       anchor=east,
-      fill=white, % masque le trait sous le texte (optionnel)
+      fill=white,
       fill opacity=1,
       text opacity=1
     ] (pnum) at (\linewidth,0)
@@ -162,51 +174,87 @@
 \def\@dotsep{2}
 
 \renewcommand{\l@section}[2]{%
-  \ifnum \c@tocdepth >\z@
+  \ifnum\c@tocdepth>\z@
     \addpenalty{\@secpenalty}%
     \vskip 0.5em \@plus\p@
     \begingroup
-      \parindent \z@ \rightskip \@pnumwidth
-      \parfillskip -\@pnumwidth
+      \setlength{\@tempdima}{0.0em}% largeur exacte réservée au numéro
+      \parindent\z@
+      \rightskip\@pnumwidth
+      \parfillskip-\@pnumwidth
+      \leftskip\@tempdima
+      \advance\leftskip by 0.2em % espace après le numéro
+      \parindent-\leftskip
       \leavevmode
-      \renewcommand{\numberline}[1]{{\textcolor{secondarycolor}{{\robotoCondensed\mdseries \fontsize{10,5}{12}\selectfont ##1}}}\hspace{0.2em}}%
+      \llap{%
+        \textcolor{secondarycolor}{%
+          \robotoCondensed\mdseries\fontsize{10.5}{12}\selectfont
+          \makebox[\@tempdima][l]{\thesection}%
+        }%
+        \hskip0.2em
+      }%
       {\bfseries\fontsize{13}{16}\selectfont #1}%
-      \hfill
-      \nobreak\hb@xt@2em{\hfil {\robotoCondensed\fontsize{11}{13}\selectfont #2}}\par
+      \nobreak\hfill
+      \nobreak\hb@xt@\@pnumwidth{\hss{\robotoCondensed\fontsize{11}{13}\selectfont #2}}%
+      \par
     \endgroup
-  \fi}
+  \fi
+}
 
 \renewcommand{\l@subsection}[2]{%
-  \ifnum \c@tocdepth >\z@
+  \ifnum\c@tocdepth>\z@
     \addpenalty{\@secpenalty}%
     \vskip 0.5em \@plus\p@
     \begingroup
-      \parindent \z@ \rightskip \@pnumwidth
-      \parfillskip -\@pnumwidth
+      \setlength{\@tempdima}{4em}
+      \parindent\z@
+      \rightskip\@pnumwidth
+      \parfillskip-\@pnumwidth
+      \leftskip\@tempdima
+      \advance\leftskip by 0.2em
+      \parindent-\leftskip
       \leavevmode
-      \hskip 1.4em
-      \renewcommand{\numberline}[1]{\makebox[2em][l]{\textcolor{primarycolor}{{\robotoCondensed \fontsize{10}{12}\selectfont##1}}}\hspace{0.1em}}%
-      {\robotoMedium \fontsize{12}{15}\selectfont #1}%
-      \hfill
-      \nobreak\hb@xt@2em{\hfil{\robotoCondensed\fontsize{11}{13}\selectfont ~#2}}\par
+      \llap{%
+        \textcolor{primarycolor}{%
+          \robotoCondensed\fontsize{10}{12}\selectfont
+          \makebox[\@tempdima][l]{\thesubsection}%
+        }%
+        \hskip0.2em
+      }%
+      {\robotoMedium\fontsize{12}{15}\selectfont #1}%
+      \nobreak\hfill
+      \nobreak\hb@xt@\@pnumwidth{\hss{\robotoCondensed\fontsize{11}{13}\selectfont #2}}%
+      \par
     \endgroup
-  \fi}
-
+  \fi
+}
 \renewcommand{\l@subsubsection}[2]{%
-  \ifnum \c@tocdepth >\z@
+  \ifnum\c@tocdepth>\z@
     \addpenalty{\@secpenalty}%
     \vskip 0.5em \@plus\p@
     \begingroup
-      \parindent \z@ \rightskip \@pnumwidth
-      \parfillskip -\@pnumwidth
+      \setlength{\@tempdima}{5.2em}
+      \parindent\z@
+      \rightskip\@pnumwidth
+      \parfillskip-\@pnumwidth
+      \leftskip\@tempdima
+      \advance\leftskip by 0.2em
+      \parindent-\leftskip
       \leavevmode
-      \hskip 3.6em
-      \renewcommand{\numberline}[1]{\makebox[1em][l]{\textcolor{black}{{\robotoCondensed \fontsize{8,5}{11}\selectfont##1}}}\hspace{0.1em}}%
-      {\normalfont \fontsize{11}{13}\selectfont #1}%
-      \hfill
-      \nobreak\hb@xt@2em{\hfil{\robotoCondensed\fontsize{11}{13}\selectfont ~#2}}\par
+      \llap{%
+        \textcolor{black}{%
+          \robotoCondensed\fontsize{8.5}{11}\selectfont
+          \makebox[\@tempdima][l]{\thesubsubsection}%
+        }%
+        \hskip0.2em
+      }%
+      {\normalfont\fontsize{11}{13}\selectfont #1}%
+      \nobreak\hfill
+      \nobreak\hb@xt@\@pnumwidth{\hss{\robotoCondensed\fontsize{11}{13}\selectfont #2}}%
+      \par
     \endgroup
-  \fi}
+  \fi
+}
 % -----------------------------------------------
 
 % ---- Nouvelle \tableofcontents fractionnable ----
@@ -225,5 +273,31 @@
   \begin{tocbox}
     \@starttoc{toc}%
   \end{tocbox}%
+
+  \begin{tikzpicture}[baseline=(title.base)]
+  % titre affiché par-dessus
+  \node[
+    inner sep=12.5pt,
+    outer sep=0pt,
+    anchor=west,
+    text=black,
+    text width=\TOCavail
+  ] (title) {\fontsize{12}{14}\selectfont\bfseries  \hyperlink{ancre}{Crédits}};
+
+    \draw[line width=1pt, background2] %épaisseur du trait qui souligne
+    ($(titlebox.base west)+(0.5,-6pt)$) -- ++(\linewidth-55,0); %Distance du trait
+
+
+    % --- Numéro de page (par-dessus le trait) ---
+    \node[
+      inner sep=0pt,
+      anchor=east,
+      fill=white, % masque le trait sous le texte (optionnel)
+      fill opacity=1,
+      text opacity=1
+    ] (pnum) at (\linewidth-42,0)
+      {{\robotoCondensed \fontsize{11}{13}\selectfont \pageref{LastPage}}};
+  \end{tikzpicture}%
+  
 }
 \makeatother

@@ -1,24 +1,54 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{Pictos/pictowarning}[2026/03/04 Mon package pour l'icone attention]
+\colorlet{c9754b8}{secondarycolor}
+\colorlet{c1d1d1b}{black}
+\colorlet{c005eb8}{primarycolor}
 
-% Chargement des packages nécessaires (on utilise \RequirePackage dans un .sty)
-\RequirePackage{tikz}
-\RequirePackage{graphicx} % Nécessaire pour utiliser \scalebox
 
-% Création de la commande \warnicon
-% Le [1][1] signifie qu'il y a un argument optionnel dont la valeur par défaut est 1 (taille 100%)
-\newcommand{\pictowarning}[1][1]{
-    \scalebox{#1}{
-        \begin{tikzpicture}
-            % Tracé du triangle
-            \draw[line width=5pt, primarycolor, rounded corners=12pt, line cap=round, line join=round]
-                (0.6, -1.2) -- (-2.078, -1.2) -- (0, 2.4) -- (2.078, -1.2) -- (1.6, -1.2);
-            % Point d'exclamation : barre supérieure
-            \fill[black] (-0.18, 1.1) arc (180:0:0.18) -- (0.08, -0.1) arc (0:-180:0.08) -- cycle;
-            % Point d'exclamation : point inférieur
-            \fill[black] (0, -0.55) circle (0.14);
-            % Point rouge dans l'ouverture
-            \fill[secondarycolor] (1.1, -1.2) circle (0.16);
-        \end{tikzpicture}
-    }
-}
+
+\newcommand{\pictoWarning}{%
+\raisebox{-1.5ex}{
+\resizebox{8mm}{!}{
+
+
+\def \globalscale {10.000000}
+\begin{tikzpicture}[y=1pt, x=1pt, yscale=\globalscale,xscale=\globalscale, every node/.append style={scale=\globalscale}, inner sep=0pt, outer sep=0pt]
+  \path[fill=c1d1d1b] (8.4975, -3.9375).. controls (8.4975, -3.9375) and (7.59, 
+  -3.9375) .. (7.59, -5.6625).. controls (7.59, -7.3875) and (7.8975, -11.0475) 
+  .. (8.4975, -11.0475);
+
+
+
+  \path[fill=c1d1d1b] (8.4975, -3.9375).. controls (8.4975, -3.9375) and (9.405,
+   -3.9375) .. (9.405, -5.6625).. controls (9.405, -7.3875) and (9.0975, 
+  -11.0475) .. (8.4975, -11.0475);
+
+
+
+  \path[fill=c1d1d1b] (9.3825, -13.2).. controls (9.3825, -13.6875) and (8.985, 
+  -14.085) .. (8.4975, -14.085).. controls (8.01, -14.085) and (7.6125, 
+  -13.6875) .. (7.6125, -13.2).. controls (7.6125, -12.7125) and (8.01, -12.315)
+   .. (8.4975, -12.315).. controls (8.985, -12.315) and (9.3825, -12.7125) .. 
+  (9.3825, -13.2);
+
+
+
+  \path[draw=c005eb8,line cap=round,line width=4.5625pt,miter limit=10.0] 
+  (9.525, -16.0575) -- (0.6825, -16.0575).. controls (0.3825, -16.0575) and 
+  (0.1875, -15.735) .. (0.3225, -15.465) -- (8.1225, -0.495).. controls (8.2725,
+   -0.2025) and (8.685, -0.2025) .. (8.835, -0.495) -- (16.6725, -15.465).. 
+  controls (16.815, -15.735) and (16.62, -16.0575) .. (16.3125, -16.0575) -- 
+  (14.9175, -16.0575);
+
+
+
+  \path[fill=c9754b8] (12.1275, -16.2075).. controls (12.03, -15.78) and (12.3, 
+  -15.3525) .. (12.7275, -15.24).. controls (13.155, -15.135) and (13.575, 
+  -15.39) .. (13.6725, -15.8175).. controls (13.7625, -16.245) and (13.5, 
+  -16.6725) .. (13.0725, -16.785).. controls (12.645, -16.89) and (12.225, 
+  -16.635) .. (12.1275, -16.2075);
+
+
+
+
+\end{tikzpicture}
+
+}}}

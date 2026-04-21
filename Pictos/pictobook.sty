@@ -1,51 +1,72 @@
-\NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{Pictos/pictobook}[2026/03/05 Picto Book Icon]
+\colorlet{c9754b8}{secondarycolor}
+\colorlet{c1d1d1b}{black}
+\colorlet{c005eb8}{primarycolor}
 
-\RequirePackage{tikz}
-\RequirePackage{graphicx} % Nécessaire pour \scalebox
+\newcommand{\pictoBook}{%
+\raisebox{-1.5ex}{
+\resizebox{8mm}{!}{
+\def \globalscale {10.000000}
+\begin{tikzpicture}[y=1pt, x=1pt, yscale=\globalscale,xscale=\globalscale, every node/.append style={scale=\globalscale}, inner sep=0pt, outer sep=0pt]
+  \path[fill=c1d1d1b] (15.15, -17.01).. controls (15.15, -17.01) and (15.1125, 
+  -17.01) .. (15.0975, -17.0025) -- (4.95, -14.4375).. controls (4.8075, -14.4) 
+  and (4.7175, -14.265) .. (4.7475, -14.13).. controls (5.1525, -11.8425) and 
+  (7.275, -11.3475) .. (7.365, -11.325).. controls (7.41, -11.31) and (7.4625, 
+  -11.3175) .. (7.515, -11.325) -- (16.1475, -13.92) -- (10.9725, -4.8375) -- 
+  (2.46, -0.5175).. controls (2.325, -0.45) and (2.2725, -0.2775) .. (2.34, 
+  -0.15).. controls (2.415, -0.015) and (2.58, 0.0375) .. (2.7225, -0.0375) -- 
+  (11.295, -4.395).. controls (11.3475, -4.4175) and (11.385, -4.455) .. 
+  (11.4075, -4.5075) -- (16.965, -14.265).. controls (17.0175, -14.3625) and 
+  (17.01, -14.4825) .. (16.935, -14.5725).. controls (16.86, -14.6625) and 
+  (16.74, -14.6925) .. (16.6275, -14.6625) -- (7.4025, -11.8875).. controls 
+  (7.0725, -11.9775) and (5.7375, -12.45) .. (5.34, -13.9875) -- (14.73, 
+  -16.365) -- (14.5125, -15.6825).. controls (14.4675, -15.54) and (14.55, 
+  -15.3825) .. (14.7, -15.3375).. controls (14.85, -15.2925) and (15.0075, 
+  -15.375) .. (15.0525, -15.5175) -- (15.42, -16.6725).. controls (15.45, 
+  -16.77) and (15.42, -16.8675) .. (15.3525, -16.9425).. controls (15.2925, 
+  -17.0025) and (15.21, -17.0325) .. (15.1275, -17.025);
 
-% Définition de la commande \pictobook 
-% Accepte un argument optionnel pour gérer l'échelle (1 par défaut)
-\newcommand{\pictobook}[1][1]{%
-    \scalebox{#1}{%
-        \begin{tikzpicture}[line cap=round, line join=round]
-            
-            % --- Définition des styles de lignes ---
-            % On utilise les couleurs primarycolor et secondarycolor de ton projet
-            \tikzset{
-                blackline/.style={black, line width=5pt},
-                blueline/.style={primarycolor, line width=8pt}
-            }
 
-            % --- 1. Dos du livre (Ligne bleue principale) ---
-            % Départ en bas à gauche, monte en diagonale, puis s'arrondit vers la droite en haut
-            \draw[blueline] (-3, -1) -- (-5, 4) to[out=80, in=170] (-3.5, 5.5);
 
-            % --- 2. Contour extérieur noir du livre ---
-            % Part de la fin de la courbe bleue et fait le tour de la couverture
-            \draw[blackline] 
-                (-3.5, 5.5) -- (3, 3)          % Bord supérieur
-                -- (5, -1.5)                   % Bord droit
-                -- (4, -1.2)                   % Encoche intérieure (le "V" de la page repliée)
-                -- (4.5, -2.5)                 % Pointe inférieure droite
-                -- (-3, -1);                   % Bord inférieur, retour exact à la base du dos bleu
+  \path[fill=c005eb8] (5.0025, -14.445).. controls (4.8975, -14.445) and (4.8, 
+  -14.3775) .. (4.755, -14.2725) -- (0.0225, -2.6475).. controls (0.0, -2.6025) 
+  and (0.0, -2.55) .. (0.0075, -2.4975).. controls (0.0225, -2.4225) and 
+  (0.3825, -0.57) .. (2.52, -0.0075).. controls (2.655, 0.0225) and (2.7975, 
+  -0.0375) .. (2.85, -0.1575) -- (5.73, -6.375).. controls (5.7975, -6.51) and 
+  (5.73, -6.675) .. (5.5875, -6.735).. controls (5.445, -6.8025) and (5.28, 
+  -6.735) .. (5.2125, -6.6) -- (2.4375, -0.6075).. controls (1.05, -1.0725) and 
+  (0.66, -2.2275) .. (0.5775, -2.52) -- (5.2875, -14.0625).. controls (5.3475, 
+  -14.205) and (5.2725, -14.3625) .. (5.13, -14.4225).. controls (5.0925, 
+  -14.4375) and (5.0475, -14.445) .. (5.01, -14.4375);
 
-            % --- 3. Ligne intérieure noire (Courbe des pages au centre) ---
-            % Part directement du dos bleu, forme le volume des pages, puis rejoint l'encoche
-            \draw[blackline] 
-                (-3.5, 0.25) to[out=60, in=170] (-1, 1) % Courbe de la page de gauche
-                -- (4, -1.2);                           % Ligne droite vers l'encoche à droite
 
-            % --- 4. Détails internes (Lignes) ---
-            % Ligne bleue parallèle au dos, sur la page de gauche
-            \draw[blueline] (-2.5, 5.1) -- (-1.5, 2.6);
-            
-            % Ligne noire courte et parallèle aux bords, sur la page de droite
-            \draw[blackline] (1.5, -0.5) -- (3.5, -1.2);
 
-            % --- 5. Point violet sur la page de gauche ---
-            \fill[secondarycolor] (-1.8, 2.2) circle (0.2);
+  \path[fill=c1d1d1b] (13.815, -16.6725).. controls (13.7325, -16.6725) and 
+  (13.65, -16.6275) .. (13.5975, -16.56).. controls (13.5075, -16.4325) and 
+  (13.5375, -16.2675) .. (13.665, -16.1775).. controls (14.5125, -15.6) and 
+  (15.8775, -14.04) .. (15.8925, -14.025).. controls (15.9975, -13.9125) and 
+  (16.1775, -13.8975) .. (16.29, -13.995).. controls (16.41, -14.0925) and 
+  (16.425, -14.265) .. (16.32, -14.385).. controls (16.26, -14.4525) and 
+  (14.8875, -16.005) .. (13.9875, -16.6275).. controls (13.935, -16.665) and 
+  (13.8675, -16.68) .. (13.8075, -16.68);
 
-        \end{tikzpicture}%
-    }%
-}
+
+
+  \path[fill=c1d1d1b] (13.3875, -14.7075).. controls (13.3875, -14.7075) and 
+  (13.3425, -14.7075) .. (13.32, -14.7) -- (9.66, -13.62).. controls (9.51, 
+  -13.575) and (9.4275, -13.425) .. (9.4725, -13.275).. controls (9.5175, 
+  -13.1325) and (9.6825, -13.05) .. (9.825, -13.095) -- (13.485, -14.175).. 
+  controls (13.635, -14.22) and (13.7175, -14.37) .. (13.6725, -14.52).. 
+  controls (13.635, -14.64) and (13.515, -14.7225) .. (13.3875, -14.715);
+
+
+
+  \path[fill=c9754b8] (6.4275, -8.6775).. controls (6.24, -8.8425) and (5.955, 
+  -8.8275) .. (5.7975, -8.64).. controls (5.6325, -8.46) and (5.655, -8.175) .. 
+  (5.835, -8.01).. controls (6.0225, -7.845) and (6.3075, -7.86) .. (6.465, 
+  -8.0475).. controls (6.63, -8.2275) and (6.6075, -8.5125) .. (6.4275, -8.6775);
+
+
+
+
+\end{tikzpicture}
+}}}
