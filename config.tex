@@ -42,24 +42,25 @@
 
 % --- 1. STYLE DES COMPTEURS ---
 % Options possibles : \arabic (1, 2...), \Roman (I, II...), \roman (i, ii...), \Alph (A, B...), \alph (a, b...)
-\newcommand{\theparts}{\Roman}
-\newcommand{\thesections}{\arabic}
-\newcommand{\thesubsections}{\thesections\arabic}
+\newcommand{\theparts}{\Roman{part}.}
+\newcommand{\thesections}{\theparts\arabic{section}}
+\newcommand{\thesubsections}{\thesections.\roman{subsection}. }
 \newcommand{\thesubsubsections}{}
 
-% --- 2. PRÉFIXES PERSONNALISÉS ---
+% --- 2. PRÉFIXES PERSONNALISÉS
+
 % Mots qui précèdent les numéros (laissez les accolades vides {} pour ne rien mettre)
 \newcommand{\prefixPart}{Partie~}    
 \newcommand{\prefixSection}{Section~}
-\newcommand{\prefixSubsection}{Chapitre~}    
-\newcommand{\prefixSubsubsection}{}    
+\newcommand{\prefixSubsection}{Subsection~}    
+\newcommand{\prefixSubsubsection}{Subsubsection~}    
 
 % --- 3. SÉPARATEURS ---
 % Espace ou ponctuation entre la numérotation et le nom du titre
-\newcommand{\sepPart}{}
-\newcommand{\sepSection}{}
-\newcommand{\sepSubsection}{}
-\newcommand{\sepSubsubsection}{}
+\newcommand{\sepPart}{FinPart}
+\newcommand{\sepSection}{Fin}
+\newcommand{\sepSubsection}{FinSub}
+\newcommand{\sepSubsubsection}{Finsubsub}
 
 % =====================================================================
 % CONFIGURATION DES AUTOMATISATIONS

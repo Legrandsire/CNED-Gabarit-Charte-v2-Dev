@@ -13,6 +13,7 @@
 \newcommand{\partnumberformat}[1]{#1}
 \renewcommand{\thepart}{\protect\partnumberformat{\prefixPart \theparts \sepPart}}
 
+
 % Empêche le hook de faire planter les signets PDF (hyperref)
 \pdfstringdefDisableCommands{%
   \def\partnumberformat#1{#1}%
@@ -149,15 +150,17 @@
     };
 
     % Numéro de page
-    \node[
-      inner sep=0pt,
-      outer sep=0pt,
-      anchor=base east,
-      fill=white,
-      fill opacity=1,
-      text opacity=1
-    ] (pnum) at (\linewidth,-13pt)
-      {{\robotoCondensed\fontsize{11}{13}\selectfont #2}};
+% Numéro de page aligné en bas de la boîte
+        \node[
+         inner sep=0pt,
+         outer sep=0pt,
+         anchor=south east,
+         fill=white,
+         fill opacity=1,
+         text opacity=1,
+         yshift=7pt % 
+        ] (pnum) at (\linewidth,0 |- titlebox.south)
+        {{\robotoCondensed\fontsize{11}{13}\selectfont #2}};
 
     % Trait horizontal final jusqu'au numéro
     \coordinate (lastlineL) at ($(titlebox.south west)+(0,\LastUnderlineRaise)$);
@@ -171,13 +174,13 @@
       ($(lastlineR)+(-\UnderlineGap+13pt,-2.5pt)$);
 
     % Ovale
-    \path[
-      fill=primarycolor,
-      rounded corners=0.5em
-    ]
-      ($(pnum.east)+(\OvalGap+\ExtraX,-\TopDrop)$)
-      rectangle
-      ($(pnum.east)+(\OvalGap+\ExtraX+\OvalW,-\TopDrop-\OvalH)$);
+\path[
+  fill=primarycolor,
+  rounded corners=0.5em
+]
+  ($(titlebox.north east)+(\OvalGap+\ExtraX+5em,2pt)$)
+  rectangle
+  ($(titlebox.south east)+(\OvalGap+\ExtraX+\OvalW+5em,-2pt)$);
 
   \end{tikzpicture}%
   \par
@@ -186,87 +189,138 @@
 \def\@dotsep{2}
 
 \renewcommand{\l@section}[2]{%
-  \ifnum\c@tocdepth>\z@
-    \addpenalty{\@secpenalty}%
-    \vskip 0.5em \@plus\p@
-    \begingroup
-      \setlength{\@tempdima}{0.0em}% largeur exacte réservée au numéro
-      \parindent\z@
-      \rightskip\@pnumwidth
-      \parfillskip-\@pnumwidth
-      \leftskip=0pt
-      \parindent=0pt
-      \leavevmode
-      \llap{%
-         \textcolor{secondarycolor}{%
-          \robotoCondensed\mdseries\fontsize{10.5}{12}\selectfont
-          \thesection
-         }%
-      \hskip0.4em % espace après numéro
+  \begingroup
+    \renewcommand{\numberline}[1]{%
+      {\textcolor{secondarycolor}{%
+        \robotoCondensed\mdseries\fontsize{10.5}{12}\selectfont ##1%
+      }}%
+      \hspace{0.4em}%
+    }%
+
+    \vspace{0.5em}\noindent
+
+    \pgfmathsetlengthmacro{\PnumW}{3em}
+    \pgfmathsetlengthmacro{\NumW}{2.5em}
+
+    \setlength{\TOCavail}{%
+      \dimexpr\linewidth-\PnumW-\NumW\relax
+    }%
+
+    \begin{tikzpicture}[baseline=(titlebox.base)]
+      \node[
+        anchor=base west,
+        inner sep=0pt,
+        outer sep=0pt,
+        text width=\TOCavail,
+        align=left
+      ] (titlebox) at (\NumW,0) {%
+        \parbox{\TOCavail}{%
+          \raggedright
+          \bfseries
+          \fontsize{13}{16}\selectfont
+          #1\par
         }%
-      {\RaggedRight
-        \bfseries\fontsize{13}{16}\selectfont
-        #1\par
-      }%
-      \nobreak\hfill
-      \nobreak\hb@xt@\@pnumwidth{\hss{\robotoCondensed\fontsize{11}{13}\selectfont \hspace{1em}#2}}%
-      \par
-    \endgroup
-  \fi
+      };
+
+      \node[
+        inner sep=0pt,
+        outer sep=0pt,
+        anchor=base east
+      ] (pnum) at (\linewidth+2.5em,0) {%
+        {\robotoCondensed\fontsize{11}{13}\selectfont #2}%
+      };
+    \end{tikzpicture}%
+    \par
+  \endgroup
 }
 
 \renewcommand{\l@subsection}[2]{%
-  \ifnum\c@tocdepth>\z@
-    \addpenalty{\@secpenalty}%
-    \vskip 0.5em \@plus\p@
-    \begingroup
-      \setlength{\@tempdima}{4em}
-      \parindent\z@
-      \rightskip\@pnumwidth
-      \parfillskip-\@pnumwidth
-      \leftskip\@tempdima
-      \parindent-\leftskip
-      \leavevmode
-      \llap{%
-        \textcolor{primarycolor}{%
-          \robotoCondensed\fontsize{10}{12}\selectfont
-          \makebox[\@tempdima][l]{\thesubsection}%
-        }%
-        \hskip0.2em
-      }%
-      {\robotoMedium\fontsize{12}{15}\selectfont #1}%
-      \nobreak\hfill
-      \nobreak\hb@xt@\@pnumwidth{\hss{\robotoCondensed\fontsize{11}{13}\selectfont #2}}%
-      \par
-    \endgroup
-  \fi
+  \begingroup
+    \renewcommand{\numberline}[1]{%
+      {\textcolor{primarycolor}{%
+        \robotoCondensed\fontsize{10}{12}\selectfont ##1%
+      }}%
+      \hspace{0.4em}%
+    }%
+
+    \vspace{0.5em}\noindent
+
+    \pgfmathsetlengthmacro{\PnumW}{3em}
+    \pgfmathsetlengthmacro{\NumW}{4em}
+    \pgfmathsetlengthmacro{\IndentLeft}{1.5em}
+
+    \setlength{\TOCavail}{%
+      \dimexpr\linewidth-\PnumW-\NumW-\IndentLeft\relax
+    }%
+
+    \hspace*{\IndentLeft}%
+    \begin{tikzpicture}[baseline=(titlebox.base)]
+      \node[
+        anchor=base west,
+        inner sep=0pt,
+        outer sep=0pt,
+        text width=\TOCavail,
+        align=left,
+        execute at begin node=\raggedright
+      ] (titlebox) at (\NumW,0) {%
+        {\robotoMedium\fontsize{12}{15}\selectfont #1}%
+      };
+
+      % on compense l'indentation pour garder les numéros de page alignés
+      \node[
+        inner sep=0pt,
+        outer sep=0pt,
+        anchor=base east
+      ] (pnum) at (\linewidth+\NumW-\IndentLeft,0) {%
+        {\robotoCondensed\fontsize{11}{13}\selectfont #2}%
+      };
+    \end{tikzpicture}%
+    \par
+  \endgroup
 }
+
 \renewcommand{\l@subsubsection}[2]{%
-  \ifnum\c@tocdepth>\z@
-    \addpenalty{\@secpenalty}%
-    \vskip 0.5em \@plus\p@
-    \begingroup
-      \setlength{\@tempdima}{5.2em}
-      \parindent\z@
-      \rightskip\@pnumwidth
-      \parfillskip-\@pnumwidth
-      \leftskip\@tempdima
-      \advance\leftskip by 0.2em
-      \parindent-\leftskip
-      \leavevmode
-      \llap{%
-        \textcolor{black}{%
-          \robotoCondensed\fontsize{8.5}{11}\selectfont
-          \makebox[\@tempdima][l]{\thesubsubsection}%
-        }%
-        \hskip0.2em
-      }%
-      {\normalfont\fontsize{11}{13}\selectfont #1}%
-      \nobreak\hfill
-      \nobreak\hb@xt@\@pnumwidth{\hss{\robotoCondensed\fontsize{11}{13}\selectfont #2}}%
-      \par
-    \endgroup
-  \fi
+  \begingroup
+    \renewcommand{\numberline}[1]{%
+      {\textcolor{black}{%
+        \robotoCondensed\fontsize{8.5}{11}\selectfont ##1%
+      }}%
+      \hspace{0.4em}%
+    }%
+
+    \vspace{0.5em}\noindent
+
+    \pgfmathsetlengthmacro{\PnumW}{3em}
+    \pgfmathsetlengthmacro{\NumW}{5.2em}
+    \pgfmathsetlengthmacro{\IndentLeft}{3em}
+
+    \setlength{\TOCavail}{%
+      \dimexpr\linewidth-\PnumW-\NumW-\IndentLeft\relax
+    }%
+
+    \hspace*{\IndentLeft}%
+    \begin{tikzpicture}[baseline=(titlebox.base)]
+      \node[
+        anchor=base west,
+        inner sep=0pt,
+        outer sep=0pt,
+        text width=\TOCavail,
+        align=left,
+        execute at begin node=\raggedright
+      ] (titlebox) at (\NumW,0) {%
+        {\normalfont\fontsize{11}{13}\selectfont #1}%
+      };
+
+      \node[
+        inner sep=0pt,
+        outer sep=0pt,
+        anchor=base east
+      ] (pnum) at (\linewidth+\NumW-\IndentLeft,0) {%
+        {\robotoCondensed\fontsize{11}{13}\selectfont #2}%
+      };
+    \end{tikzpicture}%
+    \par
+  \endgroup
 }
 % -----------------------------------------------
 
@@ -298,7 +352,7 @@
   ] (title) {\fontsize{12}{14}\selectfont\bfseries  \hyperlink{ancre}{Crédits}};
 
     \draw[line width=1pt, background2] %épaisseur du trait qui souligne
-    ($(titlebox.base west)+(0.5,-6pt)$) -- ++(\linewidth-55,0); %Distance du trait
+    ($(titlebox.base west)+(0.5,0pt)$) -- ++(\linewidth-55,0); %Distance du trait
 
 
     % --- Numéro de page (par-dessus le trait) ---
