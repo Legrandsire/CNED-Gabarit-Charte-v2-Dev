@@ -28,20 +28,29 @@
   \end{center}
 }
 
-\NewEnviron{encadre53}[1][]{%
+\NewEnviron{encadre53}[2][secondary]{%
 \begin{center}
   \begin{tikzpicture}
     \def\r{10pt}
     \def\rlabel{6pt}
-    \def\labelheight{18pt} % hauteur réservée sous l’étiquette
+    \def\labelheight{18pt}
+
+    % --- choix des couleurs ---
+    \def\boxcolor{background2}
+    \def\labelcolor{secondarycolor}
+
+    \ifstrequal{#1}{primary}{%
+      \def\boxcolor{background1}
+      \def\labelcolor{primarycolor}
+    }{}
 
     % --- BOÎTE TEXTE ---
     \node[
       inner sep=10pt,
-      text width=\textwidth,
+      text width=\dimexpr\textwidth-20pt\relax,
       anchor=north west
     ] (box) {%
-      \begin{minipage}{\textwidth}
+      \begin{minipage}{\dimexpr\textwidth-20pt\relax}
         \vspace*{\labelheight}
         \robotoCondensed\fontsize{10.5}{13}\selectfont\BODY
       \end{minipage}
@@ -49,7 +58,7 @@
 
     % --- FOND BOÎTE ---
     \begin{pgfonlayer}{background}
-      \path[fill=background2]
+      \path[fill=\boxcolor]
         (box.south west) --
         ($(box.south east)+(-\r,0)$)
           arc[start angle=270,end angle=360,radius=\r] --
@@ -66,11 +75,11 @@
       inner ysep=6pt,
       text=white
     ] (label) at (box.north west)
-      {\robotoCondensed\bfseries\fontsize{11}{13}\selectfont#1};
+      {\robotoCondensed\bfseries\fontsize{11}{13}\selectfont#2};
 
     % --- FOND ÉTIQUETTE ---
     \begin{pgfonlayer}{background}
-      \path[fill=secondarycolor]
+      \path[fill=\labelcolor]
         (label.south west) --
         ($(label.south east)+(-\rlabel,0)$)
           arc[start angle=270,end angle=360,radius=\rlabel] --
@@ -81,61 +90,5 @@
     \end{pgfonlayer}
 
   \end{tikzpicture}
-  \end{center}
-}
-
-\NewEnviron{encadre54}[1][]{%
-\begin{center}
-  \begin{tikzpicture}
-    \def\r{10pt}
-    \def\rlabel{6pt}
-    \def\labelheight{18pt} % hauteur réservée sous l’étiquette
-
-    % --- BOÎTE TEXTE ---
-    \node[
-      inner sep=10pt,
-      text width=\textwidth,
-      anchor=north west
-    ] (box) {%
-      \begin{minipage}{\textwidth}
-        \vspace*{\labelheight}
-        \robotoCondensed\fontsize{10.5}{13}\selectfont\BODY
-      \end{minipage}
-    };
-
-    % --- FOND BOÎTE ---
-    \begin{pgfonlayer}{background}
-      \path[fill=background1]
-        (box.south west) --
-        ($(box.south east)+(-\r,0)$)
-          arc[start angle=270,end angle=360,radius=\r] --
-        (box.north east) --
-        ($(box.north west)+(\r,0)$)
-          arc[start angle=90,end angle=180,radius=\r] --
-        cycle;
-    \end{pgfonlayer}
-
-    % --- ÉTIQUETTE ---
-    \node[
-      anchor=north west,
-      inner xsep=10pt,
-      inner ysep=6pt,
-      text=white
-    ] (label) at (box.north west)
-      {\robotoCondensed\bfseries\fontsize{11}{13}\selectfont#1};
-
-    % --- FOND ÉTIQUETTE ---
-    \begin{pgfonlayer}{background}
-      \path[fill=primarycolor]
-        (label.south west) --
-        ($(label.south east)+(-\rlabel,0)$)
-          arc[start angle=270,end angle=360,radius=\rlabel] --
-        (label.north east) --
-        ($(label.north west)+(\rlabel,0)$)
-          arc[start angle=90,end angle=180,radius=\rlabel] --
-        cycle;
-    \end{pgfonlayer}
-
-  \end{tikzpicture}
-  \end{center}
+\end{center}
 }

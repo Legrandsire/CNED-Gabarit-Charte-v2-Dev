@@ -32,7 +32,7 @@
 \newtcolorbox{tocbox}[1][]{%
   enhanced, breakable, sharp corners,
   colback=white, frame hidden, boxrule=0pt,
-  left=10pt, right=40pt, top=0pt, bottom=8pt,
+  left=10pt, right=40pt, top=5pt, bottom=8pt,
   before skip=1em, after skip=2em,
     % --- cas 1 page (non fractionnée) ---
   overlay unbroken={
@@ -101,72 +101,84 @@
 \newlength{\TOCnat}
 \newlength{\TOCunder}
 
+\newlength{\TOCnumgap}
+\setlength{\TOCnumgap}{0em} % distance minimale titre <-> numéro
+
+\newcommand{\TOCrulefill}{%
+  \leavevmode
+  \leaders\hrule height 1pt depth 0pt\hfill\kern0pt
+}
+
 \renewcommand{\l@part}[2]{%
-  \setul{0.25ex}{1pt}
-  \setulcolor{background2}
   \begingroup
-  % --- Activation du style sur le numéro de la partie ---
-  \renewcommand{\partnumberformat}[1]{{\textcolor{primarycolor}{\robotoCondensed\mdseries\fontsize{12.5}{15}\selectfont ##1}}\hspace*{-0.9em}}%
-  
-  % --- Sécurité : on neutralise \numberline au cas où LaTeX l'ajoute ---
+  \renewcommand{\partnumberformat}[1]{%
+    {\textcolor{primarycolor}{%
+      \robotoCondensed\mdseries\fontsize{12.5}{15}\selectfont ##1%
+    }}\hspace*{-0.9em}%
+  }%
   \renewcommand{\numberline}[1]{##1}%
 
-  \vspace{-5pt}\noindent
-  % --- dimensions ---
+  \vspace{0.4em}\noindent
+
   \pgfmathsetlengthmacro{\OvalW}{12pt}
   \pgfmathsetlengthmacro{\OvalH}{24pt}
-  \pgfmathsetlengthmacro{\OvalGap}{10pt} % espace entre numéro et ovale
-  \pgfmathsetlengthmacro{\TopDrop}{-15pt}
+  \pgfmathsetlengthmacro{\OvalGap}{10pt}
   \pgfmathsetlengthmacro{\ExtraX}{13pt}
-  \pgfmathsetlengthmacro{\PnumW}{3em}    % largeur réservée au numéro de page
+  \pgfmathsetlengthmacro{\TopDrop}{-15pt}
+  \pgfmathsetlengthmacro{\PnumW}{3em}
+  \pgfmathsetlengthmacro{\UnderlineGap}{0.6em}
+  \pgfmathsetlengthmacro{\LastUnderlineRaise}{3pt}
 
-  % largeur dispo pour le titre (on réserve : num page + gap + ovale)
-  \setlength{\TOCavail}{\dimexpr\linewidth-\PnumW-\OvalGap-\OvalW\relax}
+  \setlength{\TOCavail}{%
+    \dimexpr\linewidth-\PnumW-\UnderlineGap-\OvalGap-\OvalW\relax
+  }%
 
+  \begin{tikzpicture}[baseline=(pnum.base)]
 
-  \begin{tikzpicture}[baseline=(titlebox.base)]
-  % coordonnées du titre, sans encore l'afficher
-  %\node[
-  %  inner sep=0pt,
-  %  outer sep=0pt,
-  %  anchor=west,
-  %  text width=\TOCavail
-  %] (titlebox) {\phantom{\fontsize{16}
-  %{18}\selectfont\bfseries  #1}};
+    % Titre multiligne : vrai soulignement du texte seulement
+    \node[
+      anchor=north west,
+      inner sep=0pt,
+      outer sep=0pt,
+      text width=\TOCavail,
+      align=left,
+      execute at begin node=\raggedright
+    ] (titlebox) at (0,0) {%
+      {\fontsize{16}{18}\selectfont\bfseries\color{black}%
+       \underLine[color=background2]{#1}}%
+    };
 
-  % trait derrière
-  %\draw[line width=1pt, background2] %épaisseur du trait qui souligne
-  %($(titlebox.base west)+(0,-6pt)$) -- ++(\linewidth,0); %Distance du trait
-
-  % titre affiché par-dessus
-\node[
-  anchor=base west,
-  inner sep=0pt
-] (titlebox) {%
-  \begin{minipage}[t]{\TOCavail}
- {\fontsize{16}{18}\selectfont\bfseries
-   \color{black}%
-   \underLine[color=background2]{#1\hfill\mbox{}}}%
-  \end{minipage}%
-};
-    % --- Numéro de page (par-dessus le trait) ---
+    % Numéro de page
     \node[
       inner sep=0pt,
-      anchor=east,
+      outer sep=0pt,
+      anchor=base east,
       fill=white,
       fill opacity=1,
       text opacity=1
-    ] (pnum) at (\linewidth,0)
-      {{\robotoCondensed \fontsize{11}{13}\selectfont #2}};
+    ] (pnum) at (\linewidth,-13pt)
+      {{\robotoCondensed\fontsize{11}{13}\selectfont #2}};
 
-    % --- Ovale après le numéro ---
+    % Trait horizontal final jusqu'au numéro
+    \coordinate (lastlineL) at ($(titlebox.south west)+(0,\LastUnderlineRaise)$);
+    \coordinate (lastlineR) at (pnum.west |- lastlineL);
+
+    \draw[
+      line width=1pt,
+      background2
+    ]
+      ($(lastlineL)+(0,-2.5pt)$) --
+      ($(lastlineR)+(-\UnderlineGap+13pt,-2.5pt)$);
+
+    % Ovale
     \path[
       fill=primarycolor,
       rounded corners=0.5em
     ]
-      ($ (pnum.east) + (\OvalGap+\ExtraX, -\TopDrop) $)
+      ($(pnum.east)+(\OvalGap+\ExtraX,-\TopDrop)$)
       rectangle
-      ($ (pnum.east) + (\OvalGap+\ExtraX+\OvalW, -\TopDrop-\OvalH) $);
+      ($(pnum.east)+(\OvalGap+\ExtraX+\OvalW,-\TopDrop-\OvalH)$);
+
   \end{tikzpicture}%
   \par
   \endgroup
@@ -182,20 +194,22 @@
       \parindent\z@
       \rightskip\@pnumwidth
       \parfillskip-\@pnumwidth
-      \leftskip\@tempdima
-      \advance\leftskip by 0.2em % espace après le numéro
-      \parindent-\leftskip
+      \leftskip=0pt
+      \parindent=0pt
       \leavevmode
       \llap{%
-        \textcolor{secondarycolor}{%
+         \textcolor{secondarycolor}{%
           \robotoCondensed\mdseries\fontsize{10.5}{12}\selectfont
-          \makebox[\@tempdima][l]{\thesection}%
+          \thesection
+         }%
+      \hskip0.4em % espace après numéro
         }%
-        \hskip0.2em
+      {\RaggedRight
+        \bfseries\fontsize{13}{16}\selectfont
+        #1\par
       }%
-      {\bfseries\fontsize{13}{16}\selectfont #1}%
       \nobreak\hfill
-      \nobreak\hb@xt@\@pnumwidth{\hss{\robotoCondensed\fontsize{11}{13}\selectfont #2}}%
+      \nobreak\hb@xt@\@pnumwidth{\hss{\robotoCondensed\fontsize{11}{13}\selectfont \hspace{1em}#2}}%
       \par
     \endgroup
   \fi
@@ -211,7 +225,6 @@
       \rightskip\@pnumwidth
       \parfillskip-\@pnumwidth
       \leftskip\@tempdima
-      \advance\leftskip by 0.2em
       \parindent-\leftskip
       \leavevmode
       \llap{%

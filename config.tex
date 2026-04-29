@@ -42,22 +42,22 @@
 
 % --- 1. STYLE DES COMPTEURS ---
 % Options possibles : \arabic (1, 2...), \Roman (I, II...), \roman (i, ii...), \Alph (A, B...), \alph (a, b...)
-\newcommand{\theparts}{}
-\newcommand{\thesections}{}
-\newcommand{\thesubsections}{}
+\newcommand{\theparts}{\Roman}
+\newcommand{\thesections}{\arabic}
+\newcommand{\thesubsections}{\thesections\arabic}
 \newcommand{\thesubsubsections}{}
 
 % --- 2. PRÉFIXES PERSONNALISÉS ---
 % Mots qui précèdent les numéros (laissez les accolades vides {} pour ne rien mettre)
-\newcommand{\prefixPart}{}       % Donne "Partie I"
-\newcommand{\prefixSection}{}  % Donne "Étape 1"
-\newcommand{\prefixSubsection}{}    
+\newcommand{\prefixPart}{Partie~}    
+\newcommand{\prefixSection}{Section~}
+\newcommand{\prefixSubsection}{Chapitre~}    
 \newcommand{\prefixSubsubsection}{}    
 
 % --- 3. SÉPARATEURS ---
 % Espace ou ponctuation entre la numérotation et le nom du titre
-\newcommand{\sepPart}{}            % Donne "Partie I -- Mon Titre"
-\newcommand{\sepSection}{}        % Donne "Étape 1    Mon Titre"
+\newcommand{\sepPart}{}
+\newcommand{\sepSection}{}
 \newcommand{\sepSubsection}{}
 \newcommand{\sepSubsubsection}{}
 

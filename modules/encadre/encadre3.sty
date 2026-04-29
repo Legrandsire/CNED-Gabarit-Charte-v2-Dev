@@ -1,19 +1,26 @@
-\NewEnviron{encadre3}{%
+\NewEnviron{encadre3}[1][primary]{%
+%% Deux options : primary ou secondary
   \begin{center}
   \begin{tikzpicture}
-    \def\r{10pt} % rayon d'arrondi
+    \def\r{10pt}
 
-    % Texte
+    % --- choix de la couleur de bordure ---
+    \def\linecolor{primarycolor}
+    \ifstrequal{#1}{secondary}{%
+      \def\linecolor{secondarycolor}%
+    }{}
+
+    % --- contenu ---
     \node[
       inner sep=10pt,
-      text width=\textwidth,
+      text width=\dimexpr\textwidth-20pt\relax,
       anchor=north west
     ] (box) {\robotoCondensed\fontsize{10.5}{13}\selectfont\BODY};
 
-    % Fond + bordure
+    % --- bordure ---
     \begin{pgfonlayer}{background}
       \path[
-        draw=primarycolor,
+        draw=\linecolor,
         line width=0.8pt
       ]
         (box.south west) --
