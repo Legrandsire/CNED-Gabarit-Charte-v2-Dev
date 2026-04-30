@@ -47,6 +47,12 @@
 \newcommand{\thesubsections}{\thesections.\roman{subsection}. }
 \newcommand{\thesubsubsections}{}
 
+% Exemple fonctionnel :
+% \newcommand{\theparts}{\Roman{part}.}
+% \newcommand{\thesections}{\theparts\arabic{section}}
+% \newcommand{\thesubsections}{\thesections.\roman{subsection}. }
+% \newcommand{\thesubsubsections}{}
+
 % --- 2. PRÉFIXES PERSONNALISÉS
 
 % Mots qui précèdent les numéros (laissez les accolades vides {} pour ne rien mettre)
@@ -57,10 +63,10 @@
 
 % --- 3. SÉPARATEURS ---
 % Espace ou ponctuation entre la numérotation et le nom du titre
-\newcommand{\sepPart}{FinPart}
-\newcommand{\sepSection}{Fin}
-\newcommand{\sepSubsection}{FinSub}
-\newcommand{\sepSubsubsection}{Finsubsub}
+\newcommand{\sepPart}{~~~}
+\newcommand{\sepSection}{~}
+\newcommand{\sepSubsection}{~}
+\newcommand{\sepSubsubsection}{~}
 
 % =====================================================================
 % CONFIGURATION DES AUTOMATISATIONS

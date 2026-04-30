@@ -31,20 +31,20 @@
 
 \subsection{Test d'un module "\textit{bloc encadré}" et beaucoup plus long encore pour ce titre de sous-section}
 
-\begin{encadre1}
-\pictoBook{} \highlightulinesecondary{\textbf{\Large Pour en savoir plus}}
+\begin{boxFill}
+\pictoBook{} \uLine[secondary]{\textbf{\Large Pour en savoir plus}}
 
 \vspace{0.5em}
 
-\begin{ul21}
+\begin{uList}[diamond][secondary]
 \item JOUANNEAU D., « Un arc de crise sous-estimé : Inde-Pakistan-Afghanistan », \textit{Revue Défense Nationale}, n°831, juin 2020, p. 137-146
 \item S. LANDRIN, G. DELACROIX, \textit{Dans la tête de Narendra Modi}, Paris, Solin/Actes Sud, 2024
 \item D. LAPIERRE, L. COLLINS, \textit{Cette nuit la liberté}, 1975, nombreuses éditions en poche. Récit par deux journalistes des débats qui ont mené à l'indépendance de l'Inde. Se lit comme un roman.
 \item Analyse sur France 24 par un spécialiste : \url{https://www.france24.com/fr/vidéo/20250511-escalade-entre-l-inde-et-le-pakistan-analyse-de-jean-luc-racine}
 \item Historique rapide des tensions : \url{https://www.youtube.com/watch?v=arGoUba-bC8}
 \item Cérémonie spectaculaire de fermeture de la frontière entre les deux pays : \url{https://www.dailymotion.com/video/x3kokkn}
-\end{ul21}
-\end{encadre1}
+\end{uList}
+\end{boxFill}
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Soit \( f : \mathbb{R} \to \mathbb{R} \) une fonction différentiable telle que \( f'(x) = \sin(x) \). Intégrons cette fonction sur l'intervalle \([a,b]\) :
 
@@ -141,41 +141,35 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 \]
 
 pour tout opérateur linéaire \(T : V \to W\).
-\begin{encadre1}[primary] 
+\begin{boxFill}[primary] 
 Ce texte représente un texte que l'on peut mettre dans un encadré 1\footnote{Ceci est une note, séparée du texte principal par un petit trait coloré.}.
-\end{encadre1}
+\end{boxFill}
 
 
-\begin{encadre3}[primary]
+\begin{boxBorder}[secondary]
 Ce texte représente un texte que l'on peut mettre dans un encadré 3
-\end{encadre3}
+\end{boxBorder}
 
-\begin{encadre4}
-Ce texte représente un texte que l'on peut mettre dans un encadré 4
-\end{encadre4}
-
-\cartoucheone{Question au programmefire}
+\cartouche[primary]{Question au programme}
 
 venisin ihicil ide non placcus essi \textit{optaerro} odiorro magnim nis dis et, ipitaesto tem velit, sa sita sa nobis dolore quod quia dolorro \textbf{\textit{eostecabor}} andit, etus cum et est eumquia \textbf{facescipsant} et eos moluptatur\footnote{Ceci est une note, séparée du texte principal par un petit trait coloré.} audit volut utem ratinveribus magnimo lectur?
 
 \vspace{0.5em}
 
-
-\cartouchetwo{Question au programme}
+\cartouche[secondary]{Question au programme}
 
 Lorem Ipsum
 
-\begin{encadre53}[secondary]{Question au programme}
+\begin{boxCard}[primary]{Question au programme}
 Ceci est le texte de mon encadré.
 Il est dans une boîte rectangulaire avec fond.
-\end{encadre53}
+\end{boxCard}
 
 
 
 \part{Proposition de corrigé}
 
-\cartouche[primary]{Texte}
-\cartouche[secondary]{Texte}
+\vspace{1em}
 
 {\arrayrulecolor{secondarycolor}
 \begin{tabular}{| T{0.13\linewidth} |T{0.13\linewidth} | T{0.13\linewidth}|}
@@ -212,96 +206,92 @@ il était & est & bouh \\
 
 \section{Quelques modules}
 \subsection{Les listes à puces}
-\begin{ul11}
-    \item qs
-    \item qs
-\end{ul11}
 
-\begin{ul12}
-    \item qs
-    \item qs
-\end{ul12}
-\begin{ul21}
-    \item qs
-    \item qs
-\end{ul21}
+\begin{uList}[dash][secondary]
+  \item Test
+\end{uList}
 
-\begin{ul22}
-    \item qs
-    \item qs
-\end{ul22}
+\begin{uList}[diamond][primary]
+  \item Losange primaire.
+\end{uList}
+\begin{uList}[bullet][secondary]
+  \item Test
+\end{uList}
 
-\begin{ul31}
-    \item qs
-    \item qs
-\end{ul31}
+{\LARGE
 
-\begin{ul32}
-    \item qs
-    \item qs
-\end{ul32}
+\begin{uList}[diamond][secondary]
+  \item Losange primaire.
+\end{uList}
+
+\begin{uList}[bullet][primary]
+  \item Texte normal
+\end{uList}
+
+{\Large
+\begin{uList}[bullet][primary]
+  \item Texte large
+\end{uList}
+}
+
+{\tiny
+\begin{uList}[diamond][secondary]
+  \item Texte minuscule
+\end{uList}
+}
 
 \subsection{Les listes numérotées}
-\begin{ol31} % I, II, III en primarycolor
-  \item Première partie
-    \begin{ol22} % A, B, C en secondarycolor
-      \item Préliminaires
-        \begin{ol12} % 1, 2, 3 en secondarycolor
-          \item Données
-          \item Méthode
-          \item Résultats
-        \end{ol12}
-      \item Analyse
-      \item Remarques
-    \end{ol22}
-  \item Deuxième partie
-  \item Troisième partie
-\end{ol31}
+\begin{oList}[arabic][secondary]
+  \item Premier
+  \item Deuxième
+\end{oList}
+
+\begin{oList}[alph][secondary]
+  \item Premier
+  \item Deuxième
+\end{oList}
+
+\begin{oList}[Roman][primary]
+  \item Premier
+  \item Deuxième
+\end{oList}
 
 \subsection*{Citations}
 
-\begin{citation}
+\begin{citation}[primary]
 « Les mathématiques possèdent non seulement la vérité,
 mais une beauté suprême. »
 \end{citation}
 
+\begin{citation}[secondary]
+Attention : dans ce problème, les questions sont indépendantes et ne sont pas classées par difficulté.
+\end{citation}
+
 \subsection*{Highlights}
 \par
-\tripleprimary{Rappel des hypothèses}
-\par
-\triplesecondary{Rappel des hypothèses}
-\par
-\chevronprimary{Rappel des hypothèses}
-\par
-\chevronsecondary{Rappel des hypothèses}
-\par
 
-Du texte normal et \highlightulineprimary{un texte bien souligné}.
+{\LARGE \triple{primary}{\robotoCondensed\bfseries {Résultat fondamental}}}
 
-Du texte normal et \highlightulinesecondary{un texte bien souligné}.
-\\
+\chevron{secondary}{\robotoCondensed\bfseries Résultat fondamental}
+
+
+\normalfont 
+
+\uLine[secondary]{Texte souligné en secondarycolor}
 
 
 
-\highlightulinesecondary{\textbf{Note au candidat :}}
-\begin{highlightquoteprimary}
-Il est essentiel de structurer votre pensée et d’ajouter des exemples descriptifs avec des relevés
-musicaux et/ou des schémas.\\
-
-Il faut également, et ce malgré le temps relativement court de l’épreuve, mettre en valeur votre culture
-musicale et artistique avec des références à d’autres œuvres. \\
-
-Ce plan détaillé est à compléter avec les éléments présentés dans le tableau analytique.\\
-
-En fonction des axes que vous aurez choisis vous ne traiterez pas tous les points présentés ci-
-après. Cette correction a pour objectif de contribuer à des apports culturels et à vous engager à les approfondir pour multiplier les exemples personnels (pour le commentaire et la dissertation) sans que
-vous ayez à perdre du temps à en trouver au moment de l’épreuve.
-\end{highlightquoteprimary}
+\textbf{Note au candidat :}
 
 
-\begin{highlightquotesecondary}\itshape
-« Le hasard ne favorise que les esprits préparés. »
-\end{highlightquotesecondary}
+\begin{sideLine}{primary}
+Texte important.
+\end{sideLine}
+
+\begin{sideLine}{secondary}
+Texte secondaire.
+\end{sideLine}
+
 
 \subsection*{Notes de pied de pages}
 
@@ -324,10 +314,10 @@ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
 
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Pour tout espace vectoriel \(V\) de dimension finie, le théorème de dimension stipule que
 
-\begin{encadre1}[secondary]
+\begin{boxBorder}[secondary]
 \pictoBook{}
-\highlightulineprimary{Entrainez-vous}
-\end{encadre1}
+\uLine[primary]{Entrainez-vous}
+\end{boxBorder}
 
 
 \subsection{Notes de \TitleTextIt{pied de pages}}

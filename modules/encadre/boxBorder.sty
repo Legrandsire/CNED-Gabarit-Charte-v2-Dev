@@ -1,12 +1,13 @@
-\NewEnviron{encadre1}[1][primary]{%
+\NewEnviron{boxBorder}[1][primary]{%
+%% Deux options : primary ou secondary
   \begin{center}
   \begin{tikzpicture}
     \def\r{10pt}
 
-    % --- choix de la couleur ---
-    \def\bgcolor{background1} % primary par défaut
+    % --- choix de la couleur de bordure ---
+    \def\linecolor{primarycolor}
     \ifstrequal{#1}{secondary}{%
-      \def\bgcolor{background2}
+      \def\linecolor{secondarycolor}%
     }{}
 
     % --- contenu ---
@@ -16,9 +17,12 @@
       anchor=north west
     ] (box) {\robotoCondensed\fontsize{10.5}{13}\selectfont\BODY};
 
-    % --- fond ---
+    % --- bordure ---
     \begin{pgfonlayer}{background}
-      \path[fill=\bgcolor]
+      \path[
+        draw=\linecolor,
+        line width=0.8pt
+      ]
         (box.south west) --
         ($(box.south east)+(-\r,0)$)
           arc[start angle=270,end angle=360,radius=\r] --

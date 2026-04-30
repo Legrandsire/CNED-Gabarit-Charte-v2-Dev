@@ -1,21 +1,24 @@
-\NewEnviron{encadre4}{%
+\NewEnviron{boxFill}[1][primary]{%
   \begin{center}
   \begin{tikzpicture}
-    \def\r{10pt} % rayon d'arrondi
+    \def\r{10pt}
 
-    % Texte
+    % --- choix de la couleur ---
+    \def\bgcolor{background1} % primary par défaut
+    \ifstrequal{#1}{secondary}{%
+      \def\bgcolor{background2}
+    }{}
+
+    % --- contenu ---
     \node[
       inner sep=10pt,
-      text width=\textwidth,
+      text width=\dimexpr\textwidth-20pt\relax,
       anchor=north west
     ] (box) {\robotoCondensed\fontsize{10.5}{13}\selectfont\BODY};
 
-    % Fond + bordure
+    % --- fond ---
     \begin{pgfonlayer}{background}
-      \path[
-        draw=secondarycolor,
-        line width=0.8pt
-      ]
+      \path[fill=\bgcolor]
         (box.south west) --
         ($(box.south east)+(-\r,0)$)
           arc[start angle=270,end angle=360,radius=\r] --

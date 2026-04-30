@@ -1,0 +1,8 @@
+% \uLine[primary|secondary][<épaisseur>][<décalage>]{<texte>}
+\NewDocumentCommand{\uLine}{O{primary} O{0.08ex} O{0.8ex} m}{%
+  \tikz[baseline=(X.base)]{%
+    \node[inner sep=0pt, outer sep=0pt, anchor=base] (X) {#4};
+    \draw[#1color, line width=#2]
+      ([yshift=-#3]X.base west) -- ([yshift=-#3]X.base east);
+  }%
+}

@@ -1,0 +1,54 @@
+% --- Liste numérotée unifiée -----------------------------------------------
+% Nécessite : enumitem, xcolor, etoolbox (pour \ifstrequal)
+%             \NewDocumentEnvironment fait partie du noyau LaTeX moderne.
+%
+% Syntaxe :
+%   \begin{oList}                     -> arabic + primary  (défauts)
+%   \begin{oList}[Alph]               -> Alph    + primary
+%   \begin{oList}[Roman][secondary]   -> Roman   + secondary
+%
+%   #1 type    : arabic | Alph | Roman
+%   #2 couleur : primary | secondary
+% ---------------------------------------------------------------------------
+
+\newlist{olbase}{enumerate}{1}
+
+\NewDocumentEnvironment{oList}{ O{arabic} O{primary} }
+{%
+  % Couleur : primary | secondary | autre couleur xcolor
+  \setresolvedcolor{#2}%
+
+  % Valeurs par défaut
+  \def\oltypelabel{\arabic{olbasei}}%
+  \def\ollabelsep{0.6em}%
+
+  % Type : arabic | Alph | Roman
+  \ifstrequal{#1}{arabic}{%
+    \def\oltypelabel{\arabic{olbasei}}%
+  }{}%
+
+  \ifstrequal{#1}{Alph}{%
+    \def\oltypelabel{\Alph{olbasei}}%
+  }{}%
+
+  \ifstrequal{#1}{alph}{%
+    \def\oltypelabel{\alph{olbasei}}%
+  }{}%
+
+  \ifstrequal{#1}{Roman}{%
+    \def\oltypelabel{\Roman{olbasei}}%
+    \def\ollabelsep{0.3em}%
+  }{}%
+
+  \begin{olbase}[
+    label={\textcolor{\resolvedcolor}{\bfseries\oltypelabel.}},
+    labelsep=\ollabelsep,
+    leftmargin=*,
+    itemsep=.25\baselineskip
+  ]%
+}
+{%
+  \end{olbase}%
+}
+
+  

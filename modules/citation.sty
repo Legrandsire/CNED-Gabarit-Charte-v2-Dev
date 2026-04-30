@@ -43,3 +43,47 @@
   \end{tikzpicture}
   \end{center}
 }
+
+\RenewEnviron{citation}[1][primary]{%
+  \setresolvedcolor{#1}%
+  \begin{center}
+  \begin{tikzpicture}
+    \def\r{10pt}
+    \def\d{50pt}
+    \def\g{20pt}
+
+    \node[
+      inner sep=10pt,
+      text width=\textwidth,
+      anchor=north west
+    ] (box) {\robotoCondensed\fontsize{11}{13}\selectfont\BODY};
+
+    \begin{pgfonlayer}{background}
+      \path[
+        draw=\resolvedcolor,
+        line width=2pt,
+        dash pattern=on 0pt off 5pt,
+        line cap=round
+      ]
+        ($(box.south east)+(-\d-\r,0)$) --
+        ($(box.south east)+(-\r,0)$)
+          arc[start angle=270,end angle=360,radius=\r] --
+        ($(box.south east)+(0,\g)$);
+    \end{pgfonlayer}
+
+    \begin{pgfonlayer}{background}
+      \path[
+        draw=\resolvedcolor,
+        line width=2pt,
+        dash pattern=on 0pt off 5pt,
+        line cap=round
+      ]
+        ($(box.north west)+(\d+\r,0)$) --
+        ($(box.north west)+(\r,0)$)
+          arc[start angle=90,end angle=180,radius=\r] --
+        ($(box.north west)-(0,\g)$);
+    \end{pgfonlayer}
+
+  \end{tikzpicture}
+  \end{center}
+}

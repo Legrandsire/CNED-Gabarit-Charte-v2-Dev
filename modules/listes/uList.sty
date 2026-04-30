@@ -1,0 +1,71 @@
+%%%%%%
+%% Définition des puces
+
+%% Définition des cercles
+\newcommand{\primarybullet}{\tikz\fill[primarycolor] (0,0) circle (3pt);}
+\newcommand{\secondarybullet}{\tikz\fill[secondarycolor] (0,0) circle (3pt);}
+
+%% Définition des traits
+\newcommand{\primarydash}{\tikz{\draw[line width=2pt,primarycolor] (0,0)--(0.2,0);}}
+\newcommand{\secondarydash}{\tikz{\draw[line width=2pt,secondarycolor] (0,0)--(0.2,0);}}
+
+%% Définition des losange vide
+\newcommand{\primarydiamond}{\tikz{\draw[primarycolor, thick] (0,0) -- (0.12,0.12) -- (0,0.24) -- (-0.12,0.12) -- cycle;}}
+\newcommand{\secondarydiamond}{\tikz{\draw[secondarycolor, thick] (0,0) -- (0.12,0.12) -- (0,0.24) -- (-0.12,0.12) -- cycle;}}
+
+%%%%%%%% NEW LIST
+% #1 = couleur
+% #1 = couleur
+
+\newcommand{\setresolvedcolor}[1]{%
+  \def\resolvedcolor{#1}%
+  \ifstrequal{#1}{primary}{\def\resolvedcolor{primarycolor}}{}%
+  \ifstrequal{#1}{secondary}{\def\resolvedcolor{secondarycolor}}{}%
+}
+
+\newcommand{\custombullet}[1]{%
+  \setresolvedcolor{#1}%
+  \tikz[baseline=-0.45ex, x=1em, y=1em]
+    \fill[\resolvedcolor] (0,0) circle (0.25);% ← 0.18 → 0.21
+}
+
+\newcommand{\customdash}[1]{%
+  \setresolvedcolor{#1}%
+  \tikz[baseline=-0.45ex, x=1em, y=1em]
+    \draw[line width=0.13em, \resolvedcolor, line cap=round] (0,0)--(0.55,0);%
+}
+
+\newcommand{\customdiamond}[1]{%
+  \setresolvedcolor{#1}%
+  \tikz[baseline=-0.5ex, x=1em, y=1em]
+    \draw[\resolvedcolor, line width=0.10em, line join=round] % ← un peu plus épais
+      (0,-0.25) -- (0.25,0) -- (0,0.25) -- (-0.25,0) -- cycle;% ← 0.18 → 0.20
+}
+
+\NewDocumentEnvironment{uList}{O{bullet} O{primary}}
+{%
+  \def\ulmark{\custombullet{#2}}%
+
+  \ifstrequal{#1}{bullet}{%
+    \def\ulmark{\custombullet{#2}}%
+  }{}%
+
+  \ifstrequal{#1}{dash}{%
+    \def\ulmark{\customdash{#2}}%
+  }{}%
+
+  \ifstrequal{#1}{diamond}{%
+    \def\ulmark{\customdiamond{#2}}%
+  }{}%
+
+  \begin{itemize}[
+    label={\ulmark},
+    labelsep=0.6em,
+    leftmargin=*,
+    itemsep=.25\baselineskip
+  ]%
+}
+{%
+  \end{itemize}%
+}
+

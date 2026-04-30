@@ -1,0 +1,54 @@
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{skins,breakable}
+
+\NewDocumentCommand{\sethighlightquotecolor}{m}{%
+  \ifstrequal{#1}{primary}{%
+    \def\highlightquotecolor{background1}%
+  }{%
+    \ifstrequal{#1}{secondary}{%
+      \def\highlightquotecolor{background2}%
+    }{%
+      \PackageError{highlightquote}{Argument invalide : #1}{Utilise primary ou secondary}%
+      \def\highlightquotecolor{background1}%
+    }%
+  }%
+}
+
+\newtcolorbox{sideLine}[1]{%
+  enhanced,
+  breakable,
+  colback=white,
+  frame hidden,
+  boxrule=0pt,
+  left=14pt,
+  right=10pt,
+  top=6pt,
+  bottom=6pt,
+  before skip=\baselineskip,
+  after skip=\baselineskip,
+  before upper={\sethighlightquotecolor{#1}},
+  overlay unbroken={
+    \sethighlightquotecolor{#1}
+    \draw[\highlightquotecolor, line width=6pt, line cap=round]
+      ([xshift=4pt,yshift=-3pt]frame.north west) --
+      ([xshift=4pt]frame.south west);
+  },
+  overlay first={
+    \sethighlightquotecolor{#1}
+    \draw[\highlightquotecolor, line width=6pt, line cap=round]
+      ([xshift=4pt,yshift=-3pt]frame.north west) --
+      ([xshift=4pt]frame.south west);
+  },
+  overlay middle={
+    \sethighlightquotecolor{#1}
+    \draw[\highlightquotecolor, line width=6pt]
+      ([xshift=4pt]frame.north west) --
+      ([xshift=4pt]frame.south west);
+  },
+  overlay last={
+    \sethighlightquotecolor{#1}
+    \draw[\highlightquotecolor, line width=6pt]
+      ([xshift=4pt]frame.north west) --
+      ([xshift=4pt]frame.south west);
+  },
+}
