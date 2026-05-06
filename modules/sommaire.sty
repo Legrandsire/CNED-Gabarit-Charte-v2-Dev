@@ -188,13 +188,14 @@
 }
 \def\@dotsep{2}
 
+
 \renewcommand{\l@section}[2]{%
   \begingroup
     \renewcommand{\numberline}[1]{%
       {\textcolor{secondarycolor}{%
         \robotoCondensed\mdseries\fontsize{10.5}{12}\selectfont ##1%
       }}%
-      \hspace{0.4em}%
+      \hspace{0.0em}%
     }%
 
     \vspace{0.5em}\noindent
@@ -234,13 +235,14 @@
   \endgroup
 }
 
+
 \renewcommand{\l@subsection}[2]{%
   \begingroup
     \renewcommand{\numberline}[1]{%
       {\textcolor{primarycolor}{%
         \robotoCondensed\fontsize{10}{12}\selectfont ##1%
       }}%
-      \hspace{0.4em}%
+      \hspace{0.0em}%
     }%
 
     \vspace{0.5em}\noindent
@@ -279,13 +281,14 @@
   \endgroup
 }
 
+
 \renewcommand{\l@subsubsection}[2]{%
   \begingroup
     \renewcommand{\numberline}[1]{%
       {\textcolor{black}{%
         \robotoCondensed\fontsize{8.5}{11}\selectfont ##1%
       }}%
-      \hspace{0.4em}%
+      \hspace{0.0em}%
     }%
 
     \vspace{0.5em}\noindent
@@ -352,7 +355,7 @@
   ] (title) {\fontsize{12}{14}\selectfont\bfseries  \hyperlink{ancre}{Crédits}};
 
     \draw[line width=1pt, background2] %épaisseur du trait qui souligne
-    ($(titlebox.base west)+(0.5,0pt)$) -- ++(\linewidth-55,0); %Distance du trait
+    ($(title.base west)+(0.5,-3pt)$) -- ++(\linewidth-55,0); %Distance du trait
 
 
     % --- Numéro de page (par-dessus le trait) ---

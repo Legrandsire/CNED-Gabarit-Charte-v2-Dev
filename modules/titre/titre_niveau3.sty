@@ -1,15 +1,15 @@
-\usepackage{soul}          % gère les soulignements multi-lignes
-\setul{2pt}{0.25ex}        % épaisseur et décalage
-\setulcolor{background2}   % couleur du trait
+\DeclareRobustCommand{\HthreeStart}{%
+  \tagstructbegin{tag=H3}\tagmcbegin{tag=Span}%
+}
+\DeclareRobustCommand{\HthreeEnd}{%
+  \tagmcend\tagstructend%
+}
 
-\newcommand{\fixednum}[1]{\makebox[0.5em][l]{#1}}
 
-%% Macro pour l'accessibilité
-\newcommand{\HthreeStart}{\tagstructbegin{tag=H3}\tagmcbegin{tag=Span}}
-\newcommand{\HthreeEnd}{\tagmcend\tagstructend}
 
 \titleformat{\subsection}[hang]
   {\bfseries\fontsize{16}{18}\selectfont\RaggedRight}
-  {\color{primarycolor}\robotoCondensed \mdseries \fontsize{14}{16} \selectfont \thesubsection}
-  {1.5pt}
-  {\HthreeStart}[\HthreeEnd]
+  {\color{primarycolor}\robotoCondensed\mdseries\fontsize{14}{16}\selectfont\thesubsection}
+  {0.6em}
+  {\HthreeStart}
+  [\HthreeEnd]

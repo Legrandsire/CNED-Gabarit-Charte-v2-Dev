@@ -1,42 +1,30 @@
-% --- Liste numérotée unifiée -----------------------------------------------
-% Nécessite : enumitem, xcolor, etoolbox (pour \ifstrequal)
-%             \NewDocumentEnvironment fait partie du noyau LaTeX moderne.
-%
-% Syntaxe :
-%   \begin{oList}                     -> arabic + primary  (défauts)
-%   \begin{oList}[Alph]               -> Alph    + primary
-%   \begin{oList}[Roman][secondary]   -> Roman   + secondary
-%
-%   #1 type    : arabic | Alph | Roman
-%   #2 couleur : primary | secondary
-% ---------------------------------------------------------------------------
-
-\newlist{olbase}{enumerate}{1}
+% --- Liste numérotée unifiée corrigée --------------------------------------
+\newlist{olbase}{enumerate}{4} % <--- CORRECTION : On autorise jusqu'à 4 niveaux
 
 \NewDocumentEnvironment{oList}{ O{arabic} O{primary} }
 {%
   % Couleur : primary | secondary | autre couleur xcolor
   \setresolvedcolor{#2}%
 
-  % Valeurs par défaut
-  \def\oltypelabel{\arabic{olbasei}}%
+  % Valeurs par défaut utilisant l'étoile (*) d'enumitem
+  \def\oltypelabel{\arabic*}%
   \def\ollabelsep{0.6em}%
 
   % Type : arabic | Alph | Roman
   \ifstrequal{#1}{arabic}{%
-    \def\oltypelabel{\arabic{olbasei}}%
+    \def\oltypelabel{\arabic*}%
   }{}%
 
   \ifstrequal{#1}{Alph}{%
-    \def\oltypelabel{\Alph{olbasei}}%
+    \def\oltypelabel{\Alph*}%
   }{}%
 
   \ifstrequal{#1}{alph}{%
-    \def\oltypelabel{\alph{olbasei}}%
+    \def\oltypelabel{\alph*}%
   }{}%
 
   \ifstrequal{#1}{Roman}{%
-    \def\oltypelabel{\Roman{olbasei}}%
+    \def\oltypelabel{\Roman*}%
     \def\ollabelsep{0.3em}%
   }{}%
 
@@ -50,5 +38,3 @@
 {%
   \end{olbase}%
 }
-
-  

@@ -6,7 +6,7 @@
 
 % 1. Choix de la matière
 % maths, agregmusique, concoursBanqueFrance
-\newcommand{\doctype}{\binomeCouleur} % changer ici selon besoin
+\newcommand{\doctype}{\binomeCouleurs} % changer ici selon besoin
 
 \definecolor{colorURL}{HTML}{262D7D}
 
@@ -28,25 +28,156 @@
 
 % 3. Définir les macros pour chaque charte graphique
 
-\newcommand{\doctype@colors@maths}{%
+% 1. Bleu 300 / Violet 7441
+\newcommand{\doctype@colors@bleuVioletA}{%
+    \definecolor{primarycolor}{HTML}{005EB8}
+    \definecolor{secondarycolor}{HTML}{9754B8}
+    \definecolor{background1}{HTML}{E8F1FA}
+    \definecolor{background2}{HTML}{FAF3FD}
+}
+
+% 2. Turquoise 323 / Bordeaux 743
+\newcommand{\doctype@colors@turquoiseBordeauxA}{%
+    \definecolor{primarycolor}{HTML}{005F61}
+    \definecolor{secondarycolor}{HTML}{872651}
+    \definecolor{background1}{HTML}{E5EFEF}
+    \definecolor{background2}{HTML}{F3E9EE}
+}
+
+% 3. Vert 347 / Marron 4725
+\newcommand{\doctype@colors@vertMarron}{%
+    \definecolor{primarycolor}{HTML}{007E3B}
+    \definecolor{secondarycolor}{HTML}{8B6457}
+    \definecolor{background1}{HTML}{E5F5ED}
+    \definecolor{background2}{HTML}{F7F3F1}
+}
+
+% 4. Vert 364 / Violet 7441
+\newcommand{\doctype@colors@vertViolet}{%
+    \definecolor{primarycolor}{HTML}{4A7729}
+    \definecolor{secondarycolor}{HTML}{9754B8}
+    \definecolor{background1}{HTML}{ECF1EA}
+    \definecolor{background2}{HTML}{FAF3FD}
+}
+
+% 5. Rouge 485 / Bleu 5405
+\newcommand{\doctype@colors@rougeBleu}{%
+    \definecolor{primarycolor}{HTML}{DA291C}
+    \definecolor{secondarycolor}{HTML}{4F758B}
+    \definecolor{background1}{HTML}{FEF3F3}
+    \definecolor{background2}{HTML}{F4F6FB}
+}
+
+% 6. Violet 513 / Vert 364
+\newcommand{\doctype@colors@violetVertA}{%
+    \definecolor{primarycolor}{HTML}{93328E}
+    \definecolor{secondarycolor}{HTML}{4A7729}
+    \definecolor{background1}{HTML}{F4EAF3}
+    \definecolor{background2}{HTML}{ECF1EA}
+}
+
+% 7. Violet 527 / Vert 347
+\newcommand{\doctype@colors@violetVertB}{%
+    \definecolor{primarycolor}{HTML}{8031A7}
+    \definecolor{secondarycolor}{HTML}{007E3B}
+    \definecolor{background1}{HTML}{F2E9F6}
+    \definecolor{background2}{HTML}{E5F5ED}
+}
+
+% 8. Bleu 639 / Violet 7441
+\newcommand{\doctype@colors@bleuVioletB}{%
+    \definecolor{primarycolor}{HTML}{0774A6}
+    \definecolor{secondarycolor}{HTML}{9754B8}
+    \definecolor{background1}{HTML}{E8F2F8}
+    \definecolor{background2}{HTML}{FAF3FD}
+}
+
+% 9. Bordeaux 675 / Turquoise 323
+\newcommand{\doctype@colors@bordeauxTurquoise}{%
+    \definecolor{primarycolor}{HTML}{AE2573}
+    \definecolor{secondarycolor}{HTML}{005F61}
+    \definecolor{background1}{HTML}{F7E8F1}
+    \definecolor{background2}{HTML}{E5EFEF}
+}
+
+% 10. Marron 1395 / Turquoise 7474
+\newcommand{\doctype@colors@marronTurquoise}{%
+    \definecolor{primarycolor}{HTML}{996017}
+    \definecolor{secondarycolor}{HTML}{007681}
+    \definecolor{background1}{HTML}{F4EFE7}
+    \definecolor{background2}{HTML}{E5F1F2}
+}
+
+% 11. Orange 1665 / Bleu 300
+\newcommand{\doctype@colors@orangeBleu}{%
     \definecolor{primarycolor}{HTML}{C63C15}
     \definecolor{secondarycolor}{HTML}{005EB8}
     \definecolor{background1}{HTML}{FCECE7}
     \definecolor{background2}{HTML}{E8F1FA}
 }
 
-\newcommand{\doctype@colors@concoursAdmin}{%
+% 12. Marron 4725 / Violet 527
+\newcommand{\doctype@colors@marronViolet}{%
+    \definecolor{primarycolor}{HTML}{8B6457}
+    \definecolor{secondarycolor}{HTML}{8031A7}
+    \definecolor{background1}{HTML}{F7F3F1}
+    \definecolor{background2}{HTML}{F2E9F6}
+}
+
+% 13. Marron 4985 / Bordeaux 743
+\newcommand{\doctype@colors@marronBordeaux}{%
+    \definecolor{primarycolor}{HTML}{874B52}
+    \definecolor{secondarycolor}{HTML}{872651}
+    \definecolor{background1}{HTML}{F9F3F4}
+    \definecolor{background2}{HTML}{F3E9ED}
+}
+
+% 14. Bleu 5405 / Marron 4985
+\newcommand{\doctype@colors@bleuMarron}{%
+    \definecolor{primarycolor}{HTML}{4F758B}
+    \definecolor{secondarycolor}{HTML}{874B52}
+    \definecolor{background1}{HTML}{F4F6FB}
+    \definecolor{background2}{HTML}{F9F3F4}
+}
+
+% 15. Vert 5545 / Orange 1665
+\newcommand{\doctype@colors@vertOrange}{%
+    \definecolor{primarycolor}{HTML}{43695B}
+    \definecolor{secondarycolor}{HTML}{C63C15}
+    \definecolor{background1}{HTML}{EBF0ED}
+    \definecolor{background2}{HTML}{FCECE7}
+}
+
+% 16. Bordeaux 7435 / Bleu 5405
+\newcommand{\doctype@colors@bordeauxBleu}{%
+    \definecolor{primarycolor}{HTML}{872651}
+    \definecolor{secondarycolor}{HTML}{4F758B}
+    \definecolor{background1}{HTML}{FCF3F7}
+    \definecolor{background2}{HTML}{F4F6FB}
+}
+
+% 17. Violet 7441 / Bordeaux 743
+\newcommand{\doctype@colors@violetBordeaux}{%
+    \definecolor{primarycolor}{HTML}{9754B8}
+    \definecolor{secondarycolor}{HTML}{872651}
+    \definecolor{background1}{HTML}{FAF3FD}
+    \definecolor{background2}{HTML}{FCF3F7}
+}
+
+% 18. Turquoise 7474 / Bordeaux 675
+\newcommand{\doctype@colors@turquoiseBordeauxB}{%
     \definecolor{primarycolor}{HTML}{007681}
     \definecolor{secondarycolor}{HTML}{AE2573}
     \definecolor{background1}{HTML}{E5F1F2}
     \definecolor{background2}{HTML}{F7E8F1}
 }
 
-\newcommand{\doctype@colors@Agreg}{%
-    \definecolor{primarycolor}{HTML}{005EB8}
-    \definecolor{secondarycolor}{HTML}{9754B8}
-    \definecolor{background1}{HTML}{E8F1FA}
-    \definecolor{background2}{HTML}{FAF3FD}
+% 19. Gris 7545 / Violet 527
+\newcommand{\doctype@colors@grisViolet}{%
+    \definecolor{primarycolor}{HTML}{425563}
+    \definecolor{secondarycolor}{HTML}{8031A7}
+    \definecolor{background1}{HTML}{EBEEEF}
+    \definecolor{background2}{HTML}{F2E9F6}
 }
 
 \loadcharte
