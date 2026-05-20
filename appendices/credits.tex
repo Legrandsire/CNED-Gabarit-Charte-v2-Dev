@@ -1,83 +1,105 @@
 \Needspace{18\baselineskip}
 
+\clearpage
+\null
 \vfill
+\noindent
 \begin{minipage}{\textwidth}
- 
+
+
+% Trait au-dessus des crédits
+\noindent
 \begin{tikzpicture}
 \draw[dashed, line width=0.5pt, color=secondarycolor]
-  (0,0) -- (\linewidth,0);
-\end{tikzpicture} %% Trait au dessus des crédits
+  (0,0) -- ++(\linewidth,0);
+\end{tikzpicture}
 
+\vspace{0.8em}
 
-\vspace{0.1em} %% Distance entre le trait et le mot crédit
+% Titre
+\noindent
+\hyperlink{target}{%
+  {\fontsize{16}{18}\selectfont\textbf{Crédits}}%
+}
 
-\hspace{-5pt} \hyperlink{target}{\fontsize{16}{18} \selectfont \textbf{Crédits}}
+\vspace{0.5em}
 
-\vspace{0.1em}
-
-\uLine{\textbf{\fontsize{10}{12}\selectfont Auteur(s)}}\\
-\vspace{0.1em}
+% Auteur(s)
+\noindent
+\uLine{\textbf{\fontsize{10}{12}\selectfont Auteur(s)}}\\[0.4em]
 \makeatletter
-{\robotoMedium\fontsize{7.5}{9}\selectfont\@author}
+{\robotoMedium\fontsize{7.5}{9}\selectfont\@author\par}
 \makeatother
 
-\vspace{0.1em}
+\vspace{0.6em}
 
-\uLine{\textbf{\fontsize{10}{12}\selectfont Image(s)}}\\
-\vspace{0.5em}
+% Image(s)
+\noindent
+\uLine{\textbf{\fontsize{10}{12}\selectfont Image(s)}}\\[0.4em]
+
 {\fontsize{7.5}{9}\selectfont
 Toute image non mentionnée dans la liste suivante est la propriété du Cned.
 
+\vspace{0.3em}
+
 \begin{uList}[dash][primary]
-    \mescredits
+  \mescredits
 \end{uList}
-}
-\vspace{0.1em}
+\par}
 
-\noindent\textcolor{secondarycolor}{\rule{\linewidth}{0.1pt}}
-\vspace{-0.5em}
+\vspace{0.5em}
 
-\begin{tikzpicture}
-    \node[inner sep=0em, text width=\textwidth, align=left] (box) at (0,0) {
+% Trait horizontal
 \noindent
-\begin{minipage}[c]{2cm}
+{\color{secondarycolor}\hrule height 0.1pt}
+
+\vspace{0.6em}
+
+% Bloc légal avec logos
+\noindent
+\begin{minipage}[c]{0.13\textwidth}
   \centering
   \includegraphics[width=2cm]{img/CNED-Banniere.png}
-\end{minipage}\hfill
-\begin{minipage}[c]{14cm}
-  \begin{spacing}{0.2}
-  {\robotolite\fontsize{6}{1}\selectfont
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.75\textwidth}
+  {\robotolite\fontsize{6}{7}\selectfont
   Les cours du Cned sont strictement réservés à l’usage privé de leurs destinataires et ne sont pas destinés à une utilisation collective.
   Les personnes qui s’en serviraient pour d’autres usages, qui en feraient une reproduction intégrale ou partielle, une traduction sans
   le consentement du Cned, s’exposeraient à des poursuites judiciaires et aux sanctions pénales prévues par le Code de la propriété
   intellectuelle. Les reproductions par reprographie de livres et de périodiques protégés contenues dans cet ouvrage sont effectuées
-  par le Cned avec l’autorisation du Centre français d’exploitation du droit de copie (20, rue des Grands-Augustins, 75006 Paris).}
-  \end{spacing}
-\end{minipage}\hfill
-\begin{minipage}[c]{0.8cm}
+  par le Cned avec l’autorisation du Centre français d’exploitation du droit de copie (20, rue des Grands-Augustins, 75006 Paris).
+  \par}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.07\textwidth}
   \centering
   \includegraphics[width=1cm]{img/photocopillage.png}
 \end{minipage}
 
-\begin{minipage}[c]{15cm}
-  \begin{spacing}{0.5}
-  {\robotoMedium\fontsize{6}{9}\selectfont {Cned, BP 60200, 86980 Futuroscope Chasseneuil Cedex, France}
-  
-\vspace{0.4em}
+\vspace{0.7em}
 
-  \robotolite{Le Cned remercie les personnes qui ont contribué à la réalisation de ce document. Qu’elles trouvent ici l’expression de toute sa reconnaissance}\\
+% Adresse et mentions finales
+\noindent
+\begin{minipage}[c]{\textwidth}
+  {\robotoMedium\fontsize{6}{7.2}\selectfont
+  Cned, BP 60200, 86980 Futuroscope Chasseneuil Cedex, France
 
-  \vspace{1em}
+  \vspace{0.4em}
 
-  © Cned \the\year \hspace{2em} \textit{Ce document peut présenter des défauts d'accessibilité.}
+  {\robotolite
+  Le Cned remercie les personnes qui ont contribué à la réalisation de ce document.
+  Qu’elles trouvent ici l’expression de toute sa reconnaissance.
+  \par}
+
+  \vspace{0.8em}
+
+  © Cned \the\year
+  \hspace{2em}
+  \textit{Ce document peut présenter des défauts d'accessibilité.}
   \hfill
-  \codeArticle\\
-  }
-  \end{spacing}
+  \codeArticle
+  \par}
 \end{minipage}
-    };
-\end{tikzpicture}
-
-\vspace{-1.5em}
-
+\vspace{-1.8em}
 \end{minipage}

@@ -72,7 +72,7 @@
 % CONFIGURATION DES AUTOMATISATIONS
 % =====================================================================
 
-\setboolean{renvoiCorrection}{false} % true ou false
+\setboolean{renvoiCorrection}{true} % true ou false
 
 % =====================================================================
 % CONFIGURATION DES METADONNEES
@@ -80,8 +80,15 @@
 
 
 % Metadonnées du document .pdf
-\usepackage[hidelinks, 
-            pdftitle={\titrefooter},
-            pdfauthor={\@author},
-            pdfsubject={\intituleFormation, \getsubtitle},
-            pdfkeywords={mots, clefs}]{hyperref}
+\usepackage[hidelinks]{hyperref}
+
+\makeatletter
+\newcommand{\PDFSubjectText}{\intituleFormation, \getsubtitle}
+
+\hypersetup{
+  pdftitle={{\titrefooter}},
+  pdfauthor={{\@author}},
+  pdfsubject={{\PDFSubjectText}},
+  pdfkeywords={{mots, clefs, test1, test 2}}
+}
+\makeatother

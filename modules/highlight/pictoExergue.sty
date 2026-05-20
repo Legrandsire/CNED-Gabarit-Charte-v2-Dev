@@ -5,13 +5,16 @@
 \colorlet{c1b5eaa}{primarycolor}
 \colorlet{c96519b}{secondarycolor}
 
-\newcommand{\pictoExergue}{%
-\raisebox{-1.5ex}{
-\resizebox{16mm}{!}{
+\NewDocumentCommand{\pictoExergue}{ O{secondary} O{3em} }{%
+  \begingroup
+  \colorlet{c96519b}{#1color}%
 
+  \raisebox{-0.35ex}{%
+    \resizebox{#2}{!}{%
 
 \def \globalscale {0.500000}
 \begin{tikzpicture}[y=1pt, x=1pt, yscale=\globalscale,xscale=\globalscale, every node/.append style={scale=\globalscale}, inner sep=0pt, outer sep=0pt]
+
   \path[fill=c96519b] (5.1015, -5.76675) -- (5.81175, -6.90525) -- (6.0495, 
   -6.6345) -- (5.5125, -5.397) -- (5.451, -5.3895) -- (5.1015, -5.76675) -- 
   cycle(2.33625, -2.355) -- (1.62225, -1.2165) -- (1.38825, -1.479) -- (1.9215, 

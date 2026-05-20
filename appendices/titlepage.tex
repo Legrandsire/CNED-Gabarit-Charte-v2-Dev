@@ -15,7 +15,7 @@
         text=black,
         inner xsep=250pt,
         inner ysep=7pt,
-      ] {\includepicto{Pictos/Warning.svg} \fontsize{10}{12}\selectfont{Ce devoir est à envoyer à la correction.}};
+      ] {\pictoWarning{} \hspace{0.2em} \fontsize{10}{12}\selectfont{Ce devoir est à envoyer à la correction.}};
     \end{tikzpicture}
   \end{center}
   \vspace{1cm}
@@ -36,7 +36,7 @@
       minimum width=8cm,
       minimum height=6cm
     ] (box) at (0,0) {%
-      {\fontsize{18}{22}\selectfont \textbf{\textcolor{primarycolor}{\getepreuve}}}
+      {\fontsize{18}{18}\selectfont \textbf{\textcolor{primarycolor}{\getepreuve}}\par}
       
       \vspace{0.5em}
       
