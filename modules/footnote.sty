@@ -1,7 +1,23 @@
-\renewcommand{\footnotesize}{\fontsize{8}{11}\selectfont}
+% =====================================================================
+% MODULE : footnote.sty (Gestion des notes de bas de page)
+% =====================================================================
 
+% 1. Ajustement de la police et de son interligne interne
+% (Un interligne à 11.5pt au lieu de 11pt évite l'effet "écrasé" du texte)
+\renewcommand{\footnotesize}{\fontsize{8}{11.5}\selectfont}
+
+% 2. Espacement entre deux notes de bas de page distinctes
+\setlength{\footnotesep}{9pt}
+
+% 3. Espace ÉLASTIQUE entre le texte principal et le début du bloc de notes
+% Donne la flexibilité nécessaire à LaTeX pour équilibrer la page sans forcer
+\setlength{\skip\footins}{14pt plus 4pt minus 2pt}
+
+% 4. Redéfinition étanche de la ligne de séparation (sans effet paragraphe)
 \renewcommand\footnoterule{%
-  \kern -3pt
-  \noindent\hspace*{3em}{\color{primarycolor}\rule{3cm}{1pt}}\par
-  \kern 9mm
+  \kern -3pt          % Recul standard pour compenser la profondeur du texte supérieur
+  \nointerlineskip    % Désactive l'insertion de l'interligne automatique du dessus
+  \hbox{\hspace*{3em}{\color{primarycolor}\rule{3cm}{1pt}}} % Règle isolée dans sa propre boîte
+  \nointerlineskip    % Désactive l'insertion de l'interligne automatique du dessous
+  \kern 5pt           % Espace fixe, propre et calibré avant la première note
 }
