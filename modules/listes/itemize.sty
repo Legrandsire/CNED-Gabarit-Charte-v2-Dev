@@ -1,0 +1,71 @@
+%%%%%%
+%% Puces chartées et redéfinition de l'environnement natif « itemize ».
+%%
+%% Depuis la mise à la charte des environnements standards, on n'utilise plus
+%% de nom maison (uList) : c'est « itemize » lui-même qui porte la charte.
+%%   \begin{itemize}                      -> puce ronde, primary, interligne normal
+%%   \begin{itemize}[dash][secondary]     -> variante de puce et de couleur
+%%   \begin{itemize}[diamond][primary][loose] -> + interligne aéré
+%%
+%% Arguments (tous optionnels, avec valeur par défaut) :
+%%   #1 = type d'ancrage  : bullet (défaut) | dash | diamond
+%%   #2 = couleur         : primary (défaut) | secondary
+%%   #3 = interligne      : mot-clé tight | normal (défaut) | loose, OU valeur libre (ex. 0.6\baselineskip)
+
+%%%%%% Résolution de couleur (partagée avec oList, citation, underline)
+\newcommand{\setresolvedcolor}[1]{%
+  \def\resolvedcolor{#1}%
+  \ifstrequal{#1}{primary}{\def\resolvedcolor{primarycolor}}{}%
+  \ifstrequal{#1}{secondary}{\def\resolvedcolor{secondarycolor}}{}%
+}
+
+%%%%%% Résolution de l'interligne : mot-clé éditorial ou valeur libre
+\newcommand{\setresolveditemsep}[1]{%
+  \def\resolveditemsep{#1}%
+  \ifstrequal{#1}{tight}{\def\resolveditemsep{0pt}}{}%
+  \ifstrequal{#1}{normal}{\def\resolveditemsep{0.35\baselineskip}}{}%
+  \ifstrequal{#1}{loose}{\def\resolveditemsep{0.8\baselineskip}}{}%
+}
+
+%%%%%% Marqueurs de puce (dessin TikZ, couleur résolue)
+\newcommand{\custombullet}[1]{%
+  \setresolvedcolor{#1}%
+  \tikz[baseline=-0.45ex, x=1em, y=1em]
+    \fill[\resolvedcolor] (0,0) circle (0.25);%
+}
+
+\newcommand{\customdash}[1]{%
+  \setresolvedcolor{#1}%
+  \tikz[baseline=-0.45ex, x=1em, y=1em]
+    \draw[line width=0.13em, \resolvedcolor, line cap=round] (0,0)--(0.55,0);%
+}
+
+\newcommand{\customdiamond}[1]{%
+  \setresolvedcolor{#1}%
+  \tikz[baseline=-0.5ex, x=1em, y=1em]
+    \draw[\resolvedcolor, line width=0.10em, line join=round]
+      (0,-0.25) -- (0.25,0) -- (0,0.25) -- (-0.25,0) -- cycle;%
+}
+
+%%%%%% Liste de base (clone d'itemize) pour éviter la récursion lors de la redéfinition
+\newlist{itbase}{itemize}{6}
+
+%%%%%% Redéfinition chartée de itemize
+\RenewDocumentEnvironment{itemize}{O{bullet} O{primary} O{normal}}
+{%
+  \def\ulmark{\custombullet{#2}}%
+  \ifstrequal{#1}{bullet}{\def\ulmark{\custombullet{#2}}}{}%
+  \ifstrequal{#1}{dash}{\def\ulmark{\customdash{#2}}}{}%
+  \ifstrequal{#1}{diamond}{\def\ulmark{\customdiamond{#2}}}{}%
+  \setresolveditemsep{#3}%
+  \begin{itbase}[
+    label={\ulmark},
+    labelsep=0.6em,
+    leftmargin=*,
+    itemsep=\resolveditemsep,
+    parsep=0pt
+  ]%
+}
+{%
+  \end{itbase}%
+}

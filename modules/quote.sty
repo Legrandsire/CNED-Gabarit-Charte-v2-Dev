@@ -1,0 +1,62 @@
+% --- Citation chartée : redéfinition des environnements natifs « quote » et « quotation » ---
+%%
+%%   \begin{quote} ... \end{quote}            -> citation chartée, primary
+%%   \begin{quote}[secondary] ... \end{quote} -> variante de couleur
+%%   quotation se comporte de façon identique.
+%%
+%% Argument optionnel : [couleur] = primary (défaut) | secondary.
+%% \setresolvedcolor est défini dans itemize.sty ; \BODY est fourni par environ.
+
+%% Rendu partagé : utilise \resolvedcolor (posé par l'appelant) et \BODY (corps de l'environnement)
+\newcommand{\cnedcitationrender}{%
+  \begin{center}
+  \begin{tikzpicture}
+    \def\r{10pt}%
+    \def\d{50pt}%  longueur horizontale des crochets
+    \def\g{20pt}%  longueur verticale des crochets
+
+    \node[
+      inner sep=10pt,
+      text width=\textwidth,
+      anchor=north west
+    ] (box) {\robotoCondensed\fontsize{11}{13}\selectfont\BODY};
+
+    \begin{pgfonlayer}{background}
+      \path[
+        draw=\resolvedcolor,
+        line width=2pt,
+        dash pattern=on 0pt off 5pt,
+        line cap=round
+      ]
+        ($(box.south east)+(-\d-\r,0)$) --
+        ($(box.south east)+(-\r,0)$)
+          arc[start angle=270,end angle=360,radius=\r] --
+        ($(box.south east)+(0,\g)$);
+    \end{pgfonlayer}
+
+    \begin{pgfonlayer}{background}
+      \path[
+        draw=\resolvedcolor,
+        line width=2pt,
+        dash pattern=on 0pt off 5pt,
+        line cap=round
+      ]
+        ($(box.north west)+(\d+\r,0)$) --
+        ($(box.north west)+(\r,0)$)
+          arc[start angle=90,end angle=180,radius=\r] --
+        ($(box.north west)-(0,\g)$);
+    \end{pgfonlayer}
+
+  \end{tikzpicture}
+  \end{center}%
+}
+
+\RenewEnviron{quote}[1][primary]{%
+  \setresolvedcolor{#1}%
+  \cnedcitationrender
+}
+
+\RenewEnviron{quotation}[1][primary]{%
+  \setresolvedcolor{#1}%
+  \cnedcitationrender
+}

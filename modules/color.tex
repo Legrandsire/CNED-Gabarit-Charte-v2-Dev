@@ -15,11 +15,12 @@
 \makeatletter
 \newcommand{\loadcharte}{%
   \@ifundefined{doctype@colors@\doctype}{%
-    % si type inconnu, couleur par défaut
-    \definecolor{primarycolor}{HTML}{C63C15}
-    \definecolor{secondarycolor}{HTML}{005EB8}
-    \definecolor{background1}{HTML}{FCECE7}
-    \definecolor{background2}{HTML}{E8F1FA}
+    % si type inconnu, jeu par défaut neutre : noir et nuances de gris
+    % (identique au binôme noirGris ci-dessous)
+    \definecolor{primarycolor}{HTML}{1D1D1B}
+    \definecolor{secondarycolor}{HTML}{6F6F6E}
+    \definecolor{background1}{HTML}{F0F0F0}
+    \definecolor{background2}{HTML}{E2E2E2}
   }{%
     % sinon appel à la macro spécifique
     \csname doctype@colors@\doctype\endcsname
@@ -178,6 +179,15 @@
     \definecolor{secondarycolor}{HTML}{8031A7}
     \definecolor{background1}{HTML}{EBEEEF}
     \definecolor{background2}{HTML}{F2E9F6}
+}
+
+% Jeu neutre par défaut (voir aussi le repli de \loadcharte ci-dessus)
+% 20. Noir / Gris
+\newcommand{\doctype@colors@noirGris}{%
+    \definecolor{primarycolor}{HTML}{1D1D1B}
+    \definecolor{secondarycolor}{HTML}{6F6F6E}
+    \definecolor{background1}{HTML}{F0F0F0}
+    \definecolor{background2}{HTML}{E2E2E2}
 }
 
 \loadcharte

@@ -1,0 +1,39 @@
+% --- Soulignement charté : redéfinition de la commande native « \underline » -------------
+%%
+%%   \underline{texte}              -> souligné charté, primary (mode texte)
+%%   \underline[secondary]{texte}   -> variante de couleur
+%%   $\underline{x}$                -> comportement mathématique natif préservé
+%%
+%% Argument optionnel : [couleur] = primary (défaut) | secondary.
+%% \setresolvedcolor est défini dans itemize.sty.
+%%
+%% Implémentation en AIGUILLEUR : \underline ne prend AUCUN argument ;
+%% en mode mathématique il rend immédiatement la main à la commande
+%% native (copiée avec \NewCommandCopy), en mode texte il délègue à
+%% \cnedunderline qui analyse [couleur]{texte}. Ne pas revenir à une
+%% redéfinition qui analyse ses arguments en mode mathématique : cela
+%% corrompait l'analyse des commandes de titres suivantes (boucle
+%% infinie « TeX capacity exceeded » sur \subsubsubsection, conflit
+%% amsgen/titlesec via la macro partagée \reserved@a).
+
+% Copie fidèle du \underline natif (commande robuste), pour le mode math
+\NewCommandCopy{\latexunderline}{\underline}
+
+% Version chartée, mode texte uniquement
+\NewDocumentCommand{\cnedunderline}{O{primary} m}{%
+  \setresolvedcolor{#1}%
+  \tikz[baseline=(X.base)]{%
+    \node[inner sep=0pt, outer sep=0pt, anchor=base] (X) {#2};
+    \draw[\resolvedcolor, line width=0.08ex]
+      ([yshift=-0.8ex]X.base west) -- ([yshift=-0.8ex]X.base east);%
+  }%
+}
+
+% Aiguilleur : aucun argument absorbé ici
+\RenewDocumentCommand{\underline}{}{%
+  \ifmmode
+    \expandafter\latexunderline
+  \else
+    \expandafter\cnedunderline
+  \fi
+}

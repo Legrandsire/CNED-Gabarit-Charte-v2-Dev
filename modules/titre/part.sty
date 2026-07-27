@@ -1,0 +1,28 @@
+%%% \part — regroupement exceptionnel (hors hierarchie de titres)
+%
+% Bascule du 2026-07-26 (decision Vincent) : la mise en forme « titre 1 »
+% de la charte est desormais portee par \section. \part est mis de cote,
+% sans etre supprime : il reste disponible pour les rares documents
+% reellement structures en grandes parties (tout-en-un, annales
+% compilees...).
+%
+% Accessibilite : traitement 100 % noyau, sans remap — \part cree un
+% conteneur de regroupement « Part » et son intitule est tague P (choix
+% des auteurs du noyau : un titre de partie est l'etiquette d'un
+% regroupement, pas un echelon de la hierarchie de lecture). PDF/UA-2
+% offrira mieux le moment venu.
+%
+% Rendu : celui de la classe article (« Premiere partie », gras), non
+% charte tant qu'aucun besoin reel ne le justifie.
+
+% Saut de page AVANT chaque \part sauf la premiere.
+\newif\iffirstpart
+\firstparttrue
+
+\preto{\part}{%
+  \iffirstpart
+    \global\firstpartfalse % pas de saut pour la toute premiere partie
+  \else
+    \clearpage             % saut de page force avant que l'ancre ne soit creee
+  \fi
+}

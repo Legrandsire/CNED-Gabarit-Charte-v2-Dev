@@ -9,15 +9,10 @@
 
 \usepackage[normalem]{ulem}        % \uline = soulignement continu multi-lignes
 
-% --- Hook de formatage pour la numérotation des parties dans la ToC ---
-\newcommand{\partnumberformat}[1]{#1}
-\renewcommand{\thepart}{\protect\partnumberformat{\prefixPart \theparts \sepPart}}
-
-
-% Empêche le hook de faire planter les signets PDF (hyperref)
-\pdfstringdefDisableCommands{%
-  \def\partnumberformat#1{#1}%
-}
+% (Bascule 2026-07-26 : l'entree de tete du sommaire est celle des
+% \section — titre 1 de la charte. L'ancien hook \partnumberformat,
+% qui passait par une redefinition globale de \thepart, est supprime :
+% chaque style d'entree formate son numero via \numberline.)
 
 \renewcommand{\ULthickness}{0.8pt} % épaisseur du soulignement
 % (facultatif) couleur du trait différente du texte :
@@ -110,14 +105,15 @@
   \leaders\hrule height 1pt depth 0pt\hfill\kern0pt
 }
 
-\renewcommand{\l@part}[2]{%
+% Entree de titre 1 (\section) : souligne + pave, ex-style des parties.
+\renewcommand{\l@section}[2]{%
   \begingroup
-  \renewcommand{\partnumberformat}[1]{%
+  \renewcommand{\numberline}[1]{%
     {\textcolor{primarycolor}{%
-      \robotoCondensed\mdseries\fontsize{12.5}{15}\selectfont ##1%
-    }}\hspace*{-0.9em}%
+      \robotoCondensed\mdseries\fontsize{12.5}{15}\selectfont
+      \CnedNumeroSommaire{section}{##1}%
+    }}\hspace*{0.3em}%
   }%
-  \renewcommand{\numberline}[1]{##1}%
 
   \vspace{0.4em}\noindent
 
@@ -189,13 +185,15 @@
 \def\@dotsep{2}
 
 
-\renewcommand{\l@section}[2]{%
+% Entree de titre 2 (\subsection), ex-style des sections.
+\renewcommand{\l@subsection}[2]{%
   \begingroup
     \renewcommand{\numberline}[1]{%
       {\textcolor{secondarycolor}{%
-        \robotoCondensed\mdseries\fontsize{10.5}{12}\selectfont ##1%
+        \robotoCondensed\mdseries\fontsize{10.5}{12}\selectfont
+        \CnedNumeroSommaire{subsection}{##1}%
       }}%
-      \hspace{0.0em}%
+      \hspace{0.4em}%
     }%
 
     \vspace{0.5em}\noindent
@@ -236,13 +234,15 @@
 }
 
 
-\renewcommand{\l@subsection}[2]{%
+% Entree de titre 3 (\subsubsection), ex-style des subsections.
+\renewcommand{\l@subsubsection}[2]{%
   \begingroup
     \renewcommand{\numberline}[1]{%
       {\textcolor{primarycolor}{%
-        \robotoCondensed\fontsize{10}{12}\selectfont ##1%
+        \robotoCondensed\fontsize{10}{12}\selectfont
+        \CnedNumeroSommaire{subsubsection}{##1}%
       }}%
-      \hspace{0.0em}%
+      \hspace{0.4em}%
     }%
 
     \vspace{0.5em}\noindent
@@ -282,13 +282,15 @@
 }
 
 
-\renewcommand{\l@subsubsection}[2]{%
+% Entree de titre 4 (\paragraph), ex-style des subsubsections.
+\renewcommand{\l@paragraph}[2]{%
   \begingroup
     \renewcommand{\numberline}[1]{%
       {\textcolor{black}{%
-        \robotoCondensed\fontsize{8.5}{11}\selectfont ##1%
+        \robotoCondensed\fontsize{8.5}{11}\selectfont
+        \CnedNumeroSommaire{paragraph}{##1}%
       }}%
-      \hspace{0.0em}%
+      \hspace{0.4em}%
     }%
 
     \vspace{0.5em}\noindent

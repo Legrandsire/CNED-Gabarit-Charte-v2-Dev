@@ -1,0 +1,125 @@
+%%% \section — titre 1 de la charte Cnedify (H1)
+%
+% Bascule du 2026-07-26 (decision Vincent) : la mise en forme « titre 1 »
+% de la charte (portee historiquement par \part) est desormais celle de
+% \section, tague H1 nativement par le noyau — plus aucun remap.
+%
+% Rendu charte (identique a l'ancien \part, exigence PAO) : numero
+% \robotoCondensed 15/17 primarycolor, titre noir gras 23/26 souligne
+% (soul, couleur background2), pave arrondi primarycolor 0.5em a droite
+% du titre, largeur calculee. Titres multi-lignes pris en charge.
+%
+% Saut de page : regle par le booleen titreUnSautDePage (defaut true,
+% modifiable dans config.tex) — saut avant chaque titre 1 sauf le
+% premier ; sinon, garantie d'espace (\Needspace).
+%
+% Accessibilite : le titre passe par le \@startsection natif (structure
+% « section » -> H1, numero dans « section-number ») ; le sommaire et
+% les signets recoivent le texte nu (argument optionnel de la forme
+% interne), la decoration ne les atteint pas.
+
+% Soulignement du titre 1 : lua-ul (attributs LuaTeX), PAS soul.
+% soul decoupe le texte en boites mot par mot ; sous le balisage
+% automatique du noyau, chaque fragment redeclenchait le balisage de
+% paragraphe dans le titre : structures H1 imbriquees mot a mot et
+% erreur tagpdf « begin/end para hooks differ » (jalon 3, 2026-07-26).
+% lua-ul souligne sans toucher aux boites — c'est deja lui qui souligne
+% les entrees du sommaire, balisees proprement depuis le jalon 1.
+\usepackage{luacolor}
+\usepackage{lua-ul}
+
+% Garde-fou historique : \ul (soul) neutralise dans les signets
+\pdfstringdefDisableCommands{%
+  \def\ul#1{#1}%
+}
+
+\newlength{\TitreUnAvail}
+\newlength{\TitreUnNumW}
+
+\makeatletter
+
+% Forme interne : \@startsection natif (tagging du noyau).
+% afterskip > 0 => titre detache ; retrait gauche 0.2cm (charte).
+% NE JAMAIS mettre \tagpdfparaOff dans le style d'un titre : le module
+% « sec » du noyau gere lui-meme la suspension du balisage de
+% paragraphe autour des titres (« we do not disable paratagging
+% completely, to avoid that the numbering goes wrong », dit sa doc), et
+% la FERMETURE de la structure de titre passe par la mecanique de fin
+% de paragraphe. Le \tagpdfparaOff pose ici entre les mesures 1134 et
+% 1354 laissait les 7 structures H1 ouvertes jusqu'a la fin du document
+% (« The structure Sect can not be closed », erreur « begin/end para
+% hooks differ », ~120 avertissements d'imbrication). En echange, on
+% accepte le paragraphe de titre tague « section » DANS la structure de
+% titre (H1 dans H1, 7 avertissements benins de PAC) : c'est le
+% comportement natif du noyau TeX Live 2025 avec un titre decore en
+% boite, il disparaitra avec les noyaux suivants.
+\newcommand\cned@titreun@inner{%
+  \@startsection{section}{1}{0.2cm}%
+    {0.2ex}%
+    {1ex \@plus .2ex}%
+    {\normalfont\bfseries\fontsize{23}{26}\selectfont\RaggedRight}}
+
+% Typographie du numero (enveloppe « section-number » du noyau).
+\newcommand\@seccntformat@section{%
+  {\normalfont\robotoCondensed\mdseries\fontsize{15}{17}\selectfont
+   \color{primarycolor}\CnedNumeroTitre{section}}\hspace{0.4em}}
+
+% Decoration du titre : soulignement + pave arrondi. La forme etoilee
+% (pas de numero) ne reserve pas de largeur de numero.
+\NewDocumentCommand{\CnedTitreUn}{s m}{%
+  \begingroup
+  \IfBooleanTF{#1}
+    {\setlength{\TitreUnNumW}{\z@}}
+    {\CnedSiNumerote{section}
+       {\settowidth{\TitreUnNumW}{\@seccntformat@section}}
+       {\setlength{\TitreUnNumW}{\z@}}}%
+  \pgfmathsetlengthmacro{\RectW}{0.5em}% largeur du pave
+  \pgfmathsetlengthmacro{\PadR}{0.6em}% espace titre - pave
+  \setlength{\TitreUnAvail}{\dimexpr\linewidth-\RectW-\PadR-\TitreUnNumW\relax}%
+  % \tagpdfparaOff : pas de structures de paragraphe dans la boite du
+  % titre — le texte s'attache directement au H1 ouvert par le noyau.
+  \begin{tikzpicture}[baseline=(t.base)]
+    \node[anchor=base west, inner sep=0pt, text width=\TitreUnAvail, align=left] (t)
+      {{\tagpdfparaOff\color{black}%
+        % cotes de l'ancien soulignement soul (\setul{0.25ex}{1pt}) :
+        % filet 1pt d'epaisseur dont le bord haut est 0.25ex sous la
+        % ligne de base (cles lua-ul : top = position, height = epaisseur)
+        \underLine[color=background2, top=-0.25ex, height=1pt]{#2}}};
+    \path[fill=primarycolor, rounded corners=0.25em]
+      ($(t.north east)+(\PadR,0)$) rectangle ($(t.south east)+(\PadR+\RectW,0)$);
+  \end{tikzpicture}%
+  \endgroup
+}
+
+% Saut de page (ou garantie d'espace) avant le titre 1.
+\newif\iffirsttitreun
+\firsttitreuntrue
+\newcommand\cned@titreun@break{%
+  \ifthenelse{\boolean{titreUnSautDePage}}
+    {\iffirsttitreun
+       \global\firsttitreunfalse
+       % premiere section : pas de saut ; remontee en tete de page
+       % (charte) seulement si la page est encore vierge, sinon le
+       % titre chevaucherait le texte qui precede
+       \par
+       \ifdim\pagetotal=\z@ \vspace*{-2cm}\fi
+     \else
+       \clearpage
+       \vspace*{-2cm}% remonte le titre en tete de page (charte)
+     \fi}
+    {\Needspace{6\baselineskip}}%
+}
+
+% Commande utilisateur : gere l'etoile, l'entree de sommaire (texte nu)
+% et la decoration.
+\RenewDocumentCommand{\section}{s o m}{%
+  \cned@titreun@break
+  \IfBooleanTF{#1}
+    {\cned@titreun@inner*{\CnedTitreUn*{#3}}%
+     \phantomsection
+     \addcontentsline{toc}{section}{\protect\numberline{}#3}}
+    {\IfNoValueTF{#2}
+       {\cned@titreun@inner[{#3}]{\CnedTitreUn{#3}}}
+       {\cned@titreun@inner[{#2}]{\CnedTitreUn{#3}}}}%
+}
+\makeatother

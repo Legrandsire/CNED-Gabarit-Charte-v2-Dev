@@ -1,0 +1,19 @@
+%%% \subsubsection — titre 3 de la charte Cnedify (H3)
+%
+% Bascule du 2026-07-26 : reprend la mise en forme « titre 3 » de la
+% charte (portee historiquement par \subsection), sur le \@startsection
+% natif balise par le noyau.
+%
+% Charte : titre gras 16/18 noir, drapeau (\RaggedRight) ; numero
+% \robotoCondensed maigre 14/16 primarycolor, separation 0.6em.
+
+\makeatletter
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+  {3.25ex \@plus 1ex \@minus .2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\bfseries\fontsize{16}{18}\selectfont\RaggedRight}}
+
+\newcommand\@seccntformat@subsubsection{%
+  {\normalfont\robotoCondensed\mdseries\fontsize{14}{16}\selectfont
+   \color{primarycolor}\CnedNumeroTitre{subsubsection}}\hspace{0.6em}}
+\makeatother

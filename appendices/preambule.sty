@@ -3,7 +3,6 @@
 \usepackage[french]{babel}
 \usepackage{fontspec}
 \usepackage{iftex}
-\usepackage{titlesec}
 \usepackage{geometry}
 \usepackage[bottom]{footmisc}
 \usepackage{lmodern}
@@ -11,6 +10,11 @@
 \usepackage{fancyhdr}
 \usepackage{titling}
 \usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{float}
+% Une figure reste a l'endroit de sa saisie, comme les tableaux
+% (\floatplacement{table}{H} dans modules/tableau/tabular.sty).
+\floatplacement{figure}{H}
 \usepackage{xcolor}
 \usepackage{tikz}
 \usetikzlibrary{tikzmark}
@@ -78,8 +82,9 @@
 
 \usepackage{needspace}
 \usepackage{etoolbox}
-\preto{\subsection}{\Needspace{5\baselineskip}} % Garanti que si subsection est trp bas (pas assez de place libre) on saut de page
-\preto{\section}{\Needspace{5\baselineskip}} 
+% NB : les \preto{\section}/{\subsection} (Needspace) sont appliques plus
+% bas, APRES le chargement des modules de titres qui redefinissent ces
+% commandes.
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -105,41 +110,53 @@
 \newcommand{\getauthor}{\@author}
 \makeatother
 
-% --- Faire apparaître les \subsection* et \subsubsection* dans le sommaire ---
-\makeatletter
-\let\oldsubsection\subsection
-\renewcommand{\subsection}{%
-  \@ifstar{\subsection@star}{\oldsubsection}% version étoilée / non étoilée
-}
-\newcommand{\subsection@star}[1]{%
-  \oldsubsection*{#1}% garde exactement ta mise en forme visuelle
-  \phantomsection
-  \addcontentsline{toc}{subsection}{\protect\numberline{}#1}% entrée ToC sans numéro
-}
-\makeatother
+% NB : les wrappers \subsection*/\subsubsection* (entree au sommaire des
+% titres etoiles) sont definis plus bas, APRES le chargement des modules
+% de titres qui redefinissent ces commandes.
 
-\makeatletter
-% --- Redéfinition subsubsection ---
-\let\oldsubsubsection\subsubsection
-\renewcommand{\subsubsection}{%
-  \@ifstar{\subsubsection@star}{\oldsubsubsection}%
-}
-\newcommand{\subsubsection@star}[1]{%
-  \oldsubsubsection*{#1}% garde le style visuel
-  \phantomsection
-  \addcontentsline{toc}{subsubsection}{\protect\numberline{}#1}%
-}
-\makeatother
+% Profondeur de sommaire : titres 1 a 4 (section -> paragraph).
+\setcounter{tocdepth}{4}
 
-% S'assurer que la profondeur de sommaire est suffisante
-\setcounter{tocdepth}{3}
+% Saut de page avant chaque titre 1 (\section) : comportement par
+% defaut de la charte, desactivable dans config.tex par
+% \setboolean{titreUnSautDePage}{false}.
+\newboolean{titreUnSautDePage}
+\setboolean{titreUnSautDePage}{true}
 
+% Interface de numerotation des titres (\numerotationTitres), chargee
+% avant config.tex qui peut l'appeler.
+\usepackage{modules/titre/numerotation}
 
 \input{config}
-\renewcommand{\thepart}{\prefixPart\theparts\sepPart}
-\renewcommand{\thesection}{\prefixSection \thesections\sepSection}
-\renewcommand{\thesubsection}{\prefixSubsection\thesubsections\sepSubsection}
-\renewcommand{\thesubsubsection}{\prefixSubsubsection\thesubsubsections \sepSubsubsection}
+
+% Accessibilité (PDF/UA) : le lecteur PDF affiche le titre du document
+% plutôt que le nom du fichier (contrôle « DisplayDocTitle » de PAC).
+% Centralisé ici pour couvrir tous les documents, quel que soit leur
+% config.tex ; hyperref est chargé par config.tex juste au-dessus.
+\hypersetup{pdfdisplaydoctitle=true}
+
+% Accessibilité — NE PAS retoucher le modèle de paragraphes du noyau.
+% Le conteneur « text-unit » (rolemappé Part) autour de chaque
+% paragraphe génère l'essentiel des avertissements PAC (« possibly
+% inappropriate use of a Part ») : c'est un choix du noyau TeX Live
+% 2025, sans échec PDF/UA, corrigé dans les noyaux suivants. Les deux
+% tentatives de le retaguer en Div (clé para/maintag + repointage de la
+% restauration interne du module sec) ont produit pire : erreur
+% « begin/end para hooks differ » et titres H1 ne se refermant plus
+% (mesures 1155 et 1224 vs 1134). Raisonnement soustractif acté avec
+% Vincent : on laisse le noyau faire, la résorption viendra du passage
+% d'Overleaf à TeX Live ≥ 2026 (voir chantier_refonte_titres.md).
+
+% Interface historique de numerotation (12 commandes de config.tex) :
+% appliquee seulement si le config.tex du document la definit encore.
+% Les nouveaux documents utilisent \numerotationTitres (voir
+% modules/titre/numerotation.sty).
+\ifdefined\thesections
+  \renewcommand{\thepart}{\prefixPart\theparts\sepPart}
+  \renewcommand{\thesection}{\prefixSection \thesections\sepSection}
+  \renewcommand{\thesubsection}{\prefixSubsection\thesubsections\sepSubsection}
+  \renewcommand{\thesubsubsection}{\prefixSubsubsection\thesubsubsections \sepSubsubsection}
+\fi
 
 \makeatletter
 \newcommand{\PlaceAnchor}{%
@@ -159,11 +176,70 @@
 
 \usepackage{modules/pied_de_page}
 
-\usepackage{modules/titre/titre_niveau1}
-\usepackage{modules/titre/titre_niveau2}
-\usepackage{modules/titre/titre_niveau3}
-\usepackage{modules/titre/titre_niveau4}
-\usepackage{modules/titre/titre_niveau5}
+% Modules de titres, nommes d'apres la commande qu'ils retravaillent.
+% Hierarchie Cnedify : part (H1), section (H1), subsection (H2),
+% subsubsection (H3), paragraph (H4), subparagraph (H5).
+\usepackage{modules/titre/part}
+\usepackage{modules/titre/section}
+\usepackage{modules/titre/subsection}
+\usepackage{modules/titre/subsubsection}
+\usepackage{modules/titre/paragraph}
+\usepackage{modules/titre/subparagraph}
+
+% Repartiteur de typographie des numeros de titres : chaque module peut
+% definir \@seccntformat@<nom> ; a defaut, comportement standard de la
+% classe. (Le balisage du numero — structure « section-number » — est
+% pose par le module « sec » du noyau autour de ce format, il n'est pas
+% affecte.)
+\makeatletter
+\renewcommand{\@seccntformat}[1]{%
+  \ifcsname @seccntformat@#1\endcsname
+    \csname @seccntformat@#1\endcsname
+  \else
+    \csname the#1\endcsname\quad
+  \fi}
+\makeatother
+
+% Titres jamais orphelins en bas de page (applique ici, apres les
+% redefinitions des modules de titres). Le titre 1 (\section) gere
+% lui-meme son saut de page / sa garantie d'espace.
+\preto{\subsection}{\Needspace{5\baselineskip}}
+\preto{\subsubsection}{\Needspace{5\baselineskip}}
+
+% --- Faire apparaître les \subsection* et \subsubsection* dans le sommaire ---
+% Implémentation xparse (\RenewDocumentCommand) : l'ancienne version à base
+% de \@ifstar bouclait à l'infini sur \subsection* (« TeX capacity
+% exceeded ») — amsgen (amsmath) redéfinit \@ifstar avec une macro
+% partagée \reserved@a, et la commande expansible produite par
+% \renewcommand s'auto-expansait dans les contextes de pure expansion
+% (marques de section, hyperref). Les commandes xparse sont protégées et
+% analysent l'étoile sans \@ifstar : ne pas revenir en arrière.
+\let\oldsubsection\subsection
+\RenewDocumentCommand{\subsection}{s o m}{%
+  \IfBooleanTF{#1}
+    {\oldsubsection*{#3}% garde exactement la mise en forme visuelle
+     \phantomsection
+     \addcontentsline{toc}{subsection}{\protect\numberline{}#3}}% entrée ToC sans numéro
+    {\IfNoValueTF{#2}{\oldsubsection{#3}}{\oldsubsection[#2]{#3}}}%
+}
+
+\let\oldsubsubsection\subsubsection
+\RenewDocumentCommand{\subsubsection}{s o m}{%
+  \IfBooleanTF{#1}
+    {\oldsubsubsection*{#3}% garde le style visuel
+     \phantomsection
+     \addcontentsline{toc}{subsubsection}{\protect\numberline{}#3}}%
+    {\IfNoValueTF{#2}{\oldsubsubsection{#3}}{\oldsubsubsection[#2]{#3}}}%
+}
+
+\let\oldparagraph\paragraph
+\RenewDocumentCommand{\paragraph}{s o m}{%
+  \IfBooleanTF{#1}
+    {\oldparagraph*{#3}% garde le style visuel
+     \phantomsection
+     \addcontentsline{toc}{paragraph}{\protect\numberline{}#3}}%
+    {\IfNoValueTF{#2}{\oldparagraph{#3}}{\oldparagraph[#2]{#3}}}%
+}
 
 \usepackage{modules/encadre/boxBorder}
 \usepackage{modules/encadre/boxCard}
@@ -173,16 +249,16 @@
 \usepackage{modules/highlight/meaexergues}
 \usepackage{modules/highlight/pictoExergue}
 \usepackage{modules/highlight/sideLine}
-\usepackage{modules/highlight/uLine}
+\usepackage{modules/highlight/underline}
 
-\usepackage{modules/listes/oList}
-\usepackage{modules/listes/uList}
+\usepackage{modules/listes/itemize}
+\usepackage{modules/listes/enumerate}
 
 \usepackage{modules/footnote}
 
-\usepackage{modules/citation}
+\usepackage{modules/quote}
 
-\usepackage{modules/tableau/tableau1}
+\usepackage{modules/tableau/tabular}
 
 \usepackage{modules/sommaire}
 
@@ -222,22 +298,35 @@
 \usepackage{Pictos/pictotips}
 
 %==================================================================
-% Paramétrage de l'automatisation ddes crédits image(s) en fin de documents
+% Paramétrage de l'automatisation des crédits en fin de document
+% (liste unique : images, tableaux, et tout contenu à sourcer)
 %==================================================================
 
 % 1. On initialise une macro vide pour stocker la liste des crédits
-\newcommand{\mescredits}{} 
+\newcommand{\mescredits}{}
 
-% 2. On crée la commande à utiliser sous chaque image
-\newcommand{\addcredit}[2]{%
-  % #1 : Nom ou description de l'image
-  % #2 : Le crédit / la source
-  \gappto\mescredits{\item \mdseries{#1} : #2}%
+% 2. On crée un compteur pour générer des identifiants (labels) uniques
+\newcounter{creditcount}
+
+% 3. On crée une commande intermédiaire pour l'ajout
+% #1 : Numéro du label, #2 : Désignation, #3 : Source
+\newcommand{\addcredithelper}[3]{%
+  \gappto\mescredits{\item \mdseries{#2} (p. \pageref{credit:#1}) : #3}%
 }
 
-\newcommand{\sourceimage}[2]{%
-  % 1. Affichage direct sous l'image
+% 4. La commande principale : \credits{désignation}{source}
+% Affiche « Source : ... » sur place et alimente la page de crédits.
+\newcommand{\credits}[2]{%
+  \stepcounter{creditcount}% Incrémente le compteur
+  \label{credit:\arabic{creditcount}}% Place un label unique sur la page actuelle
+  % Affichage direct sous le contenu crédité
   {\footnotesize Source : #2}%
-  % 2. Enregistrement automatique dans la page des crédits avec le numéro de page
-  \addcredit{#1 (p. \thepage)}{#2}%
+  % On sauvegarde la valeur actuelle du compteur pour forcer son évaluation immédiate
+  \edef\currentcredit{\arabic{creditcount}}%
+  % Enregistrement dans la liste avec l'identifiant figé
+  \expandafter\addcredithelper\expandafter{\currentcredit}{#1}{#2}%
 }
+
+% 5. Alias conservés pour les documents existants
+\newcommand{\sourceimage}{\credits}
+\newcommand{\sourcetableau}{\credits}

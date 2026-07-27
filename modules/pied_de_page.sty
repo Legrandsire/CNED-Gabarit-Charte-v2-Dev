@@ -1,4 +1,10 @@
 \fancyfoot[L]{%
+  % Accessibilité (PDF/UA) : le pied de page est marqué artefact de
+  % pagination, donc ignoré des lecteurs d'écran ; sans cela son contenu
+  % polluerait l'ordre de lecture à chaque page. \tagpdfparaOff empêche
+  % l'ouverture d'un paragraphe balisé à l'intérieur de l'artefact.
+  \tagpdfparaOff
+  \tagmcbegin{artifact=pagination}%
   \begin{minipage}{\textwidth}
     % Utilisation de \normalfont au lieu de \Roboto
     \def\myslash{ {\normalfont\fontsize{10}{12}\selectfont /} }%
@@ -17,6 +23,8 @@
     {\normalfont\fontsize{10}{12}\selectfont \thepage}%
     \hspace{0.2em}% Léger espacement visuel
     % Slash et nombre total de pages : Roboto Medium en taille 6
-    {\robotolite\fontsize{6}{8}\selectfont / \pageref{LastPage}}%
-  \end{minipage}
+    % \pageref* (sans lien) : pas d'annotation de lien dans un artefact
+    {\robotolite\fontsize{6}{8}\selectfont / \pageref*{LastPage}}%
+  \end{minipage}%
+  \tagmcend
 }

@@ -1,0 +1,21 @@
+%%% \subparagraph — titre 5 de la charte Cnedify (H5)
+%
+% Bascule du 2026-07-26 : dernier echelon de la hierarchie chartee, sur
+% le \@startsection natif balise par le noyau (tag « subparagraph » ->
+% H5). Le \subparagraph d'article est « run-in » ; la charte le compose
+% en titre detache.
+%
+% Charte (proposition en continuite de l'echelle 23/18/16/13.5, a
+% valider en comparaison visuelle) : titre gras 12/14 noir, drapeau
+% (\RaggedRight) ; numero \robotoMedium 11/13, separation 0.4em.
+
+\makeatletter
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\z@}%
+  {3.25ex \@plus 1ex \@minus .2ex}%
+  {1ex \@plus .2ex}%
+  {\normalfont\bfseries\fontsize{12}{14}\selectfont\RaggedRight}}
+
+\newcommand\@seccntformat@subparagraph{%
+  {\normalfont\robotoMedium\fontsize{11}{13}\selectfont
+   \CnedNumeroTitre{subparagraph}}\hspace{0.4em}}
+\makeatother

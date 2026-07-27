@@ -1,0 +1,231 @@
+%%% Numerotation des titres — interface \numerotationTitres
+%
+% Interface unique de configuration de la numerotation, pensee pour etre
+% saisie a la main dans config.tex ou generee par un futur userscript
+% (une cle par ligne, valeurs simples) :
+%
+%   \numerotationTitres{
+%     section       = Roman,   % none | arabic | roman | Roman | alph | Alph
+%     subsection    = arabic,
+%     subsubsection = alph,
+%     composition   = hierarchique, % « I.2.a » ; ou : simple (« a »)
+%     separateur    = {.},     % entre les niveaux composes
+%     suffixe       = {.},     % apres le numero, avant le titre (« I.2. Titre »)
+%   }
+%
+% Personnalisation par niveau :
+%   prefixe-<niveau>     = {texte}  — texte integre avant le numero,
+%     present aussi au sommaire et dans les signets (ex. « Document 2 ») ;
+%   suffixe-<niveau>     = {texte}  — deroge au suffixe global pour ce
+%     seul niveau (affiche dans le titre, apres le numero) ;
+%   composition-<niveau> = hierarchique | simple — deroge au mode global
+%     pour ce seul niveau.
+% Exemple « Document n. » :
+%   subsection = arabic, prefixe-subsection = {Document~},
+%   composition-subsection = simple
+% NB : un niveau prefixe transmet son numero complet aux niveaux
+% composes sous lui (« Document 2.a ») ; leur appliquer
+% composition-<niveau> = simple pour repartir d'un numero nu.
+%
+% Niveaux reconnus : section, subsection, subsubsection, paragraph,
+% subparagraph. Tout niveau absent ou « none » n'est pas numerote ;
+% secnumdepth est regle automatiquement sur le niveau numerote le plus
+% profond (0 si aucun : plus aucun numero vide n'est compose).
+%
+% Retrocompatibilite : si \numerotationTitres n'est pas appelee, la
+% composition reste portee par les commandes historiques de config.tex
+% (\thesections, \prefixSection, \sepSection...), appliquees par le
+% preambule quand elles existent.
+%
+% Accessibilite : le numero est compose par \CnedNumeroTitre{<niveau>},
+% appele dans \@seccntformat@<niveau> de chaque module de titre — le
+% noyau enveloppe ce format dans la structure « section-number », la
+% numerotation est donc balisee nativement.
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{modules/titre/numerotation}[2026/07/26 Numerotation des titres Cnedify]
+
+\ExplSyntaxOn
+
+\tl_new:N   \g__cned_num_sep_tl
+\tl_gset:Nn \g__cned_num_sep_tl {.}
+\tl_new:N   \g__cned_num_suffixe_tl
+\tl_gset:Nn \g__cned_num_suffixe_tl {.}
+\bool_new:N      \g__cned_num_hier_bool
+\bool_gset_true:N\g__cned_num_hier_bool
+\bool_new:N \g__cned_num_actif_bool
+\prop_new:N \g__cned_num_styles_prop
+\prop_new:N \g__cned_num_prefixe_prop
+\prop_new:N \g__cned_num_suffixe_prop
+\prop_new:N \g__cned_num_compo_prop
+\tl_new:N   \l__cned_num_chain_tl
+\tl_new:N   \l__cned_num_style_tl
+\tl_new:N   \l__cned_num_prefixe_tl
+\tl_new:N   \l__cned_num_compo_tl
+\bool_new:N \l__cned_num_hier_local_bool
+\int_new:N  \l__cned_num_depth_int
+\int_new:N  \l__cned_num_index_int
+
+\seq_const_from_clist:Nn \c__cned_num_niveaux_seq
+  {section,subsection,subsubsection,paragraph,subparagraph}
+
+\keys_define:nn { cned / numerotation }
+  {
+    section       .code:n = { \prop_gput:Nnn \g__cned_num_styles_prop {section}{#1} },
+    subsection    .code:n = { \prop_gput:Nnn \g__cned_num_styles_prop {subsection}{#1} },
+    subsubsection .code:n = { \prop_gput:Nnn \g__cned_num_styles_prop {subsubsection}{#1} },
+    paragraph     .code:n = { \prop_gput:Nnn \g__cned_num_styles_prop {paragraph}{#1} },
+    subparagraph  .code:n = { \prop_gput:Nnn \g__cned_num_styles_prop {subparagraph}{#1} },
+    composition .choice:,
+    composition / hierarchique .code:n = { \bool_gset_true:N  \g__cned_num_hier_bool },
+    composition / simple       .code:n = { \bool_gset_false:N \g__cned_num_hier_bool },
+    separateur .code:n = { \tl_gset:Nn \g__cned_num_sep_tl {#1} },
+    suffixe    .code:n = { \tl_gset:Nn \g__cned_num_suffixe_tl {#1} },
+    prefixe-section       .code:n = { \prop_gput:Nnn \g__cned_num_prefixe_prop {section}{#1} },
+    prefixe-subsection    .code:n = { \prop_gput:Nnn \g__cned_num_prefixe_prop {subsection}{#1} },
+    prefixe-subsubsection .code:n = { \prop_gput:Nnn \g__cned_num_prefixe_prop {subsubsection}{#1} },
+    prefixe-paragraph     .code:n = { \prop_gput:Nnn \g__cned_num_prefixe_prop {paragraph}{#1} },
+    prefixe-subparagraph  .code:n = { \prop_gput:Nnn \g__cned_num_prefixe_prop {subparagraph}{#1} },
+    suffixe-section       .code:n = { \prop_gput:Nnn \g__cned_num_suffixe_prop {section}{#1} },
+    suffixe-subsection    .code:n = { \prop_gput:Nnn \g__cned_num_suffixe_prop {subsection}{#1} },
+    suffixe-subsubsection .code:n = { \prop_gput:Nnn \g__cned_num_suffixe_prop {subsubsection}{#1} },
+    suffixe-paragraph     .code:n = { \prop_gput:Nnn \g__cned_num_suffixe_prop {paragraph}{#1} },
+    suffixe-subparagraph  .code:n = { \prop_gput:Nnn \g__cned_num_suffixe_prop {subparagraph}{#1} },
+    composition-section       .code:n = { \prop_gput:Nnn \g__cned_num_compo_prop {section}{#1} },
+    composition-subsection    .code:n = { \prop_gput:Nnn \g__cned_num_compo_prop {subsection}{#1} },
+    composition-subsubsection .code:n = { \prop_gput:Nnn \g__cned_num_compo_prop {subsubsection}{#1} },
+    composition-paragraph     .code:n = { \prop_gput:Nnn \g__cned_num_compo_prop {paragraph}{#1} },
+    composition-subparagraph  .code:n = { \prop_gput:Nnn \g__cned_num_compo_prop {subparagraph}{#1} },
+  }
+
+% Un niveau non numerote : \the<niveau> vide, la chaine hierarchique
+% saute ce niveau.
+\cs_new_protected:Npn \__cned_num_sans:n #1
+  { \cs_gset_nopar:cpn {the#1} {} }
+
+\NewDocumentCommand{\numerotationTitres}{m}
+  {
+    \keys_set:nn { cned / numerotation } {#1}
+    \bool_gset_true:N \g__cned_num_actif_bool
+    \tl_clear:N \l__cned_num_chain_tl
+    \int_zero:N \l__cned_num_depth_int
+    \int_zero:N \l__cned_num_index_int
+    \seq_map_inline:Nn \c__cned_num_niveaux_seq
+      {
+        \int_incr:N \l__cned_num_index_int
+        \prop_get:NnNTF \g__cned_num_styles_prop {##1} \l__cned_num_style_tl
+          {
+            \str_if_eq:VnTF \l__cned_num_style_tl {none}
+              { \__cned_num_sans:n {##1} }
+              {
+                \int_set_eq:NN \l__cned_num_depth_int \l__cned_num_index_int
+                % composition locale : derogation par niveau, sinon mode global
+                \bool_set_eq:NN \l__cned_num_hier_local_bool \g__cned_num_hier_bool
+                \prop_get:NnNT \g__cned_num_compo_prop {##1} \l__cned_num_compo_tl
+                  {
+                    \str_if_eq:VnT \l__cned_num_compo_tl {simple}
+                      { \bool_set_false:N \l__cned_num_hier_local_bool }
+                    \str_if_eq:VnT \l__cned_num_compo_tl {hierarchique}
+                      { \bool_set_true:N \l__cned_num_hier_local_bool }
+                  }
+                % prefixe integre (« Document 2 »), present partout ou
+                % \the<niveau> est utilise (titre, sommaire, signets)
+                \prop_get:NnNF \g__cned_num_prefixe_prop {##1} \l__cned_num_prefixe_tl
+                  { \tl_clear:N \l__cned_num_prefixe_tl }
+                % \the<niveau> := [prefixe][chaine][separateur] \<style>{<niveau>}
+                \bool_lazy_and:nnTF
+                  { \l__cned_num_hier_local_bool }
+                  { ! \tl_if_empty_p:N \l__cned_num_chain_tl }
+                  {
+                    \cs_gset_nopar:cpe {the##1}
+                      {
+                        \exp_not:V \l__cned_num_prefixe_tl
+                        \exp_not:v { the \l__cned_num_chain_tl }
+                        \exp_not:V \g__cned_num_sep_tl
+                        \exp_not:c { \l__cned_num_style_tl } {##1}
+                      }
+                  }
+                  {
+                    \cs_gset_nopar:cpe {the##1}
+                      {
+                        \exp_not:V \l__cned_num_prefixe_tl
+                        \exp_not:c { \l__cned_num_style_tl } {##1}
+                      }
+                  }
+                \tl_set:Nn \l__cned_num_chain_tl {##1}
+              }
+          }
+          { \__cned_num_sans:n {##1} }
+      }
+    \setcounter{secnumdepth}{\int_use:N \l__cned_num_depth_int}
+  }
+
+% \CnedNumeroTitre{<niveau>} : le numero tel qu'affiche dans le titre.
+% Interface active : numero compose + suffixe, seulement si le niveau
+% est numerote. Interface historique : \the<niveau> tel quel (prefixes
+% et separateurs deja inclus par config.tex).
+\NewDocumentCommand{\CnedNumeroTitre}{m}
+  {
+    \bool_if:NTF \g__cned_num_actif_bool
+      {
+        \prop_get:NnNT \g__cned_num_styles_prop {#1} \l__cned_num_style_tl
+          {
+            \str_if_eq:VnF \l__cned_num_style_tl {none}
+              {
+                \use:c {the#1}
+                \prop_get:NnNTF \g__cned_num_suffixe_prop {#1} \l__cned_num_compo_tl
+                  { \tl_use:N \l__cned_num_compo_tl }
+                  { \tl_use:N \g__cned_num_suffixe_tl }
+              }
+          }
+      }
+      { \use:c {the#1} }
+  }
+
+% Suffixe d'un niveau (derogation par niveau, sinon suffixe global) —
+% uniquement si l'interface est active et le niveau numerote.
+\cs_new_protected:Npn \__cned_num_suffixe_use:n #1
+  {
+    \bool_if:NT \g__cned_num_actif_bool
+      {
+        \prop_get:NnNT \g__cned_num_styles_prop {#1} \l__cned_num_style_tl
+          {
+            \str_if_eq:VnF \l__cned_num_style_tl {none}
+              {
+                \prop_get:NnNTF \g__cned_num_suffixe_prop {#1} \l__cned_num_compo_tl
+                  { \tl_use:N \l__cned_num_compo_tl }
+                  { \tl_use:N \g__cned_num_suffixe_tl }
+              }
+          }
+      }
+  }
+
+% \CnedNumeroSommaire{<niveau>}{<numero recu par \numberline>} :
+% le numero suivi du suffixe du niveau (« I. », « Document 1. »),
+% pour que le sommaire reprenne la meme ponctuation que les titres.
+% Rien si le numero est vide (titres etoiles, niveaux non numerotes).
+\NewDocumentCommand{\CnedNumeroSommaire}{m m}
+  {
+    \tl_if_blank:nF {#2}
+      { #2 \__cned_num_suffixe_use:n {#1} }
+  }
+
+% Le numero est-il non vide pour ce niveau ? (utilise par le titre 1
+% pour reserver la largeur du numero)
+\prg_new_protected_conditional:Npnn \cned_num_if_actif:n #1 { T, F, TF }
+  {
+    \bool_if:NTF \g__cned_num_actif_bool
+      {
+        \prop_get:NnNTF \g__cned_num_styles_prop {#1} \l__cned_num_style_tl
+          {
+            \str_if_eq:VnTF \l__cned_num_style_tl {none}
+              { \prg_return_false: } { \prg_return_true: }
+          }
+          { \prg_return_false: }
+      }
+      { \prg_return_true: } % historique : on ne sait pas, on mesure
+  }
+\NewDocumentCommand{\CnedSiNumerote}{m m m}
+  { \cned_num_if_actif:nTF {#1} {#2} {#3} }
+
+\ExplSyntaxOff

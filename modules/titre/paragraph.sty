@@ -1,0 +1,23 @@
+%%% \paragraph — titre 4 de la charte Cnedify (H4)
+%
+% Bascule du 2026-07-26 : reprend la mise en forme « titre 4 » de la
+% charte (portee historiquement par \subsubsection), sur le
+% \@startsection natif balise par le noyau (tag « paragraph » -> H4).
+% Le \paragraph d'article est un titre « run-in » (colle au texte) ;
+% la charte le compose en titre detache, comme les niveaux superieurs.
+%
+% Charte : titre gras 13.5/15 noir, drapeau (\RaggedRight) ; numero
+% \robotoMedium 12.5/14, separation 0.4em (l'ancien 0pt supposait des
+% numeros vides ; avec une numerotation reelle il collait le numero au
+% titre).
+
+\makeatletter
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+  {3.25ex \@plus 1ex \@minus .2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\bfseries\fontsize{13.5}{15}\selectfont\RaggedRight}}
+
+\newcommand\@seccntformat@paragraph{%
+  {\normalfont\robotoMedium\fontsize{12.5}{14}\selectfont
+   \CnedNumeroTitre{paragraph}}\hspace{0.4em}}
+\makeatother

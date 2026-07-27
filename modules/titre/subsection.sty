@@ -1,0 +1,21 @@
+%%% \subsection — titre 2 de la charte Cnedify (H2)
+%
+% Bascule du 2026-07-26 : reprend la mise en forme « titre 2 » de la
+% charte (portee historiquement par \section), sur le \@startsection
+% natif balise par le noyau.
+%
+% Charte : titre gras 18/21 primarycolor, drapeau (\RaggedRight) ;
+% numero \robotoCondensed gras 14/16 noir, separation 1.5pt.
+
+\makeatletter
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+  {3.5ex \@plus 1ex \@minus .2ex}%
+  {2.3ex \@plus .2ex}%
+  {\normalfont\bfseries\fontsize{18}{21}\selectfont\color{primarycolor}\RaggedRight}}
+
+% Le style ci-dessus colore tout le titre ; le numero revient au noir
+% dans sa propre boite.
+\newcommand\@seccntformat@subsection{%
+  {\normalfont\robotoCondensed\bfseries\fontsize{14}{16}\selectfont
+   \color{black}\CnedNumeroTitre{subsection}}\hspace{1.5pt}}
+\makeatother

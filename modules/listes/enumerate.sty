@@ -1,0 +1,43 @@
+% --- Liste numérotée chartée : redéfinition de l'environnement natif « enumerate » -----
+%%
+%%   \begin{enumerate}                       -> 1. 2. 3., primary, interligne normal
+%%   \begin{enumerate}[Alph][secondary]      -> A) B) C) en secondary
+%%   \begin{enumerate}[Roman][primary][loose] -> + interligne aéré (mot-clé)
+%%   \begin{enumerate}[arabic][primary][0.6\baselineskip] -> interligne en valeur libre
+%%
+%% Arguments (tous optionnels) :
+%%   #1 = type      : arabic (défaut) | alph | Alph | Roman
+%%   #2 = couleur   : primary (défaut) | secondary
+%%   #3 = interligne: mot-clé tight | normal (défaut) | loose, OU valeur libre (ex. 0.6\baselineskip)
+%%
+%% Les helpers \setresolvedcolor / \setresolveditemsep sont définis dans itemize.sty.
+
+\newlist{olbase}{enumerate}{4} % clone d'enumerate, jusqu'à 4 niveaux
+
+\RenewDocumentEnvironment{enumerate}{ O{arabic} O{primary} O{normal} }
+{%
+  % Couleur : primary | secondary | autre couleur xcolor
+  \setresolvedcolor{#2}%
+
+  % Valeurs par défaut utilisant l'étoile (*) d'enumitem
+  \def\oltypelabel{\arabic*}%
+  \def\ollabelsep{0.6em}%
+
+  \ifstrequal{#1}{arabic}{\def\oltypelabel{\arabic*}}{}%
+  \ifstrequal{#1}{Alph}{\def\oltypelabel{\Alph*}}{}%
+  \ifstrequal{#1}{alph}{\def\oltypelabel{\alph*}}{}%
+  \ifstrequal{#1}{Roman}{\def\oltypelabel{\Roman*}\def\ollabelsep{0.3em}}{}%
+
+  \setresolveditemsep{#3}%
+
+  \begin{olbase}[
+    label={\textcolor{\resolvedcolor}{\bfseries\oltypelabel.}},
+    labelsep=\ollabelsep,
+    leftmargin=*,
+    itemsep=\resolveditemsep,
+    parsep=0pt
+  ]%
+}
+{%
+  \end{olbase}%
+}

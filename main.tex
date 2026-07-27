@@ -1,13 +1,42 @@
-\DocumentMetadata{
-  pdfstandard=ua-2,       % Norme PDF/UA pour l'accessibilité
-  lang=fr-FR,             % Langue du document pour les lecteurs d'écran
-  %testphase=phase-III     % Ajout indispensable pour activer le balisage des images et la clé "alt"
-}
+% Gabarit Cnedify — état synchronisé avec le projet Overleaf le : 2026-07-25
+% (mettre à jour cette date à chaque synchronisation Overleaf <-> dépôt git, voir CLAUDE.md)
+% Balisage automatique par le noyau LaTeX (chantier refonte des titres) :
+% phase-II = activation du tagging + balisage des paragraphes (remplace le
+% chargement manuel de tagpdf avec activate-all,paratagging=true) ;
+% sec = balisage automatique du sectionnement (\part...\subparagraph).
+% Les autres modules (block, graphic, float, table, math) seront actives
+% un par un en phase 3, chaque cran mesure par PAC.
+%
+% Aiguillage selon la generation du noyau :
+% - noyau <= 2025-06 (Overleaf, TeX Live 2025) : cles testphase granulaires,
+%   activation ciblee phase-II + sec, conforme au plan du chantier ;
+% - noyau >= 2025-11 (MiKTeX local) : \DocumentMetadata y charge
+%   inconditionnellement latex-lab, dont les paquets locaux (2026-04)
+%   referencent des macros du noyau 2026 absentes du format 2025-11 —
+%   notes de bas de page et sectionnement natif partent en boucle
+%   (diagnostic par bissection, 2026-07-25 ; titlesec masquait le
+%   probleme). On n'appelle donc PAS \DocumentMetadata : compilation
+%   entierement classique, sans balisage — la verification locale est
+%   purement visuelle, comme documente dans chantier_refonte_titres.md.
+%   Seules les commandes tagpdf du pied de page recoivent des no-ops.
+%   A reevaluer quand Overleaf passera sur un noyau recent (le PAC d'un
+%   jalon montrerait alors ~0 balise) ou quand MiKTeX sera realigne.
+\makeatletter
+\@ifl@t@r\fmtversion{2025-11-01}
+  {\protected\def\tagpdfparaOff{}%
+   \protected\def\tagmcbegin#1{}%
+   \protected\def\tagmcend{}%
+   \protected\def\tagstructbegin#1{}%
+   \protected\def\tagstructend{}}
+  {\DocumentMetadata{
+     pdfstandard=ua-1,
+     pdfversion=1.7,
+     lang=fr-FR,
+     testphase={phase-II,sec},
+   }}
+\makeatother
 
 \documentclass[10pt, math]{article}
-
-\usepackage{tagpdf}
-\tagpdfsetup{activate-all} % active le tagging
 
 \usepackage{appendices/preambule}
 
